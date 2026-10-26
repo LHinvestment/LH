@@ -1,0 +1,310 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>LH Investment Group</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column page, hero splits into pitch + sample portfolio panel; sections separated by thin ledger rules. */
+:root {
+  --bg: #F2F4F7;
+  --surface: #FFFFFF;
+  --fg: #0E1A2B;
+  --muted: #55627A;
+  --rule: #D5DBE5;
+  --accent: #2A45D4;
+  --accent-fg: #FFFFFF;
+  --accent-soft: #E3E8FB;
+  --bar: #2A45D4;
+  --bar-2: #8C9BE8;
+
+  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1424;
+    --surface: #131D31;
+    --fg: #E8ECF4;
+    --muted: #94A1BA;
+    --rule: #26334D;
+    --accent: #8EA0FF;
+    --accent-fg: #0C1424;
+    --accent-soft: #1C2848;
+    --bar: #8EA0FF;
+    --bar-2: #4A5BAF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1424;
+  --surface: #131D31;
+  --fg: #E8ECF4;
+  --muted: #94A1BA;
+  --rule: #26334D;
+  --accent: #8EA0FF;
+  --accent-fg: #0C1424;
+  --accent-soft: #1C2848;
+  --bar: #8EA0FF;
+  --bar-2: #4A5BAF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-block: 0 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* header */
+header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+.brand-mark { width: 26px; height: 26px; display: block; }
+nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+nav a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 500; }
+nav a:hover { color: var(--accent); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; padding-block: 56px 64px; align-items: start; }
+.hero h1 { font-size: clamp(36px, 6vw, 62px); font-weight: 700; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { margin-top: 20px; font-size: 18px; color: var(--muted); max-width: 52ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 4px; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.meet { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 6px 28px; font-size: 14px; color: var(--muted); }
+.meet strong { color: var(--fg); font-weight: 600; }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 22px; }
+.panel-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 18px; }
+.panel h2 { font-size: 20px; }
+.alloc { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.alloc li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; font-size: 14px; }
+.alloc .pct { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.track { grid-column: 1 / -1; height: 8px; background: var(--accent-soft); border-radius: 2px; overflow: hidden; }
+.fill { height: 100%; background: var(--bar); border-radius: 2px; }
+.fill.alt { background: var(--bar-2); }
+.panel-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+
+/* sections */
+section { padding-block: 56px; border-top: 1px solid var(--rule); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
+.sec-head h2 { font-size: clamp(26px, 3.6vw, 36px); }
+.sec-head p { color: var(--muted); max-width: 60ch; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.card { min-width: 0; }
+.card h3 { font-size: 20px; margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: 15px; }
+.card .label { display: block; margin-bottom: 10px; color: var(--accent); }
+
+/* events */
+.events { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.events li { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 8px 24px; padding-block: 18px; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.events .date { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 14px; }
+.events .date b { display: block; font-size: 22px; font-weight: 500; font-family: var(--font-display); color: var(--fg); }
+.events h3 { font-size: 18px; margin-bottom: 2px; }
+.events p { color: var(--muted); font-size: 14px; }
+.tag { font-family: var(--font-mono); font-size: 12px; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 3px; color: var(--muted); white-space: nowrap; }
+
+/* pitch steps */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+.steps li { padding: 20px; border-right: 1px solid var(--rule); min-width: 0; }
+.steps li:last-child { border-right: 0; }
+.steps .mins { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+.steps h3 { font-size: 17px; margin: 6px 0; }
+.steps p { font-size: 14px; color: var(--muted); }
+
+/* team */
+.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+.person { min-width: 0; }
+.avatar { width: 112px; height: 112px; border-radius: 50%; background: var(--accent-soft); display: block; object-fit: cover; object-position: 50% 25%; margin-bottom: 14px; border: 1px solid var(--rule); }
+.person h3 { font-size: 17px; }
+.person p { font-size: 14px; color: var(--muted); }
+.person .role { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
+
+/* join */
+.join { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 40px; align-items: center; }
+.join h2 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
+.join p { color: var(--muted); }
+.mailbox { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.mailbox code { font-family: var(--font-mono); font-size: 14px; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 4px; background: var(--bg); overflow-wrap: anywhere; user-select: all; }
+.mailbox .btn { padding: 10px 16px; }
+.copied { font-size: 13px; color: var(--muted); min-height: 20px; margin-top: 8px; }
+
+footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 44px; gap: 32px; }
+  .sec-head { grid-template-columns: minmax(0, 1fr); }
+  .events li { grid-template-columns: 72px minmax(0, 1fr); }
+  .events .tag { grid-column: 2; justify-self: start; }
+  .steps li { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .steps li:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: background 120ms ease, color 120ms ease; }
+  .btn.primary:hover { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+  .btn.ghost:hover { background: var(--accent-soft); }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1" y="1" width="24" height="24" rx="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <polyline points="5,19 10,13 14,16 21,7" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      LH Investment Group
+    </div>
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#events">Events</a>
+      <a href="#pitch">The pitch</a>
+      <a href="#team">The minds</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="label" style="margin-bottom:16px">Student-run · Multidisciplinary team</p>
+      <h1>Learn markets by <em>making the call.</em></h1>
+      <p class="lede">We research companies, pitch ideas to each other and manage a practice portfolio together. Every position needs a view we can defend in front of the group.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#events">See upcoming events</a>
+      </div>
+      <p class="meet"><span><strong>Weekly meeting</strong> Thursday, 19:00</span><span><strong>Room</strong> [Building, room]</span></p>
+    </div>
+
+    <aside class="panel" aria-labelledby="alloc-title">
+      <div class="panel-head">
+        <h2 id="alloc-title">Practice portfolio</h2>
+        <span class="label">Sample data</span>
+      </div>
+      <ul class="alloc">
+        <li><span>Global equity ETF</span><span class="pct">40%</span><div class="track"><div class="fill" style="width:40%"></div></div></li>
+        <li><span>European equities</span><span class="pct">20%</span><div class="track"><div class="fill" style="width:20%"></div></div></li>
+        <li><span>Government bonds</span><span class="pct">15%</span><div class="track"><div class="fill alt" style="width:15%"></div></div></li>
+        <li><span>Emerging markets</span><span class="pct">10%</span><div class="track"><div class="fill" style="width:10%"></div></div></li>
+        <li><span>Listed real estate</span><span class="pct">10%</span><div class="track"><div class="fill alt" style="width:10%"></div></div></li>
+        <li><span>Cash</span><span class="pct">5%</span><div class="track"><div class="fill alt" style="width:5%"></div></div></li>
+      </ul>
+      <p class="panel-foot">Members vote on changes after each pitch night. Replace these figures with your own allocation.</p>
+    </aside>
+  </div>
+
+  <section id="about">
+    <div class="sec-head">
+      <h2>What we do</h2>
+      <p>The group has worked together for a long time and knows how each member thinks. Every activity is built around a decision someone has to explain.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="label">Research</span>
+        <h3>Company deep dives</h3>
+        <p>Pairs read annual reports, build a simple valuation and write a two-page memo for the group.</p>
+      </article>
+      <article class="card">
+        <span class="label">Portfolio</span>
+        <h3>A practice portfolio</h3>
+        <p>We track a model portfolio, record why each position was added and review the results every term.</p>
+      </article>
+      <article class="card">
+        <span class="label">Network</span>
+        <h3>Guest speakers</h3>
+        <p>Analysts, fund managers and alumni talk about how they work and how they got started.</p>
+      </article>
+      <article class="card">
+        <span class="label">Skills</span>
+        <h3>Workshops</h3>
+        <p>Reading a balance sheet, Excel for valuation, and how to spot a weak argument in a pitch.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="sec-head">
+      <h2>Upcoming events</h2>
+      <p>Dates, topics and speakers below are examples. Edit them to match your term.</p>
+    </div>
+    <ol class="events">
+      <li>
+        <div class="date">Thu 19:00<b>5 Nov</b></div>
+        <div><h3>Reading an annual report</h3><p>A workshop on income statement, balance sheet and cash flow, using one real company.</p></div>
+        <span class="tag">Workshop</span>
+      </li>
+      <li>
+        <div class="date">Thu 19:00<b>12 Nov</b></div>
+        <div><h3>Pitch night</h3><p>Three members pitch a stock. The room votes on whether it joins the portfolio.</p></div>
+        <span class="tag">Pitch night</span>
+      </li>
+      <li>
+        <div class="date">Thu 19:00<b>19 Nov</b></div>
+        <div><h3>Guest talk: [Speaker name]</h3><p>[Role, firm]. How an equity analyst forms a view on a sector.</p></div>
+        <span class="tag">Speaker</span>
+      </li>
+      <li>
+        <div class="date">Thu 19:00<b>3 Dec</b></div>
+        <div><h3>Portfolio review</h3><p>Performance against the benchmark, what worked and what we would change.</p></div>
+        <span class="tag">Review</span>
+      </li>
+    </ol>
+  </section>
+
+  <section id="pitch">
+    <div class="sec-head">
+      <h2>How a pitch night works</h2>
+      <p>Every pitch follows the same format so ideas are easy to compare. It takes 25 minutes in total.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="mins">5 min</span><h3>The thesis</h3><p>What the company does and why the market has it wrong.</p></li>
+      <li><span class="mins">5 min</span><h3>Valuation</h3><p>The price you would pay and the numbers behind it.</p></li>
+      <li><span class="mins">5 min</span><h3>Risks</h3><p>What would make the thesis fail, and how you would notice.</p></li>
+      <li><span class="mins">10 min</span><h3>Questions and vote</h3><p>The room challenges the pitch, then votes to buy, hold off or pass.</p></li>
+    </ol>
+  </section>
+
+  <section id="team">
+    <div class="sec-head">
+      <h2>The minds</h2>
+      <p>A multidisciplinary team where entrepreneurship, research, data and market experience inform every investment decision.</p>
+    </div>
+    <div class="team">
+      <div class="person"><img class="avatar" src="photos/ruben.jpg" alt="Ruben" width="112" height="112"><h3>Ruben</h3><p class="role">The Entrepreneur</p></div>
+      <div class="person"><img class="avatar" src="photos/mukit.jpg" alt="Mukit" width="112" height="112"><h3>Mukit</h3><p class="role">The Researcher</p></div>
+      <div class="person"><img class="avatar" src="photos/bob.jpg" alt="Bob" width="112" height="112"><h3>Bob</h3><p class="role">The Politician</p></div>
+      <div class="person"><img class="avatar" src="photos/surja.jpg" alt="Surja" width="112" height="112"><h3>Surja</h3><p class="role">Data Analyst</p></div>
+      <div class="person"><img class="avatar" src="photos/gerard.jpg" alt="Gerard" width="112" height="112"><h3>Gerard</h3><p class="role">The Advisor</p></div>
+      <div class="person"><img class="avatar" src="photos/wilson.jpg" alt="Wilson" width="112" height="112"><h3>Wilson</h3><p class="role">The Trader</p></div>
+      <div class="person"><img class="avatar" src="photos/levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
+      <div class="person"><img class="avatar" src="photos/ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>LH Investment Group · [University name]</p>
+    <p>Educational use only. Nothing on this page is financial advice, and the practice portfolio does not use real money.</p>
+  </footer>
+</div>
+
+</body></html>
