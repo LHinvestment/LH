@@ -5,16 +5,19 @@
 <style>
 /* Layout: one column page, hero splits into pitch + sample portfolio panel; sections separated by thin ledger rules. */
 :root {
-  --bg: #F2F4F7;
+  --bg: #F3F5F8;
   --surface: #FFFFFF;
-  --fg: #0E1A2B;
-  --muted: #55627A;
-  --rule: #D5DBE5;
-  --accent: #2A45D4;
+  --fg: #0F2238;
+  --muted: #4F5E73;
+  --rule: #D6DCE4;
+  --accent: #15304F;
   --accent-fg: #FFFFFF;
-  --accent-soft: #E3E8FB;
-  --bar: #2A45D4;
-  --bar-2: #8C9BE8;
+  --accent-soft: #E4E9F0;
+  --gold: #9C865C;
+  --gold-text: #766239;
+  --bar: #15304F;
+  --bar-2: #9C865C;
+  --logo-tile: transparent;
 
   --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -22,30 +25,36 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0C1424;
-    --surface: #131D31;
-    --fg: #E8ECF4;
-    --muted: #94A1BA;
-    --rule: #26334D;
-    --accent: #8EA0FF;
-    --accent-fg: #0C1424;
-    --accent-soft: #1C2848;
-    --bar: #8EA0FF;
-    --bar-2: #4A5BAF;
+    --bg: #0A1626;
+    --surface: #10223A;
+    --fg: #EAEEF4;
+    --muted: #9AA9BE;
+    --rule: #223855;
+    --accent: #C9B382;
+    --accent-fg: #0A1626;
+    --accent-soft: #1A2F4C;
+    --gold: #C9B382;
+    --gold-text: #C9B382;
+    --bar: #C9B382;
+    --bar-2: #5C7699;
+    --logo-tile: #F3F5F8;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0C1424;
-  --surface: #131D31;
-  --fg: #E8ECF4;
-  --muted: #94A1BA;
-  --rule: #26334D;
-  --accent: #8EA0FF;
-  --accent-fg: #0C1424;
-  --accent-soft: #1C2848;
-  --bar: #8EA0FF;
-  --bar-2: #4A5BAF;
+  --bg: #0A1626;
+  --surface: #10223A;
+  --fg: #EAEEF4;
+  --muted: #9AA9BE;
+  --rule: #223855;
+  --accent: #C9B382;
+  --accent-fg: #0A1626;
+  --accent-soft: #1A2F4C;
+  --gold: #C9B382;
+  --gold-text: #C9B382;
+  --bar: #C9B382;
+  --bar-2: #5C7699;
+  --logo-tile: #F3F5F8;
   color-scheme: dark;
 }
 
@@ -75,9 +84,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 }
 
 /* header */
-header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+header.top { border-bottom: 2px solid var(--gold); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 16px; }
 .brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
-.brand-mark { width: 26px; height: 26px; display: block; }
+.brand-mark { width: 40px; height: auto; display: block; background: var(--logo-tile); border-radius: 4px; padding: 3px; }
 nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
 nav a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 500; }
 nav a:hover { color: var(--accent); }
@@ -85,7 +94,7 @@ nav a:hover { color: var(--accent); }
 /* hero */
 .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; padding-block: 56px 64px; align-items: start; }
 .hero h1 { font-size: clamp(48px, 6vw, 62px); font-weight: 700; }
-.hero h1 em { font-style: normal; color: var(--accent); }
+.hero h1 em { font-style: normal; color: var(--gold); }
 .hero .lede { margin-top: 20px; font-size: 18px; color: var(--muted); max-width: 52ch; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .btn { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 4px; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
@@ -105,6 +114,20 @@ nav a:hover { color: var(--accent); }
 .fill.alt { background: var(--bar-2); }
 .panel-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
 
+/* performance chart */
+.perf { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 24px; }
+.perf-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.perf-bars li { display: grid; grid-template-columns: 220px minmax(0, 1fr) 72px; gap: 16px; align-items: center; }
+.perf-name { font-size: 15px; color: var(--muted); }
+.perf-bars .us .perf-name { color: var(--fg); font-weight: 600; }
+.perf-track { height: 28px; background: var(--accent-soft); border-radius: 2px; overflow: hidden; }
+.perf-fill { height: 100%; background: var(--bar-2); border-radius: 2px; }
+.perf-bars .us .perf-fill { background: var(--bar); }
+.perf-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 16px; text-align: right; }
+.perf-bars .us .perf-val { font-weight: 500; }
+.perf-axis { display: flex; justify-content: space-between; margin: 10px 88px 0 236px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.perf figcaption { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+
 /* sections */
 section { padding-block: 56px; border-top: 1px solid var(--rule); }
 .sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
@@ -115,7 +138,7 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); }
 .card { min-width: 0; }
 .card h3 { font-size: 20px; margin-bottom: 8px; }
 .card p { color: var(--muted); font-size: 15px; }
-.card .label { display: block; margin-bottom: 10px; color: var(--accent); }
+.card .label { display: block; margin-bottom: 10px; color: var(--gold-text); }
 
 /* events */
 .events { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
@@ -130,17 +153,17 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
 .steps li { padding: 20px; border-right: 1px solid var(--rule); min-width: 0; }
 .steps li:last-child { border-right: 0; }
-.steps .mins { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+.steps .mins { font-family: var(--font-mono); font-size: 13px; color: var(--gold-text); }
 .steps h3 { font-size: 17px; margin: 6px 0; }
 .steps p { font-size: 14px; color: var(--muted); }
 
 /* team */
-.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+.team { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 28px 24px; }
 .person { min-width: 0; }
-.avatar { width: 112px; height: 112px; border-radius: 50%; background: var(--accent-soft); display: block; object-fit: cover; object-position: 50% 25%; margin-bottom: 14px; border: 1px solid var(--rule); }
+.avatar { width: min(100%, 112px); height: auto; aspect-ratio: 1; border-radius: 50%; background: var(--accent-soft); display: block; object-fit: cover; object-position: 50% 25%; margin-bottom: 14px; border: 1px solid var(--rule); }
 .person h3 { font-size: 17px; }
 .person p { font-size: 14px; color: var(--muted); }
-.person .role { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
+.person .role { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-text); margin-top: 4px; }
 
 /* join */
 .join { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 40px; align-items: center; }
@@ -154,6 +177,13 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); }
 footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
 
 @media (max-width: 760px) {
+  .perf { padding: 18px; }
+  .perf-bars li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
+  .perf-track { grid-column: 1 / -1; grid-row: 2; height: 22px; }
+  .perf-axis { margin: 8px 0 0; }
+  .team { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; }
+  .person h3 { font-size: 15px; }
+  .person .role { font-size: 10.5px; letter-spacing: 0.03em; }
   .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 44px; gap: 32px; }
   .sec-head { grid-template-columns: minmax(0, 1fr); }
   .events li { grid-template-columns: 72px minmax(0, 1fr); }
@@ -163,7 +193,7 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
 }
 @media (prefers-reduced-motion: no-preference) {
   .btn { transition: background 120ms ease, color 120ms ease; }
-  .btn.primary:hover { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+  .btn.primary:hover { background: var(--gold); border-color: var(--gold); color: var(--accent-fg); }
   .btn.ghost:hover { background: var(--accent-soft); }
 }
 </style>
@@ -171,14 +201,12 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 26 26" aria-hidden="true">
-        <rect x="1" y="1" width="24" height="24" rx="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
-        <polyline points="5,19 10,13 14,16 21,7" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-      </svg>
+      <img class="brand-mark" src="photos/logo.png" alt="" width="40" height="44">
       LH Investment Group
     </div>
     <nav aria-label="Main">
       <a href="#about">About</a>
+      <a href="#performance">Performance</a>
       <a href="#events">Events</a>
       <a href="#pitch">The pitch</a>
       <a href="#team">The minds</a>
@@ -199,7 +227,7 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
     <aside class="panel" aria-labelledby="alloc-title">
       <div class="panel-head">
         <h2 id="alloc-title">Current portfolio</h2>
-        <span class="label">Sample data</span>
+        <span class="label">Allocation</span>
       </div>
       <ul class="alloc">
         <li><span>Semicon Industry</span><span class="pct">15%</span><div class="track"><div class="fill" style="width:15%"></div></div></li>
@@ -209,35 +237,63 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
         <li><span>Emerging markets</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
         <li><span>Cash</span><span class="pct">50%</span><div class="track"><div class="fill alt" style="width:50%"></div></div></li>
       </ul>
-      <p class="panel-foot">Members vote on changes after each pitch night. Replace these figures with your own allocation.</p>
+      <p class="panel-foot">Live portfolio of real investments. Positions are added or reduced by group vote after each pitch.</p>
     </aside>
   </div>
+
+  <section id="performance">
+    <div class="sec-head">
+      <h2>Performance</h2>
+      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
+    </div>
+    <figure class="perf" aria-labelledby="perf-cap">
+      <ul class="perf-bars">
+        <li class="us">
+          <span class="perf-name">LH Investment Group</span>
+          <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
+          <span class="perf-val">+42.0%</span>
+        </li>
+        <li>
+          <span class="perf-name">S&amp;P 500</span>
+          <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
+          <span class="perf-val">+12.3%</span>
+        </li>
+        <li>
+          <span class="perf-name">Global market (MSCI World)</span>
+          <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
+          <span class="perf-val">+11.2%</span>
+        </li>
+      </ul>
+      <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
+      <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
+    </figure>
+  </section>
 
   <section id="about">
     <div class="sec-head">
       <h2>What we do</h2>
-      <p>The group has worked together for a long time and knows how each member thinks. Every activity is built around a decision someone has to explain.</p>
+      <p>Our approach combines rigorous research, independent analysis and collective scrutiny to evaluate every investment opportunity before capital is committed.</p>
     </div>
     <div class="cards">
       <article class="card">
         <span class="label">Research</span>
         <h3>Company deep dives</h3>
-        <p>Pairs read annual reports, build a simple valuation and write a two-page memo for the group.</p>
+        <p>We work through company fundamentals, financial statements and filings, and present our findings to the group in our meetings.</p>
       </article>
       <article class="card">
         <span class="label">Portfolio</span>
-        <h3>A practice portfolio</h3>
-        <p>We track a model portfolio, record why each position was added and review the results every term.</p>
+        <h3>A live portfolio</h3>
+        <p>We manage a portfolio of real investments, document the rationale behind each position and review performance on a regular basis.</p>
       </article>
       <article class="card">
-        <span class="label">Network</span>
-        <h3>Guest speakers</h3>
-        <p>Analysts, fund managers and alumni talk about how they work and how they got started.</p>
+        <span class="label">Markets</span>
+        <h3>Market and economics discussion</h3>
+        <p>We discuss macroeconomic developments, interest rates, sector trends and market sentiment, and what they mean for our positions.</p>
       </article>
       <article class="card">
-        <span class="label">Skills</span>
-        <h3>Workshops</h3>
-        <p>Reading a balance sheet, Excel for valuation, and how to spot a weak argument in a pitch.</p>
+        <span class="label">Analysis</span>
+        <h3>Valuation and technical analysis</h3>
+        <p>We build valuation models and apply technical analysis to sharpen our entry and exit decisions.</p>
       </article>
     </div>
   </section>
@@ -275,13 +331,13 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
   <section id="pitch">
     <div class="sec-head">
       <h2>How a pitch night works</h2>
-      <p>Every pitch follows the same format so ideas are easy to compare. It takes 25 minutes in total.</p>
+      <p>Each pitch is a thorough presentation built on fundamental analysis and financial data, supported by technical analysis.</p>
     </div>
     <ol class="steps">
-      <li><span class="mins">5 min</span><h3>The thesis</h3><p>What the company does and why the market has it wrong.</p></li>
-      <li><span class="mins">5 min</span><h3>Valuation</h3><p>The price you would pay and the numbers behind it.</p></li>
-      <li><span class="mins">5 min</span><h3>Risks</h3><p>What would make the thesis fail, and how you would notice.</p></li>
-      <li><span class="mins">10 min</span><h3>Questions and vote</h3><p>The room challenges the pitch, then votes to buy, hold off or pass.</p></li>
+      <li><span class="mins">Step 1</span><h3>The thesis</h3><p>The business, its financial data and why the market has it wrong.</p></li>
+      <li><span class="mins">Step 2</span><h3>Valuation</h3><p>Multiples, forecasts and the price we would pay, with technical analysis for entry.</p></li>
+      <li><span class="mins">Step 3</span><h3>Risks</h3><p>Market sentiment, headwinds and what would invalidate the thesis.</p></li>
+      <li><span class="mins">Step 4</span><h3>Questions and vote</h3><p>The group challenges the pitch, then votes to buy, hold off or pass.</p></li>
     </ol>
   </section>
 
@@ -307,5 +363,6 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
     <p>Nothing on this page is financial advice.</p>
   </footer>
 </div>
+
 
 </body></html>
