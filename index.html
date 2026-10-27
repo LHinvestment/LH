@@ -6,6 +6,7 @@
 <title>LH Investment Group | Research-Driven Investing in Eindhoven</title>
 <meta name="description" content="LH Investment Group is a multidisciplinary investment group managing a real portfolio with long-term conviction. Based in Eindhoven, the Netherlands.">
 <link rel="canonical" href="https://lhinvestment.github.io/LH/">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: one column page, hero splits into pitch + sample portfolio panel; sections separated by thin ledger rules. */
 :root {
@@ -41,7 +42,7 @@
     --gold-text: #C9B382;
     --bar: #C9B382;
     --bar-2: #5C7699;
-    ---tile: #F3F5F8;
+    --logo-tile: #F3F5F8;
     color-scheme: dark;
   }
 }
@@ -87,13 +88,18 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   color: var(--muted);
 }
 
-/* header */
-header.top { border-bottom: 2px solid var(--gold); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 16px; }
+/* header: sticky, compacts once the page is scrolled */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--gold); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 16px; }
+header.top.scrolled { padding-block: 8px; box-shadow: 0 10px 14px -12px rgba(0, 0, 0, 0.45); }
 .brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+header.top.scrolled .brand { font-size: 16px; }
 .brand-mark { width: 40px; height: auto; display: block; background: var(--logo-tile); border-radius: 4px; padding: 3px; }
-nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
-nav a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 500; }
+header.top.scrolled .brand-mark { width: 30px; }
+nav { position: relative; display: flex; flex-wrap: wrap; gap: 0 22px; }
+nav a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 0; border-bottom: 2px solid transparent; }
 nav a:hover { color: var(--accent); }
+nav a.active { border-bottom-color: var(--gold); }
 
 /* hero */
 .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; padding-block: 56px 64px; align-items: start; }
@@ -133,7 +139,7 @@ nav a:hover { color: var(--accent); }
 .perf figcaption { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
 
 /* sections */
-section { padding-block: 56px; border-top: 1px solid var(--rule); }
+section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-top: 56px; }
 .sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
 .sec-head h2 { font-size: clamp(26px, 3.6vw, 36px); }
 .sec-head p { color: var(--muted); max-width: 60ch; }
@@ -181,6 +187,14 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); }
 footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
 
 @media (max-width: 760px) {
+  .hero h1 { font-size: min(7.4vw, 38px); }
+  header.top { gap: 2px 12px; padding-block: 12px 4px; }
+  header.top.scrolled { flex-wrap: nowrap; gap: 12px; padding-block: 6px; }
+  header.top.scrolled .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  nav { flex: 1 1 100%; flex-wrap: nowrap; gap: 0 18px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { flex: none; font-size: 13.5px; white-space: nowrap; }
+  header.top.scrolled nav { flex: 1 1 auto; min-width: 0; }
   .perf { padding: 18px; }
   .perf-bars li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
   .perf-track { grid-column: 1 / -1; grid-row: 2; height: 22px; }
@@ -194,21 +208,24 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
   .steps li:last-child { border-bottom: 0; }
 }
 @media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  header.top { transition: box-shadow 180ms ease; }
   .btn { transition: background 120ms ease, color 120ms ease; }
   .btn.primary:hover { background: var(--gold); border-color: var(--gold); color: var(--accent-fg); }
   .btn.ghost:hover { background: var(--accent-soft); }
 }
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header class="top">
     <div class="brand">
       <img class="brand-mark" src="logo.png" alt="" width="40" height="44">
-      LH+ Investment Group 
+      <span class="brand-name">LH+ Investment Group</span>
     </div>
     <nav aria-label="Main">
-      <a href="#about">About</a>
       <a href="#performance">Performance</a>
+      <a href="#about">About</a>
       <a href="#events">Events</a>
       <a href="#pitch">The pitch</a>
       <a href="#team">The minds</a>
@@ -233,8 +250,8 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       </div>
       <ul class="alloc">
         <li><span>Semicon Industry</span><span class="pct">40%</span><div class="track"><div class="fill" style="width:40%"></div></div></li>
-        <li><span>Software, Communication & Cybersecurity</span><span class="pct">30%</span><div class="track"><div class="fill" style="width:30%"></div></div></li>
-        <li><span>Consumer Goods & Services</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
+        <li><span>Software, Communication &amp; Cybersecurity</span><span class="pct">30%</span><div class="track"><div class="fill" style="width:30%"></div></div></li>
+        <li><span>Consumer Goods &amp; Services</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
         <li><span>Energy</span><span class="pct">0%</span><div class="track"><div class="fill" style="width:0%"></div></div></li>
         <li><span>Health Care</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
         <li><span>Cash</span><span class="pct">30%</span><div class="track"><div class="fill alt" style="width:30%"></div></div></li>
@@ -367,4 +384,51 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
 </div>
 
 
-</body></html>
+<script>
+(function () {
+  var header = document.querySelector('header.top');
+  var nav = header.querySelector('nav');
+  var links = [].slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var compact = false, current = -2, ticking = false;
+
+  function update() {
+    ticking = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (!compact && y > 48) { compact = true; header.classList.add('scrolled'); }
+    else if (compact && y < 8) { compact = false; header.classList.remove('scrolled'); }
+
+    var line = header.getBoundingClientRect().bottom + 24;
+    var idx = -1, best = -Infinity;
+    secs.forEach(function (sec, i) {
+      if (!sec) return;
+      var top = sec.getBoundingClientRect().top;
+      if (top <= line && top > best) { best = top; idx = i; }
+    });
+    if (window.innerHeight + y >= document.documentElement.scrollHeight - 4) idx = secs.length - 1;
+
+    if (idx !== current) {
+      current = idx;
+      links.forEach(function (a, i) {
+        a.classList.toggle('active', i === idx);
+        if (i === idx) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+      if (idx >= 0 && nav.scrollWidth > nav.clientWidth) {
+        nav.scrollLeft = Math.max(0, links[idx].offsetLeft - 16);
+      }
+    }
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (!compact) { compact = true; header.classList.add('scrolled'); }
+    });
+  });
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', update);
+  update();
+})();
+</script>
+</body>
+</html>
