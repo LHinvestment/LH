@@ -92,7 +92,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--gold); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 16px; }
 header.top.scrolled { padding-block: 8px; box-shadow: 0 10px 14px -12px rgba(0, 0, 0, 0.45); }
-.brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+.brand { color: var(--fg); text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
 header.top.scrolled .brand { font-size: 16px; }
 .brand-mark { width: 40px; height: auto; display: block; background: var(--logo-tile); border-radius: 4px; padding: 3px; }
 header.top.scrolled .brand-mark { width: 30px; }
@@ -217,15 +217,15 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="top">
   <header class="top">
-    <div class="brand">
+    <a class="brand" href="#top" aria-label="LH+ Investment Group, back to top">
       <img class="brand-mark" src="logo.png" alt="" width="40" height="44">
       <span class="brand-name">LH+ Investment Group</span>
-    </div>
+    </a>
     <nav aria-label="Main">
-      <a href="#performance">Performance</a>
       <a href="#about">About</a>
+      <a href="#performance">Performance</a>
       <a href="#events">Events</a>
       <a href="#pitch">The pitch</a>
       <a href="#team">The minds</a>
@@ -260,34 +260,6 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
     </aside>
   </div>
 
-  <section id="performance">
-    <div class="sec-head">
-      <h2>Performance</h2>
-      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
-    </div>
-    <figure class="perf" aria-labelledby="perf-cap">
-      <ul class="perf-bars">
-        <li class="us">
-          <span class="perf-name">LH+ Investment Group</span>
-          <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
-          <span class="perf-val">+42.0%</span>
-        </li>
-        <li>
-          <span class="perf-name">S&amp;P 500</span>
-          <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
-          <span class="perf-val">+12.3%</span>
-        </li>
-        <li>
-          <span class="perf-name">Global market (MSCI World)</span>
-          <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
-          <span class="perf-val">+11.2%</span>
-        </li>
-      </ul>
-      <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
-      <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
-    </figure>
-  </section>
-
   <section id="about">
     <div class="sec-head">
       <h2>What we do</h2>
@@ -315,6 +287,34 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
         <p>We build valuation models and apply technical analysis to sharpen our entry and exit decisions.</p>
       </article>
     </div>
+  </section>
+
+  <section id="performance">
+    <div class="sec-head">
+      <h2>Performance</h2>
+      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
+    </div>
+    <figure class="perf" aria-labelledby="perf-cap">
+      <ul class="perf-bars">
+        <li class="us">
+          <span class="perf-name">LH+ Investment Group</span>
+          <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
+          <span class="perf-val">+42.0%</span>
+        </li>
+        <li>
+          <span class="perf-name">S&amp;P 500</span>
+          <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
+          <span class="perf-val">+12.3%</span>
+        </li>
+        <li>
+          <span class="perf-name">Global market (MSCI World)</span>
+          <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
+          <span class="perf-val">+11.2%</span>
+        </li>
+      </ul>
+      <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
+      <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
+    </figure>
   </section>
 
   <section id="events">
@@ -422,6 +422,10 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
     a.addEventListener('click', function () {
       if (!compact) { compact = true; header.classList.add('scrolled'); }
     });
+  });
+  header.querySelector('.brand').addEventListener('click', function (e) {
+    e.preventDefault();
+    window.scrollTo(0, 0);
   });
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive: true });
