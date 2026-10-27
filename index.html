@@ -6,9 +6,9 @@
 <title>LH Investment Group | Research-Driven Investing in Eindhoven</title>
 <meta name="description" content="LH Investment Group is a multidisciplinary investment group managing a real portfolio with long-term conviction. Based in Eindhoven, the Netherlands.">
 <link rel="canonical" href="https://lhinvestment.github.io/LH/">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@500;600&display=swap">
 <style>
-/* Layout: one column page, hero splits into pitch + sample portfolio panel; sections separated by thin ledger rules. */
+/* Layout: light sticky header, navy hero with key figures, then sections alternating light / white / navy bands. */
 :root {
   --bg: #F3F5F8;
   --surface: #FFFFFF;
@@ -23,8 +23,15 @@
   --bar: #15304F;
   --bar-2: #9C865C;
   --logo-tile: transparent;
+  --band: #0F2238;
+  --band-fg: #F3F5F8;
+  --band-muted: #B2BED0;
+  --band-gold: #C9B382;
+  --band-rule: rgba(201, 179, 130, 0.30);
+  --band-card: rgba(255, 255, 255, 0.05);
 
   --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
@@ -43,6 +50,7 @@
     --bar: #C9B382;
     --bar-2: #5C7699;
     --logo-tile: #F3F5F8;
+    --band: #0F2A47;
     color-scheme: dark;
   }
 }
@@ -60,6 +68,7 @@
   --bar: #C9B382;
   --bar-2: #5C7699;
   --logo-tile: #F3F5F8;
+  --band: #0F2A47;
   color-scheme: dark;
 }
 
@@ -70,12 +79,17 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
-  padding-block: 0 48px;
+  margin: 0;
+  padding: 0;
+}
+.wrap {
+  max-width: 1072px;
+  margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-.wrap { max-width: 1040px; margin: 0 auto; }
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1, h2 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.015em; }
 p { margin: 0; }
 a { color: var(--accent); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -90,8 +104,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 
 /* header: sticky, compacts once the page is scrolled */
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
-header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--gold); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 16px; }
-header.top.scrolled { padding-block: 8px; box-shadow: 0 10px 14px -12px rgba(0, 0, 0, 0.45); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--gold); }
+.header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 16px; }
+header.top.scrolled { box-shadow: 0 10px 14px -12px rgba(0, 0, 0, 0.45); }
+header.top.scrolled .header-inner { padding-block: 8px; }
 .brand { color: var(--fg); text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
 header.top.scrolled .brand { font-size: 16px; }
 .brand-mark { width: 40px; height: auto; display: block; background: var(--logo-tile); border-radius: 4px; padding: 3px; }
@@ -101,21 +117,21 @@ nav a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 5
 nav a:hover { color: var(--accent); }
 nav a.active { border-bottom-color: var(--gold); }
 
-/* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; padding-block: 56px 64px; align-items: start; }
-.hero h1 { font-size: clamp(36px, 4.8vw, 48px); font-weight: 700; }
-.hero h1 em { font-style: normal; color: var(--gold); }
-.hero .lede { margin-top: 20px; font-size: 18px; color: var(--muted); max-width: 52ch; }
+/* hero band */
+.hero-band { background: var(--band); color: var(--band-fg); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; padding-block: 64px 56px; align-items: start; }
+.hero-copy .label { display: block; margin-bottom: 16px; color: var(--band-gold); }
+.hero h1 { font-size: clamp(38px, 5vw, 56px); color: var(--band-fg); }
+.hero h1 em { font-style: normal; color: var(--band-gold); }
+.hero .lede { margin-top: 20px; font-size: 18px; color: var(--band-muted); max-width: 52ch; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .btn { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 4px; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
 .btn.primary { background: var(--accent); color: var(--accent-fg); }
-.btn.ghost { background: transparent; color: var(--accent); }
-.meet { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 6px 28px; font-size: 14px; color: var(--muted); }
-.meet strong { color: var(--fg); font-weight: 600; }
+.hero-band .btn.primary { background: var(--band-gold); border-color: var(--band-gold); color: #0F2238; }
 
-.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 22px; }
+.panel { background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 6px; padding: 22px; }
 .panel-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 18px; }
-.panel h2 { font-size: 20px; }
+.panel h2 { font-size: 22px; }
 .alloc { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .alloc li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; font-size: 14px; }
 .alloc .pct { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -124,25 +140,38 @@ nav a.active { border-bottom-color: var(--gold); }
 .fill.alt { background: var(--bar-2); }
 .panel-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
 
+/* key figures */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--band-rule); }
+.figure { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding-block: 26px 32px; padding-right: 16px; min-width: 0; }
+.figure + .figure { border-left: 1px solid var(--band-rule); padding-left: 24px; }
+.figure b { font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; color: var(--band-fg); font-variant-numeric: tabular-nums; }
+.figure b.txt { font-size: clamp(22px, 2.5vw, 30px); }
+.figure span { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--band-muted); }
+
+/* section bands */
+section.band { padding-block: 64px; scroll-margin-top: 54px; }
+section.alt { background: var(--surface); }
+section.navy { background: var(--band); color: var(--band-fg); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
+.sec-head h2 { font-size: clamp(28px, 3.8vw, 40px); }
+.sec-head p { color: var(--muted); max-width: 60ch; }
+section.navy .sec-head h2 { color: var(--band-fg); }
+section.navy .sec-head p { color: var(--band-muted); }
+
 /* performance chart */
 .perf { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 24px; }
+section.alt .perf { background: var(--bg); }
 .perf-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
 .perf-bars li { display: grid; grid-template-columns: 220px minmax(0, 1fr) 72px; gap: 16px; align-items: center; }
 .perf-name { font-size: 15px; color: var(--muted); }
 .perf-bars .us .perf-name { color: var(--fg); font-weight: 600; }
 .perf-track { height: 28px; background: var(--accent-soft); border-radius: 2px; overflow: hidden; }
-.perf-fill { height: 100%; background: var(--bar-2); border-radius: 2px; }
+.perf-fill { height: 100%; background: var(--bar-2); border-radius: 2px; transform-origin: left center; }
 .perf-bars .us .perf-fill { background: var(--bar); }
 .perf-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 16px; text-align: right; }
 .perf-bars .us .perf-val { font-weight: 500; }
 .perf-axis { display: flex; justify-content: space-between; margin: 10px 88px 0 236px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 .perf figcaption { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
-
-/* sections */
-section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-top: 56px; }
-.sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
-.sec-head h2 { font-size: clamp(26px, 3.6vw, 36px); }
-.sec-head p { color: var(--muted); max-width: 60ch; }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 .card { min-width: 0; }
@@ -159,13 +188,18 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-
 .events p { color: var(--muted); font-size: 14px; }
 .tag { font-family: var(--font-mono); font-size: 12px; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 3px; color: var(--muted); white-space: nowrap; }
 
-/* pitch steps */
+/* pitch steps (navy band) */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
 .steps li { padding: 20px; border-right: 1px solid var(--rule); min-width: 0; }
 .steps li:last-child { border-right: 0; }
 .steps .mins { font-family: var(--font-mono); font-size: 13px; color: var(--gold-text); }
 .steps h3 { font-size: 17px; margin: 6px 0; }
 .steps p { font-size: 14px; color: var(--muted); }
+section.navy .steps { background: var(--band-card); border-color: var(--band-rule); }
+section.navy .steps li { border-color: var(--band-rule); }
+section.navy .steps .mins { color: var(--band-gold); }
+section.navy .steps h3 { color: var(--band-fg); }
+section.navy .steps p { color: var(--band-muted); }
 
 /* team */
 .team { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; }
@@ -175,36 +209,34 @@ section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-
 .person p { font-size: 14px; color: var(--muted); }
 .person .role { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-text); margin-top: 4px; }
 
-/* join */
-.join { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 40px; align-items: center; }
-.join h2 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
-.join p { color: var(--muted); }
-.mailbox { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.mailbox code { font-family: var(--font-mono); font-size: 14px; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 4px; background: var(--bg); overflow-wrap: anywhere; user-select: all; }
-.mailbox .btn { padding: 10px 16px; }
-.copied { font-size: 13px; color: var(--muted); min-height: 20px; margin-top: 8px; }
-
-footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+/* footer */
+footer { background: var(--band); color: var(--band-muted); font-size: 13px; border-top: 2px solid var(--band-gold); }
+footer .wrap { display: grid; gap: 6px; padding-block: 28px; }
+footer p:first-child { color: var(--band-fg); }
 
 @media (max-width: 760px) {
-  .hero h1 { font-size: min(7.4vw, 38px); }
-  header.top { gap: 2px 12px; padding-block: 12px 4px; }
-  header.top.scrolled { flex-wrap: nowrap; gap: 12px; padding-block: 6px; }
+  .hero h1 { font-size: min(7.6vw, 40px); }
+  .header-inner { gap: 2px 12px; padding-block: 12px 4px; }
+  header.top.scrolled .header-inner { flex-wrap: nowrap; gap: 12px; padding-block: 6px; }
   header.top.scrolled .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   nav { flex: 1 1 100%; flex-wrap: nowrap; gap: 0 18px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   nav::-webkit-scrollbar { display: none; }
   nav a { flex: none; font-size: 13.5px; white-space: nowrap; }
   header.top.scrolled nav { flex: 1 1 auto; min-width: 0; }
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 40px 32px; gap: 32px; }
+  .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; border-top: 0; }
+  .figure, .figure + .figure { border-left: 0; padding-left: 0; padding-block: 18px 22px; border-top: 1px solid var(--band-rule); }
+  section.band { padding-block: 48px; }
   .perf { padding: 18px; }
   .perf-bars li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
   .perf-track { grid-column: 1 / -1; grid-row: 2; height: 22px; }
   .perf-axis { margin: 8px 0 0; }
   .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
-  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 44px; gap: 32px; }
   .sec-head { grid-template-columns: minmax(0, 1fr); }
   .events li { grid-template-columns: 72px minmax(0, 1fr); }
   .events .tag { grid-column: 2; justify-self: start; }
   .steps li { border-right: 0; border-bottom: 1px solid var(--rule); }
+  section.navy .steps li { border-bottom-color: var(--band-rule); }
   .steps li:last-child { border-bottom: 0; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -212,13 +244,20 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
   header.top { transition: box-shadow 180ms ease; }
   .btn { transition: background 120ms ease, color 120ms ease; }
   .btn.primary:hover { background: var(--gold); border-color: var(--gold); color: var(--accent-fg); }
-  .btn.ghost:hover { background: var(--accent-soft); }
+  .hero-band .btn.primary:hover { background: #FFFFFF; border-color: #FFFFFF; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .hero-copy, .hero .panel { animation: rise 700ms ease both; }
+  .hero .panel { animation-delay: 120ms; }
+  .figures { animation: rise 700ms ease 240ms both; }
+  .js .perf-fill { transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .js .perf:not(.in) .perf-fill { transform: scaleX(0); }
 }
 </style>
 </head>
 <body>
-<div class="wrap" id="top">
+<div id="top">
   <header class="top">
+    <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="LH+ Investment Group, back to top">
       <img class="brand-mark" src="logo.png" alt="" width="40" height="44">
       <span class="brand-name">LH+ Investment Group</span>
@@ -230,20 +269,22 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       <a href="#pitch">The pitch</a>
       <a href="#team">The minds</a>
     </nav>
+    </div>
   </header>
 
-  <div class="hero">
-    <div>
-      <p class="label" style="margin-bottom:16px">Long term vision · High conviction</p>
-      <h1>Driven by Research <br><em>Invest with Conviction</em></h1>
-      <p class="lede">Our multidisciplinary approach combines business insight, quantitative analysis, market intelligence, and sector-specific knowledge to assess investment opportunities from multiple perspectives. We challenge conventional assumptions, develop evidence-based investment theses, and apply disciplined risk assessment to our investment decisions.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#events">See upcoming events</a>
-      </div>
-      <p class="meet"><span><strong>Investment Strategy</strong> Medium to Long Term</span><span><strong>Meeting Frequency</strong> Monthly</span></p>
-    </div>
+  <div class="hero-band">
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="label">Long term vision · High conviction</span>
+          <h1>Driven by Research <br><em>Invest with Conviction</em></h1>
+          <p class="lede">Our multidisciplinary approach combines business insight, quantitative analysis, market intelligence, and sector-specific knowledge to assess investment opportunities from multiple perspectives. We challenge conventional assumptions, develop evidence-based investment theses, and apply disciplined risk assessment to our investment decisions.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#events">See upcoming events</a>
+          </div>
+        </div>
 
-    <aside class="panel" aria-labelledby="alloc-title">
+        <aside class="panel" aria-labelledby="alloc-title">
       <div class="panel-head">
         <h2 id="alloc-title">Current portfolio</h2>
         <span class="label">Allocation</span>
@@ -258,9 +299,19 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       </ul>
       <p class="panel-foot">Live portfolio of real investments. Positions are added or reduced by group vote after each pitch.</p>
     </aside>
+      </div>
+
+      <div class="figures">
+        <div class="figure"><b data-count="42" data-dec="1" data-prefix="+" data-suffix="%">+42.0%</b><span>Year-to-date return</span></div>
+        <div class="figure"><b data-count="29.7" data-dec="1" data-prefix="+" data-suffix=" pts">+29.7 pts</b><span>Ahead of the S&amp;P 500</span></div>
+        <div class="figure"><b class="txt">Medium to long term</b><span>Investment horizon</span></div>
+        <div class="figure"><b class="txt">Monthly</b><span>Group meetings</span></div>
+      </div>
+    </div>
   </div>
 
-  <section id="about">
+  <section id="about" class="band">
+    <div class="wrap">
     <div class="sec-head">
       <h2>What we do</h2>
       <p>Our approach combines rigorous research, independent analysis and collective scrutiny to evaluate every investment opportunity before capital is committed.</p>
@@ -287,9 +338,11 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
         <p>We build valuation models and apply technical analysis to sharpen our entry and exit decisions.</p>
       </article>
     </div>
+  </div>
   </section>
 
-  <section id="performance">
+  <section id="performance" class="band alt">
+    <div class="wrap">
     <div class="sec-head">
       <h2>Performance</h2>
       <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
@@ -315,9 +368,11 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
       <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
     </figure>
+  </div>
   </section>
 
-  <section id="events">
+  <section id="events" class="band">
+    <div class="wrap">
     <div class="sec-head">
       <h2>Upcoming events</h2>
       <p>From investment pitches and portfolio reviews to moments of connection, our events bring the collective together to exchange perspectives, challenge ideas, and strengthen our investment approach</p>
@@ -345,9 +400,11 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
         <span class="tag">Pitch night</span>
       </li>
     </ol>
+  </div>
   </section>
 
-  <section id="pitch">
+  <section id="pitch" class="band navy">
+    <div class="wrap">
     <div class="sec-head">
       <h2>How a pitch night works</h2>
       <p>Each pitch is a thorough presentation built on fundamental analysis and financial data, supported by technical analysis.</p>
@@ -358,9 +415,11 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       <li><span class="mins">Step 3</span><h3>Risks</h3><p>Market sentiment, headwinds and what would invalidate the thesis.</p></li>
       <li><span class="mins">Step 4</span><h3>Questions and vote</h3><p>The group challenges the pitch, then votes to buy, hold off or pass.</p></li>
     </ol>
+  </div>
   </section>
 
-  <section id="team">
+  <section id="team" class="band alt">
+    <div class="wrap">
     <div class="sec-head">
       <h2>The minds</h2>
       <p>A team where business, research, data and market experience inform every investment decision.</p>
@@ -375,17 +434,21 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
       <div class="person"><img class="avatar" src="levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
       <div class="person"><img class="avatar" src="ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
     </div>
+  </div>
   </section>
 
   <footer>
+    <div class="wrap">
     <p>LH+ Investment Group · The Netherlands</p>
     <p>Nothing on this page is financial advice.</p>
+  </div>
   </footer>
 </div>
 
-
 <script>
 (function () {
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var header = document.querySelector('header.top');
   var nav = header.querySelector('nav');
   var links = [].slice.call(nav.querySelectorAll('a[href^="#"]'));
@@ -432,6 +495,37 @@ footer { padding-top: 28px; border-top: 1px solid var(--rule); font-size: 13px; 
   window.addEventListener('resize', onScroll);
   window.addEventListener('load', update);
   update();
+
+  // performance bars grow once the chart is in view
+  var perf = document.querySelector('.perf');
+  if (perf) {
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { perf.classList.add('in'); io.disconnect(); } });
+      }, { threshold: 0.25 });
+      io.observe(perf);
+    } else { perf.classList.add('in'); }
+  }
+
+  // key figures count up once
+  if (!reduce) {
+    [].slice.call(document.querySelectorAll('[data-count]')).forEach(function (el) {
+      var end = parseFloat(el.getAttribute('data-count'));
+      var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+      var pre = el.getAttribute('data-prefix') || '';
+      var suf = el.getAttribute('data-suffix') || '';
+      var start = null, dur = 1100;
+      function step(t) {
+        if (start === null) start = t;
+        var p = Math.min(1, (t - start) / dur);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = pre + (end * e).toFixed(dec) + suf;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      el.textContent = pre + (0).toFixed(dec) + suf;
+      requestAnimationFrame(step);
+    });
+  }
 })();
 </script>
 </body>
