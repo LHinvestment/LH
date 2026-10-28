@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>try{var t=localStorage.getItem("lh-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <title>LH Investment Group | Research-Driven Investing in Eindhoven</title>
 <meta name="description" content="LH Investment Group is a multidisciplinary investment group managing a real portfolio with long-term conviction. Based in Eindhoven, the Netherlands.">
 <link rel="canonical" href="https://lhinvestment.github.io/LH/">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@500;600&display=swap">
 <style>
-/* Layout: light sticky header, navy hero with key figures, then sections alternating light / white / navy bands. */
+/* Layout: light sticky header, hero with key figures, sections alternating light / white / band.
+   Three looks, chosen from the header menu and never remembered:
+   Signature (default, navy bands), Dark, Light (no navy). */
 :root {
   --bg: #F3F5F8;
   --surface: #FFFFFF;
@@ -31,33 +32,17 @@
   --band-gold: #C9B382;
   --band-rule: rgba(201, 179, 130, 0.30);
   --band-card: rgba(255, 255, 255, 0.05);
+  --band-hover: rgba(255, 255, 255, 0.06);
+  --band-btn-bg: #C9B382;
+  --band-btn-fg: #0F2238;
+  --band-btn-hover: #FFFFFF;
 
   --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0A1626;
-    --surface: #10223A;
-    --fg: #EAEEF4;
-    --muted: #9AA9BE;
-    --rule: #223855;
-    --accent: #C9B382;
-    --accent-fg: #0A1626;
-    --accent-soft: #1A2F4C;
-    --gold: #C9B382;
-    --gold-text: #C9B382;
-    --bar: #C9B382;
-    --bar-2: #5C7699;
-    --logo-tile: #F3F5F8;
-    --gold-line: rgba(201, 179, 130, 0.30);
-    --band: #0F2A47;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
+:root[data-mode="dark"] {
   --bg: #0A1626;
   --surface: #10223A;
   --fg: #EAEEF4;
@@ -75,6 +60,19 @@
   --band: #0F2A47;
   color-scheme: dark;
 }
+:root[data-mode="light"] {
+  --band: #F3F5F8;
+  --band-fg: #0F2238;
+  --band-muted: #4F5E73;
+  --band-gold: #7A6640;
+  --band-rule: rgba(156, 134, 92, 0.38);
+  --band-card: #FFFFFF;
+  --band-hover: #E4E9F0;
+  --band-btn-bg: #15304F;
+  --band-btn-fg: #FFFFFF;
+  --band-btn-hover: #0F2238;
+}
+:root[data-mode="light"] .hero-band { border-bottom: 1px solid var(--gold-line); }
 
 * { box-sizing: border-box; }
 body {
@@ -124,13 +122,25 @@ nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; he
 nav a:hover { color: var(--accent); }
 nav a:hover::after, nav a.active::after { transform: scaleX(1); }
 .header-actions { display: flex; align-items: center; gap: 22px; }
-.theme-toggle { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--gold-line); border-radius: 50%; background: transparent; color: var(--fg); cursor: pointer; padding: 0; }
-.theme-toggle:hover { border-color: var(--gold); color: var(--gold-text); }
-.theme-toggle svg { width: 18px; height: 18px; display: block; }
-.theme-toggle .i-sun { display: none; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; } :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; } }
-:root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+.theme-menu { position: relative; flex: none; }
+.theme-toggle { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--gold-line); border-radius: 50%; background: transparent; color: var(--fg); cursor: pointer; padding: 0; }
+.theme-toggle:hover, .theme-toggle[aria-expanded="true"] { border-color: var(--gold); color: var(--gold-text); }
+.theme-toggle svg { width: 18px; height: 18px; display: none; }
+.theme-toggle .ic-sig { display: block; }
+:root[data-mode="dark"] .theme-toggle .ic-sig, :root[data-mode="light"] .theme-toggle .ic-sig { display: none; }
+:root[data-mode="dark"] .theme-toggle .ic-moon { display: block; }
+:root[data-mode="light"] .theme-toggle .ic-sun { display: block; }
+.theme-list { position: absolute; right: 0; top: calc(100% + 10px); z-index: 40; min-width: 176px; margin: 0; padding: 6px; list-style: none; background: var(--surface); border: 1px solid var(--gold-line); border-radius: 6px; box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.5); }
+.theme-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: 4px; background: transparent; color: var(--fg); font: 500 14px var(--font-body); text-align: left; cursor: pointer; }
+.theme-opt:hover, .theme-opt:focus-visible { background: var(--accent-soft); }
+.theme-opt[aria-pressed="true"] { font-weight: 600; }
+.theme-opt .name { flex: 1; }
+.theme-opt .tick { width: 14px; height: 14px; color: var(--gold-text); opacity: 0; }
+.theme-opt[aria-pressed="true"] .tick { opacity: 1; }
+.sw { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--gold-line); }
+.sw-sig { background: linear-gradient(135deg, #0F2238 50%, #F3F5F8 50%); }
+.sw-dark { background: #0A1626; border-color: #C9B382; }
+.sw-light { background: #F3F5F8; border-color: #9C865C; }
 
 /* hero band */
 .hero-band { background: var(--band); color: var(--band-fg); }
@@ -143,7 +153,7 @@ nav a:hover::after, nav a.active::after { transform: scaleX(1); }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .btn { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 4px; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
 .btn.primary { background: var(--accent); color: var(--accent-fg); }
-.hero-band .btn.primary { background: var(--band-gold); border-color: var(--band-gold); color: #0F2238; }
+.hero-band .btn.primary { background: var(--band-btn-bg); border-color: var(--band-btn-bg); color: var(--band-btn-fg); }
 
 .panel { background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-radius: 6px; padding: 22px; }
 .panel-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 18px; }
@@ -235,9 +245,10 @@ footer p:first-child { color: var(--band-fg); }
   .header-actions { display: contents; }
   .header-inner { gap: 2px 12px; padding-block: 12px 4px; }
   .brand { order: 1; }
-  .theme-toggle { order: 2; margin-left: auto; }
+  .theme-menu { order: 2; margin-left: auto; }
   nav { order: 3; }
-  header.top.scrolled .theme-toggle { order: 3; margin-left: 0; width: 32px; height: 32px; }
+  header.top.scrolled .theme-menu { order: 3; margin-left: 0; }
+  header.top.scrolled .theme-toggle { width: 32px; height: 32px; }
   header.top.scrolled nav { order: 2; }
   header.top.scrolled .header-inner { flex-wrap: nowrap; gap: 12px; padding-block: 6px; }
   header.top.scrolled .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -267,7 +278,7 @@ footer p:first-child { color: var(--band-fg); }
   header.top { transition: box-shadow 180ms ease; }
   .btn { transition: background 120ms ease, color 120ms ease; }
   .btn.primary:hover { background: var(--gold); border-color: var(--gold); color: var(--accent-fg); }
-  .hero-band .btn.primary:hover { background: #FFFFFF; border-color: #FFFFFF; }
+  .hero-band .btn.primary:hover { background: var(--band-btn-hover); border-color: var(--band-btn-hover); color: var(--band-btn-fg); }
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   .hero-copy, .hero .panel { animation: rise 700ms ease both; }
   .hero .panel { animation-delay: 120ms; }
@@ -285,7 +296,7 @@ footer p:first-child { color: var(--band-fg); }
     .card:hover { border-top-color: var(--gold); }
     .events li:hover h3 { color: var(--gold-text); }
     .steps li:hover { background: var(--accent-soft); }
-    section.navy .steps li:hover { background: rgba(255, 255, 255, 0.06); }
+    section.navy .steps li:hover { background: var(--band-hover); }
     .person:hover .avatar { border-color: var(--gold); transform: scale(1.04); }
     .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5); }
     .brand:hover .brand-name { color: var(--gold-text); }
@@ -311,10 +322,18 @@ footer p:first-child { color: var(--band-fg); }
       <a href="#pitch">The pitch</a>
       <a href="#team">The minds</a>
     </nav>
-    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme">
-      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>
-      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
-    </button>
+    <div class="theme-menu">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list" aria-label="Appearance: Signature">
+        <svg class="ic-sig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
+      </button>
+      <ul class="theme-list" id="theme-list" hidden>
+        <li><button class="theme-opt" type="button" data-mode="signature" aria-pressed="true"><span class="sw sw-sig"></span><span class="name">Signature</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>
+        <li><button class="theme-opt" type="button" data-mode="dark" aria-pressed="false"><span class="sw sw-dark"></span><span class="name">Dark</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>
+        <li><button class="theme-opt" type="button" data-mode="light" aria-pressed="false"><span class="sw sw-light"></span><span class="name">Light</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>
+      </ul>
+    </div>
     </div>
     </div>
   </header>
@@ -574,22 +593,41 @@ footer p:first-child { color: var(--band-fg); }
     });
   }
 
-  // light / dark switch
+  // appearance menu: Signature (default), Dark, Light. The choice is not remembered between visits.
   var root = document.documentElement;
   var tbtn = document.getElementById('theme-toggle');
-  function isDark() {
-    var t = root.getAttribute('data-theme');
-    if (t) return t === 'dark';
-    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  var list = document.getElementById('theme-list');
+  var opts = [].slice.call(list.querySelectorAll('.theme-opt'));
+  var names = { signature: 'Signature', dark: 'Dark', light: 'Light' };
+  function setMode(m) {
+    if (m === 'signature') root.removeAttribute('data-mode'); else root.setAttribute('data-mode', m);
+    opts.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-mode') === m ? 'true' : 'false'); });
+    tbtn.setAttribute('aria-label', 'Appearance: ' + names[m]);
   }
-  function syncToggle() { tbtn.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme'); }
+  function openMenu(open) {
+    list.hidden = !open;
+    tbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
   tbtn.addEventListener('click', function () {
-    var next = isDark() ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('lh-theme', next); } catch (e) {}
-    syncToggle();
+    openMenu(list.hidden);
+    if (!list.hidden) { var cur = list.querySelector('[aria-pressed="true"]'); if (cur) cur.focus(); }
   });
-  syncToggle();
+  opts.forEach(function (o) {
+    o.addEventListener('click', function () { setMode(o.getAttribute('data-mode')); openMenu(false); tbtn.focus(); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!list.hidden && !list.contains(e.target) && !tbtn.contains(e.target)) openMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (list.hidden) return;
+    if (e.key === 'Escape') { openMenu(false); tbtn.focus(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      var i = opts.indexOf(document.activeElement);
+      i = e.key === 'ArrowDown' ? (i + 1) % opts.length : (i <= 0 ? opts.length - 1 : i - 1);
+      opts[i].focus();
+    }
+  });
 
   // sections ease in as they scroll into view (only what starts below the fold)
   if (!reduce && 'IntersectionObserver' in window) {
