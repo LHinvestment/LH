@@ -247,8 +247,10 @@ section.navy .steps p { color: var(--band-muted); }
 .mcard:nth-child(3n + 1) .polaroid { --tilt: -0.9deg; }
 .mcard:nth-child(3n + 2) .polaroid { --tilt: 0.7deg; }
 .mcard:nth-child(3n) .polaroid { --tilt: -0.4deg; }
-.photo { aspect-ratio: 4 / 3; background: #0F2238; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 0 36px rgba(0, 0, 0, 0.35); }
+.photo { position: relative; aspect-ratio: 4 / 3; background: #0F2238; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 0 36px rgba(0, 0, 0, 0.35); }
 .photo svg { display: block; width: 100%; height: 100%; }
+.photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 34%, rgba(255, 255, 255, 0.05) 42%, rgba(255, 255, 255, 0.18) 49%, rgba(255, 255, 255, 0.05) 56%, transparent 64%); transform: translateX(-120%); }
+.polaroid { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .photo .focus { fill: #C9B382; stroke: #0F2238; stroke-width: 0.5; stroke-linejoin: round; }
 .photo .ctx { fill: #1F3C60; stroke: #0F2238; stroke-width: 0.4; }
 .photo .focus.soft { fill: #2C5283; }
@@ -308,7 +310,7 @@ footer p:first-child { color: var(--band-fg); }
   section.navy .steps li { border-bottom-color: var(--band-rule); }
   .steps li:last-child { border-bottom: 0; }
 }
-@media print { .rv.pre { opacity: 1 !important; transform: none !important; } }
+@media print { .rv.pre { opacity: 1 !important; transform: none !important; } .mcard.undev .photo svg { filter: none !important; opacity: 1 !important; } }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
   header.top { transition: box-shadow 180ms ease; }
@@ -325,6 +327,9 @@ footer p:first-child { color: var(--band-fg); }
   .events h3 { transition: color 160ms ease; }
   .steps li { transition: background 200ms ease; }
   .polaroid { transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 320ms ease; }
+  .markets .mcard:active .polaroid { transform: rotate(0deg) scale(0.982) translateY(1px); box-shadow: 0 1px 2px rgba(15, 34, 56, 0.25), 0 8px 16px -12px rgba(15, 34, 56, 0.55); transition-duration: 110ms; }
+  .js .photo svg { transition: filter 1500ms ease calc(var(--d, 0s) + 250ms), opacity 1500ms ease calc(var(--d, 0s) + 250ms); }
+  .js .mcard.undev .photo svg { filter: brightness(0.28) saturate(0.2) contrast(1.15); opacity: 0.6; }
   .avatar { transition: border-color 200ms ease, transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1); }
   .btn { transition: background 140ms ease, color 140ms ease, transform 140ms ease, box-shadow 140ms ease; }
   .js .rv { transition: opacity 700ms ease var(--d, 0s), transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s); }
@@ -334,6 +339,7 @@ footer p:first-child { color: var(--band-fg); }
     .events li:hover h3 { color: var(--gold-text); }
     .steps li:hover { background: var(--accent-soft); }
     section.navy .steps li:hover { background: var(--band-hover); }
+    .mcard:hover .photo::after { transform: translateX(120%); transition: transform 1000ms cubic-bezier(0.3, 0.6, 0.2, 1); }
     .mcard:hover .polaroid { transform: rotate(0deg) translateY(-4px); box-shadow: 0 1px 2px rgba(15, 34, 56, 0.2), 0 24px 34px -18px rgba(15, 34, 56, 0.65); }
     .person:hover .avatar { border-color: var(--gold); transform: scale(1.04); }
     .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5); }
@@ -679,6 +685,9 @@ footer p:first-child { color: var(--band-fg); }
     });
   }
 
+  // lets :active (press feedback) work on iOS Safari
+  document.addEventListener('touchstart', function () {}, { passive: true });
+
   // appearance menu: Signature (default), Dark, Light. The choice is not remembered between visits.
   var root = document.documentElement;
   var tbtn = document.getElementById('theme-toggle');
@@ -723,6 +732,7 @@ footer p:first-child { color: var(--band-fg); }
         if (!en.isIntersecting) return;
         var el = en.target;
         el.classList.remove('pre');
+        el.classList.remove('undev');
         el.addEventListener('transitionend', function () { el.style.removeProperty('--d'); }, { once: true });
         io2.unobserve(el);
       });
@@ -733,6 +743,7 @@ footer p:first-child { color: var(--band-fg); }
         var idx = [].indexOf.call(el.parentNode.children, el);
         el.style.setProperty('--d', Math.min(idx % 4, 3) * 80 + 'ms');
         el.classList.add('pre');
+        if (el.classList.contains('mcard')) el.classList.add('undev');
         io2.observe(el);
       }
     });
