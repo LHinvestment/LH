@@ -513,6 +513,14 @@ footer p:first-child { color: var(--band-fg); }
 
 <script>
 (function () {
+     // always start at the top of the page on load, reload and back/forward
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  function toTop() { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }
+  toTop();
+  window.addEventListener('load', function () { toTop(); setTimeout(toTop, 60); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) toTop(); });
+   
   document.documentElement.classList.add('js');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var header = document.querySelector('header.top');
