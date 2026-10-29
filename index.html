@@ -915,7 +915,8 @@ footer p:first-child { color: var(--band-fg); }
     var cap = document.getElementById('perf-cap');
     if (cap) {
       var gaps = d.benchmarks.map(function (b) { var g = ytd - b.ytd * 100; return Math.abs(g).toFixed(1) + ' points ' + (g >= 0 ? 'ahead of' : 'behind') + ' the ' + b.short; });
-      cap.textContent = 'Year-to-date returns to ' + asOf + ', measured from the first trading day of the year, in euros. Index figures are for accumulating funds that track each index, so dividends are included. Unaudited. The portfolio is ' + gaps.join(' and ') + '.';
+      var cur = { EUR: 'euros', USD: 'US dollars' }[d.currency] || d.currency;
+      cap.textContent = 'Year-to-date returns to ' + asOf + ', measured from the first trading day of the year' + (cur ? ', in ' + cur : '') + '. ' + (d.benchmark_note ? d.benchmark_note + ' ' : '') + 'Unaudited. The portfolio is ' + gaps.join(' and ') + '.';
     }
 
     [].slice.call(document.querySelectorAll('.alloc [data-sector]')).forEach(function (li) {
