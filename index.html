@@ -478,20 +478,20 @@ footer p:first-child { color: var(--band-fg); }
         <span class="label">Allocation</span>
       </div>
       <ul class="alloc">
-        <li><span>Semicon Industry</span><span class="pct">40%</span><div class="track"><div class="fill" style="width:40%"></div></div></li>
-        <li><span>Software, Communication &amp; Cybersecurity</span><span class="pct">30%</span><div class="track"><div class="fill" style="width:30%"></div></div></li>
-        <li><span>Consumer Goods &amp; Services</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
-        <li><span>Energy</span><span class="pct">0%</span><div class="track"><div class="fill" style="width:0%"></div></div></li>
-        <li><span>Health Care</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
-        <li><span>Cash</span><span class="pct">30%</span><div class="track"><div class="fill alt" style="width:30%"></div></div></li>
+        <li data-sector="semicon"><span>Semicon Industry</span><span class="pct">40%</span><div class="track"><div class="fill" style="width:40%"></div></div></li>
+        <li data-sector="software"><span>Software, Communication &amp; Cybersecurity</span><span class="pct">30%</span><div class="track"><div class="fill" style="width:30%"></div></div></li>
+        <li data-sector="consumer"><span>Consumer Goods &amp; Services</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
+        <li data-sector="energy"><span>Energy</span><span class="pct">0%</span><div class="track"><div class="fill" style="width:0%"></div></div></li>
+        <li data-sector="health"><span>Health Care</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
+        <li data-sector="cash"><span>Cash</span><span class="pct">30%</span><div class="track"><div class="fill alt" style="width:30%"></div></div></li>
       </ul>
       <p class="panel-foot">Live portfolio of real investments. Positions are added or reduced by group vote after each pitch.</p>
     </aside>
       </div>
 
       <div class="figures">
-        <div class="figure"><b data-count="42" data-dec="1" data-prefix="+" data-suffix="%">+42.0%</b><span>Year-to-date return</span></div>
-        <div class="figure"><b data-count="29.7" data-dec="1" data-prefix="+" data-suffix=" pts">+29.7 pts</b><span>Ahead of the S&amp;P 500</span></div>
+        <div class="figure" id="fig-ytd"><b data-count="42" data-dec="1" data-prefix="+" data-suffix="%">+42.0%</b><span>Year-to-date return</span></div>
+        <div class="figure" id="fig-lead"><b data-count="29.7" data-dec="1" data-prefix="+" data-suffix=" pts">+29.7 pts</b><span>Ahead of the S&amp;P 500</span></div>
         <div class="figure"><b class="txt">Medium to Long</b><span>Investment horizon</span></div>
         <div class="figure"><b class="txt">Monthly</b><span>Group meetings</span></div>
       </div>
@@ -502,21 +502,21 @@ footer p:first-child { color: var(--band-fg); }
     <div class="wrap">
     <div class="sec-head">
       <h2>Performance</h2>
-      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
+      <p id="perf-intro">The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
     </div>
     <figure class="perf" aria-labelledby="perf-cap">
       <ul class="perf-bars">
-        <li class="us">
+        <li class="us" data-bar="portfolio">
           <span class="perf-name">LH+ Investment Group</span>
           <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
           <span class="perf-val">+42.0%</span>
         </li>
-        <li>
+        <li data-bar="sp500">
           <span class="perf-name">S&amp;P 500</span>
           <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
           <span class="perf-val">+12.3%</span>
         </li>
-        <li>
+        <li data-bar="msci_world">
           <span class="perf-name">Global market (MSCI World)</span>
           <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
           <span class="perf-val">+11.2%</span>
@@ -867,8 +867,81 @@ footer p:first-child { color: var(--band-fg); }
     } else { perf.classList.add('in'); }
   }
 
+  // live portfolio numbers: data.json is written daily by the update job.
+  // If it is missing or invalid, the figures already on the page stay as they are.
+  function fmtPct(v, dec) { var x = (v * 100).toFixed(dec); return (v >= 0 ? '+' : '\u2212') + Math.abs(x).toFixed(dec) + '%'; }
+  function applyData(d) {
+    var ytd = d.portfolio.ytd * 100;
+    var bm = {}; d.benchmarks.forEach(function (b) { bm[b.id] = b; });
+    var sp = bm.sp500;
+    var asOf = new Date(d.as_of + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+    var f1 = document.querySelector('#fig-ytd b');
+    if (f1) {
+      f1.setAttribute('data-count', Math.abs(ytd).toFixed(1));
+      f1.setAttribute('data-prefix', ytd >= 0 ? '+' : '\u2212');
+      f1.textContent = (ytd >= 0 ? '+' : '\u2212') + Math.abs(ytd).toFixed(1) + '%';
+    }
+    var f2 = document.querySelector('#fig-lead b');
+    if (f2 && sp) {
+      var lead = ytd - sp.ytd * 100;
+      f2.setAttribute('data-count', Math.abs(lead).toFixed(1));
+      f2.setAttribute('data-prefix', lead >= 0 ? '+' : '\u2212');
+      f2.textContent = (lead >= 0 ? '+' : '\u2212') + Math.abs(lead).toFixed(1) + ' pts';
+      f2.nextElementSibling.textContent = (lead >= 0 ? 'Ahead of the ' : 'Behind the ') + sp.short;
+    }
+
+    var rows = [{ id: 'portfolio', v: d.portfolio.ytd * 100 }].concat(d.benchmarks.map(function (b) { return { id: b.id, v: b.ytd * 100 }; }));
+    var top = Math.max.apply(null, rows.map(function (r) { return r.v; }).concat([1]));
+    var steps = [1, 2, 5, 10, 20, 25, 50, 100], step = 100;
+    for (var i = 0; i < steps.length; i++) { if (steps[i] * 5 >= top * 1.05) { step = steps[i]; break; } }
+    var max = step * 5;
+    rows.forEach(function (r) {
+      var li = document.querySelector('.perf-bars [data-bar="' + r.id + '"]');
+      if (!li) return;
+      li.querySelector('.perf-fill').style.width = (Math.max(0, r.v) / max * 100).toFixed(1) + '%';
+      li.querySelector('.perf-val').textContent = (r.v >= 0 ? '+' : '\u2212') + Math.abs(r.v).toFixed(1) + '%';
+    });
+    var axis = document.querySelector('.perf-axis');
+    if (axis) { axis.innerHTML = ''; for (var k = 0; k <= 5; k++) { var sp2 = document.createElement('span'); sp2.textContent = (k * step) + '%'; axis.appendChild(sp2); } }
+
+    var names = d.benchmarks.map(function (b) { return 'the ' + b.short; });
+    var ahead = d.benchmarks.every(function (b) { return ytd > b.ytd * 100; });
+    var intro = document.getElementById('perf-intro');
+    if (intro) {
+      intro.textContent = 'The portfolio is ' + (ytd >= 0 ? 'up ' : 'down ') + Math.abs(ytd).toFixed(1) + '% year to date' +
+        (ahead ? ', ahead of ' + names.join(' and ') + '.' : ', compared with ' + d.benchmarks.map(function (b) { return fmtPct(b.ytd, 1) + ' for the ' + b.short; }).join(' and ') + '.');
+    }
+    var cap = document.getElementById('perf-cap');
+    if (cap) {
+      var gaps = d.benchmarks.map(function (b) { var g = ytd - b.ytd * 100; return Math.abs(g).toFixed(1) + ' points ' + (g >= 0 ? 'ahead of' : 'behind') + ' the ' + b.short; });
+      cap.textContent = 'Year-to-date returns to ' + asOf + ', measured from the first trading day of the year, in euros. Index figures are for accumulating funds that track each index, so dividends are included. Unaudited. The portfolio is ' + gaps.join(' and ') + '.';
+    }
+
+    [].slice.call(document.querySelectorAll('.alloc [data-sector]')).forEach(function (li) {
+      var pct = Math.round((d.allocation[li.getAttribute('data-sector')] || 0) * 100);
+      li.querySelector('.pct').textContent = pct + '%';
+      li.querySelector('.fill').style.width = pct + '%';
+    });
+  }
+  function validData(d) {
+    return d && d.portfolio && isFinite(d.portfolio.ytd) && Array.isArray(d.benchmarks) && d.benchmarks.every(function (b) { return isFinite(b.ytd) && b.short; }) &&
+      d.allocation && typeof d.as_of === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d.as_of);
+  }
+  function loadData() {
+    if (!window.fetch || location.protocol === 'file:') return Promise.resolve();
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
+    return fetch('data.json', { cache: 'no-cache', signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (validData(d)) applyData(d); })
+      .catch(function () {})
+      .then(function () { clearTimeout(timer); });
+  }
+
   // key figures count up once
-  if (!reduce) {
+  function startCount() {
+    if (reduce) return;
     [].slice.call(document.querySelectorAll('[data-count]')).forEach(function (el) {
       var end = parseFloat(el.getAttribute('data-count'));
       var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
@@ -886,6 +959,7 @@ footer p:first-child { color: var(--band-fg); }
       requestAnimationFrame(step);
     });
   }
+  loadData().then(startCount);
 
 
   // history timeline: hover (laptop) or tap (phone) lifts a year into a card
