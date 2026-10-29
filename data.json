@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-10-29",
+  "start": "2026-01-02",
+  "currency": "USD",
+  "portfolio": {
+    "ytd": 0.3431
+  },
+  "benchmarks": [
+    {
+      "id": "sp500",
+      "name": "S&P 500",
+      "short": "S&P 500",
+      "ytd": 0.1262
+    },
+    {
+      "id": "msci_world",
+      "name": "Global market (MSCI World)",
+      "short": "MSCI World",
+      "ytd": 0.1151
+    }
+  ],
+  "allocation": {
+    "cash": 0.0,
+    "semicon": 0.5066,
+    "software": 0.4934
+  }
+}
