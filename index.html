@@ -91,10 +91,10 @@ body {
   padding: 0;
 }
 .wrap {
-  max-width: 1072px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-left: max(clamp(16px, 3.2vw, 48px), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(16px, 3.2vw, 48px), env(safe-area-inset-right, 0px));
 }
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
 h1, h2 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.015em; }
@@ -418,6 +418,14 @@ footer p:first-child { color: var(--band-fg); }
   .timeline .tl-item { transition: opacity 700ms ease calc(var(--i) * 280ms + 150ms), transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i) * 280ms + 150ms); }
 }
 @media print { .tl-card { display: none; } .timeline.tl-pre .tl-item { opacity: 1 !important; transform: none !important; } .timeline.tl-pre .tl-student, .timeline.tl-pre .tl-plus { transform: none !important; } .tl-hint { display: none; } }
+
+/* views */
+#view-home[hidden], #view-events[hidden] { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .view-in { animation: view-in 420ms ease both; }
+  @keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+#view-events > section:first-child { border-top: 0; }
 </style>
 </head>
 <body>
@@ -430,13 +438,8 @@ footer p:first-child { color: var(--band-fg); }
     </a>
     <div class="header-actions">
     <nav aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#performance">Performance</a>
+      <a href="#about">About us</a>
       <a href="#events">Events</a>
-      <a href="#pitch">The pitch</a>
-      <a href="#team">The minds</a>
-      <a href="#history">History</a>
-      <a href="#markets">Markets</a>
     </nav>
     <div class="theme-menu">
       <button class="theme-toggle" id="theme-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list" aria-label="Appearance: Signature">
@@ -454,6 +457,7 @@ footer p:first-child { color: var(--band-fg); }
     </div>
   </header>
 
+  <main id="view-home">
   <div class="hero-band">
     <div class="wrap">
       <div class="hero">
@@ -492,6 +496,36 @@ footer p:first-child { color: var(--band-fg); }
     </div>
   </div>
 
+  <section id="performance" class="band alt">
+    <div class="wrap">
+    <div class="sec-head">
+      <h2>Performance</h2>
+      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
+    </div>
+    <figure class="perf" aria-labelledby="perf-cap">
+      <ul class="perf-bars">
+        <li class="us">
+          <span class="perf-name">LH+ Investment Group</span>
+          <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
+          <span class="perf-val">+42.0%</span>
+        </li>
+        <li>
+          <span class="perf-name">S&amp;P 500</span>
+          <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
+          <span class="perf-val">+12.3%</span>
+        </li>
+        <li>
+          <span class="perf-name">Global market (MSCI World)</span>
+          <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
+          <span class="perf-val">+11.2%</span>
+        </li>
+      </ul>
+      <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
+      <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
+    </figure>
+  </div>
+  </section>
+
   <section id="about" class="band">
     <div class="wrap">
     <div class="sec-head">
@@ -523,103 +557,7 @@ footer p:first-child { color: var(--band-fg); }
   </div>
   </section>
 
-  <section id="performance" class="band alt">
-    <div class="wrap">
-    <div class="sec-head">
-      <h2>Performance</h2>
-      <p>The portfolio is up 42% year to date, well ahead of the S&amp;P 500 and the broader global market.</p>
-    </div>
-    <figure class="perf" aria-labelledby="perf-cap">
-      <ul class="perf-bars">
-        <li class="us">
-          <span class="perf-name">LH+ Investment Group</span>
-          <div class="perf-track"><div class="perf-fill" style="width:84%"></div></div>
-          <span class="perf-val">+42.0%</span>
-        </li>
-        <li>
-          <span class="perf-name">S&amp;P 500</span>
-          <div class="perf-track"><div class="perf-fill" style="width:24.6%"></div></div>
-          <span class="perf-val">+12.3%</span>
-        </li>
-        <li>
-          <span class="perf-name">Global market (MSCI World)</span>
-          <div class="perf-track"><div class="perf-fill" style="width:22.4%"></div></div>
-          <span class="perf-val">+11.2%</span>
-        </li>
-      </ul>
-      <div class="perf-axis" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span><span>50%</span></div>
-      <figcaption id="perf-cap">Year-to-date returns to 23 October 2026. Index figures are total returns with dividends reinvested (source: ChartRow estimates). A lead of 29.7 points over the S&amp;P 500 and 30.8 points over the MSCI World.</figcaption>
-    </figure>
-  </div>
-  </section>
-
-  <section id="events" class="band">
-    <div class="wrap">
-    <div class="sec-head">
-      <h2>Upcoming events</h2>
-      <p>From investment pitches and portfolio reviews to moments of connection, our events bring the collective together to exchange perspectives, challenge ideas, and strengthen our investment approach</p>
-    </div>
-    <ol class="events">
-      <li>
-        <div class="date">Sat 16:00<b>17 Oct 2026</b></div>
-        <div><h3>Pitch night</h3><p>Members pitch stocks. The room votes on whether it joins the portfolio.</p></div>
-        <span class="tag">Pitch night</span>
-      </li>
-      <li>
-        <div class="date">Sun 18:00<b>8 Nov 2026</b></div>
-        <div><h3>Portfolio review</h3><p>Performance against the benchmark, what worked and what we would change.</p></div>
-        <span class="tag">Review</span>
-      </li>
-      
-      <li>
-        <div class="date">Sun 18:00<b>06 Dec 2026</b></div>
-        <div><h3>LH+ End of the Year Party</h3><p>Get together with current and past LH members</p></div>
-        <span class="tag">Party</span>
-      </li>
-      <li>
-        <div class="date">Sun 16:00<b>10 Jan 2027</b></div>
-        <div><h3>Pitch night</h3><p>Pitch a stock. The room votes on whether it joins the portfolio.</p></div>
-        <span class="tag">Pitch night</span>
-      </li>
-    </ol>
-  </div>
-  </section>
-
-  <section id="pitch" class="band navy">
-    <div class="wrap">
-    <div class="sec-head">
-      <h2>How a pitch night works</h2>
-      <p>Each pitch is a thorough presentation built on fundamental analysis and financial data, supported by technical analysis.</p>
-    </div>
-    <ol class="steps">
-      <li><span class="mins">Step 1</span><h3>The thesis</h3><p>The business, its financial data and why the market has it wrong.</p></li>
-      <li><span class="mins">Step 2</span><h3>Valuation</h3><p>Multiples, forecasts and the price we would pay, with technical analysis for entry.</p></li>
-      <li><span class="mins">Step 3</span><h3>Risks</h3><p>Market sentiment, headwinds and what would invalidate the thesis.</p></li>
-      <li><span class="mins">Step 4</span><h3>Questions and vote</h3><p>The group challenges the pitch, then votes to buy, hold off or pass.</p></li>
-    </ol>
-  </div>
-  </section>
-
-  <section id="team" class="band alt">
-    <div class="wrap">
-    <div class="sec-head">
-      <h2>The minds</h2>
-      <p>A team where business, research, data and market experience inform every investment decision.</p>
-    </div>
-    <div class="team">
-      <div class="person"><img class="avatar" src="ruben.jpg" alt="Ruben" width="112" height="112"><h3>Ruben</h3><p class="role">The Entrepreneur</p></div>
-      <div class="person"><img class="avatar" src="mukit.jpg" alt="Mukit" width="112" height="112"><h3>Mukit</h3><p class="role">The Researcher</p></div>
-      <div class="person"><img class="avatar" src="bob.jpg" alt="Bob" width="112" height="112"><h3>Bob</h3><p class="role">The Politician</p></div>
-      <div class="person"><img class="avatar" src="surja.jpg" alt="Surja" width="112" height="112"><h3>Surja</h3><p class="role">Data Analyst</p></div>
-      <div class="person"><img class="avatar" src="gerard.jpg" alt="Gerard" width="112" height="112"><h3>Gerard</h3><p class="role">The Advisor</p></div>
-      <div class="person"><img class="avatar" src="wilson.jpg" alt="Wilson" width="112" height="112"><h3>Wilson</h3><p class="role">The Trader</p></div>
-      <div class="person"><img class="avatar" src="levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
-      <div class="person"><img class="avatar" src="ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
-    </div>
-  </div>
-  </section>
-
-  <section id="history" class="band">
+  <section id="history" class="band alt">
     <div class="wrap">
       <div class="sec-head">
         <h2>Our history</h2>
@@ -689,7 +627,7 @@ footer p:first-child { color: var(--band-fg); }
     </div>
   </section>
 
-  <section id="markets" class="band alt">
+  <section id="markets" class="band">
     <div class="wrap">
       <div class="sec-head">
         <h2>Markets we follow</h2>
@@ -736,6 +674,75 @@ footer p:first-child { color: var(--band-fg); }
     </div>
   </section>
 
+  <section id="team" class="band alt">
+    <div class="wrap">
+    <div class="sec-head">
+      <h2>The minds</h2>
+      <p>A team where business, research, data and market experience inform every investment decision.</p>
+    </div>
+    <div class="team">
+      <div class="person"><img class="avatar" src="ruben.jpg" alt="Ruben" width="112" height="112"><h3>Ruben</h3><p class="role">The Entrepreneur</p></div>
+      <div class="person"><img class="avatar" src="mukit.jpg" alt="Mukit" width="112" height="112"><h3>Mukit</h3><p class="role">The Researcher</p></div>
+      <div class="person"><img class="avatar" src="bob.jpg" alt="Bob" width="112" height="112"><h3>Bob</h3><p class="role">The Politician</p></div>
+      <div class="person"><img class="avatar" src="surja.jpg" alt="Surja" width="112" height="112"><h3>Surja</h3><p class="role">Data Analyst</p></div>
+      <div class="person"><img class="avatar" src="gerard.jpg" alt="Gerard" width="112" height="112"><h3>Gerard</h3><p class="role">The Advisor</p></div>
+      <div class="person"><img class="avatar" src="wilson.jpg" alt="Wilson" width="112" height="112"><h3>Wilson</h3><p class="role">The Trader</p></div>
+      <div class="person"><img class="avatar" src="levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
+      <div class="person"><img class="avatar" src="ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
+    </div>
+  </div>
+  </section>
+  </main>
+
+  <main id="view-events" hidden>
+  <section id="pitch" class="band navy">
+    <div class="wrap">
+    <div class="sec-head">
+      <h2>How a pitch night works</h2>
+      <p>Each pitch is a thorough presentation built on fundamental analysis and financial data, supported by technical analysis.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="mins">Step 1</span><h3>The thesis</h3><p>The business, its financial data and why the market has it wrong.</p></li>
+      <li><span class="mins">Step 2</span><h3>Valuation</h3><p>Multiples, forecasts and the price we would pay, with technical analysis for entry.</p></li>
+      <li><span class="mins">Step 3</span><h3>Risks</h3><p>Market sentiment, headwinds and what would invalidate the thesis.</p></li>
+      <li><span class="mins">Step 4</span><h3>Questions and vote</h3><p>The group challenges the pitch, then votes to buy, hold off or pass.</p></li>
+    </ol>
+  </div>
+  </section>
+
+  <section id="events" class="band">
+    <div class="wrap">
+    <div class="sec-head">
+      <h2>Upcoming events</h2>
+      <p>From investment pitches and portfolio reviews to moments of connection, our events bring the collective together to exchange perspectives, challenge ideas, and strengthen our investment approach</p>
+    </div>
+    <ol class="events">
+      <li>
+        <div class="date">Sat 16:00<b>17 Oct 2026</b></div>
+        <div><h3>Pitch night</h3><p>Members pitch stocks. The room votes on whether it joins the portfolio.</p></div>
+        <span class="tag">Pitch night</span>
+      </li>
+      <li>
+        <div class="date">Sun 18:00<b>8 Nov 2026</b></div>
+        <div><h3>Portfolio review</h3><p>Performance against the benchmark, what worked and what we would change.</p></div>
+        <span class="tag">Review</span>
+      </li>
+      
+      <li>
+        <div class="date">Sun 18:00<b>06 Dec 2026</b></div>
+        <div><h3>LH+ End of the Year Party</h3><p>Get together with current and past LH members</p></div>
+        <span class="tag">Party</span>
+      </li>
+      <li>
+        <div class="date">Sun 16:00<b>10 Jan 2027</b></div>
+        <div><h3>Pitch night</h3><p>Pitch a stock. The room votes on whether it joins the portfolio.</p></div>
+        <span class="tag">Pitch night</span>
+      </li>
+    </ol>
+  </div>
+  </section>
+  </main>
+
   <footer>
     <div class="wrap">
     <p>LH+ Investment Group · The Netherlands</p>
@@ -751,7 +758,10 @@ footer p:first-child { color: var(--band-fg); }
   var header = document.querySelector('header.top');
   var nav = header.querySelector('nav');
   var links = [].slice.call(nav.querySelectorAll('a[href^="#"]'));
-  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var homeView = document.getElementById('view-home');
+  var eventsView = document.getElementById('view-events');
+  var heroBand = document.querySelector('.hero-band');
+  var view = 'home';
   var compact = false, current = -2, ticking = false;
 
   function update() {
@@ -760,14 +770,9 @@ footer p:first-child { color: var(--band-fg); }
     if (!compact && y > 48) { compact = true; header.classList.add('scrolled'); }
     else if (compact && y < 8) { compact = false; header.classList.remove('scrolled'); }
 
-    var line = header.getBoundingClientRect().bottom + 24;
-    var idx = -1, best = -Infinity;
-    secs.forEach(function (sec, i) {
-      if (!sec) return;
-      var top = sec.getBoundingClientRect().top;
-      if (top <= line && top > best) { best = top; idx = i; }
-    });
-    if (window.innerHeight + y >= document.documentElement.scrollHeight - 4) idx = secs.length - 1;
+    var idx = -1;
+    if (view === 'events') idx = 1;
+    else if (heroBand && heroBand.getBoundingClientRect().bottom <= header.getBoundingClientRect().bottom + 24) idx = 0;
 
     if (idx !== current) {
       current = idx;
@@ -775,20 +780,72 @@ footer p:first-child { color: var(--band-fg); }
         a.classList.toggle('active', i === idx);
         if (i === idx) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
       });
-      if (idx >= 0 && nav.scrollWidth > nav.clientWidth) {
-        nav.scrollLeft = Math.max(0, links[idx].offsetLeft - 16);
-      }
     }
   }
-  links.forEach(function (a) {
-    a.addEventListener('click', function () {
-      if (!compact) { compact = true; header.classList.add('scrolled'); }
+
+  // two views in one page: the main page and the events page
+  function showView(name) {
+    if (name === view) return;
+    view = name;
+    homeView.hidden = name !== 'home';
+    eventsView.hidden = name !== 'events';
+    document.documentElement.setAttribute('data-view', name);
+    var shown = name === 'home' ? homeView : eventsView;
+    shown.classList.remove('view-in');
+    void shown.offsetWidth;
+    shown.classList.add('view-in');
+    current = -2;
+  }
+  function toTop() { window.scrollTo(0, 0); }
+  function go(name, hash) {
+    var url = location.pathname + location.search + (hash || '');
+    if (location.hash !== (hash || '')) { try { history.pushState(null, '', url); } catch (e) {} }
+    showView(name);
+    update();
+  }
+  function scrollToAbout() {
+    var el = document.getElementById('about');
+    if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  [].slice.call(document.querySelectorAll('a[href="#events"], a[href="#about"]')).forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = a.getAttribute('href');
+      if (target === '#events') { go('events', '#events'); toTop(); }
+      else {
+        var was = view;
+        go('home', '#about');
+        if (was !== 'home') { setTimeout(scrollToAbout, 30); } else { scrollToAbout(); }
+      }
+      update();
     });
   });
   header.querySelector('.brand').addEventListener('click', function (e) {
     e.preventDefault();
-    window.scrollTo(0, 0);
+    go('home', '');
+    toTop();
+    update();
   });
+  function sync() {
+    var h = location.hash;
+    if (h === '#events') { showView('events'); toTop(); }
+    else {
+      var was = view;
+      showView('home');
+      var el = h && h.length > 1 ? document.getElementById(h.slice(1)) : null;
+      if (el && was !== 'home') setTimeout(function () { el.scrollIntoView(); }, 30);
+      else if (!h && was !== 'home') toTop();
+    }
+    update();
+  }
+  window.addEventListener('popstate', sync);
+  window.addEventListener('hashchange', sync);
+  if (location.hash === '#events') {
+    view = 'home';
+    showView('events');
+    setTimeout(toTop, 0);
+    window.addEventListener('load', function () { setTimeout(toTop, 0); });
+  }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
