@@ -273,6 +273,8 @@ section.navy .steps p { color: var(--band-muted); }
 .photo .zm { transform-origin: var(--ox, 150px) var(--oy, 112.5px); transform: scale(var(--k0, 1)); }
 .photo .zm path { vector-effect: non-scaling-stroke; }
 .photo .hub, .photo .hub-ring { transform-box: fill-box; transform-origin: center; transform: scale(calc(1 / var(--k0, 1))); }
+.mcard.spin .photo .focus { vector-effect: none; stroke-width: 0.35; }
+.mcard.spin .zm { will-change: transform; }
 .mcard.tour .hub, .mcard.tour .hub-ring { transform: scale(calc(1 / var(--kc, 1))) !important; transition: none !important; }
 .photo .focus { fill: #C9B382; stroke: #0F2238; stroke-width: 0.5; stroke-linejoin: round; }
 .photo .ctx { fill: #1F3C60; stroke: #0F2238; stroke-width: 0.4; }
@@ -885,8 +887,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
   function press(card, start, stop) {
-    card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') start(); });
-    card.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') stop(); });
+    var off = 0;
+    card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { if (off) { clearTimeout(off); off = 0; } else start(); } });
+    card.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { clearTimeout(off); off = setTimeout(function () { off = 0; stop(); }, 140); } });
     card.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') start(); });
     ['pointerup', 'pointercancel'].forEach(function (n) { card.addEventListener(n, function (e) { if (e.pointerType !== 'mouse') stop(); }); });
     card.addEventListener('contextmenu', function (e) { e.preventDefault(); });
