@@ -1126,17 +1126,24 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     var legend = document.getElementById('pc-legend');
     legend.innerHTML = list.map(function (s) { return '<li class="' + s.cls + '"><i></i>' + s.name + '</li>'; }).join('');
     document.getElementById('pc-title').textContent = 'Performance since ' + new Date(h.dates[0] + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'UTC' });
-    var box = document.getElementById('perf-chart'); box.hidden = false;
-    var mon = document.getElementById('monthly'); mon.hidden = false;
-    chartState = { dates: h.dates, list: list, pending: !reduce && 'IntersectionObserver' in window };
+    var show = d.show || { chart: true, monthly: true };
+    var box = document.getElementById('perf-chart'); box.hidden = !show.chart;
+    var mon = document.getElementById('monthly'); mon.hidden = !show.monthly;
+    if (!show.chart && !show.monthly) return;
     var tall = window.matchMedia('(max-width: 760px)').matches;
-    renderMonthly(d, tall);
+    if (show.monthly) renderMonthly(d, tall);
+    if (!show.chart) {
+      var lastT = tall;
+      window.addEventListener('resize', function () { var t3 = window.matchMedia('(max-width: 760px)').matches; if (t3 !== lastT) { lastT = t3; renderMonthly(d, t3); } });
+      return;
+    }
+    chartState = { dates: h.dates, list: list, pending: !reduce && 'IntersectionObserver' in window };
     drawChart(true);
     var lastW = document.getElementById('pc-plot').clientWidth, lastTall = tall;
     function relayout() {
       var w2 = document.getElementById('pc-plot').clientWidth;
       var t2 = window.matchMedia('(max-width: 760px)').matches;
-      if (t2 !== lastTall) { lastTall = t2; renderMonthly(d, t2); }
+      if (t2 !== lastTall) { lastTall = t2; if (show.monthly) renderMonthly(d, t2); }
       if (Math.abs(w2 - lastW) > 2) { lastW = w2; chartState.pending = false; drawChart(false); if (chartState.drawn) revealChart(true); }
     }
     window.addEventListener('resize', relayout);
