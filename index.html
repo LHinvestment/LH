@@ -270,6 +270,18 @@ section.navy .steps p { color: var(--band-muted); }
 footer { background: var(--band); color: var(--band-muted); font-size: 13px; border-top: 2px solid var(--band-gold); }
 footer .wrap { display: grid; gap: 6px; padding-block: 28px; }
 footer p:first-child { color: var(--band-fg); }
+.disc { margin-top: 6px; }
+.disc summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; color: var(--band-gold); font-weight: 500; padding-block: 2px; -webkit-tap-highlight-color: transparent; }
+.disc summary::-webkit-details-marker { display: none; }
+.disc summary::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform 200ms ease; }
+.disc[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+.disc summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.disc summary:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 3px; border-radius: 2px; }
+.disc-body { display: grid; gap: 10px; max-width: 78ch; margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--band-rule); line-height: 1.6; }
+.disc-body p { margin: 0; color: var(--band-muted); }
+.disc-body b { color: var(--band-fg); font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) { .disc[open] .disc-body { animation: view-in 320ms ease both; } }
+@media print { .disc:not([open]) .disc-body { display: block; } }
 
 @media (max-width: 980px) and (min-width: 761px) {
   .markets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -828,6 +840,15 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     <div class="wrap">
     <p>LH+ Investment Group · The Netherlands</p>
     <p>Nothing on this page is financial advice.</p>
+    <details class="disc">
+      <summary>Disclaimer</summary>
+      <div class="disc-body">
+        <p><b>Not advice.</b> This site describes LH+ Investment Group, an independent group of private investors. Nothing here is investment advice, a recommendation, or an offer to buy or sell any security. We do not manage money for others or accept outside investments.</p>
+        <p><b>Past performance.</b> Past performance is not a guide to future results. Investments can lose value.</p>
+        <p><b>Returns.</b> Returns are time-weighted and unaudited, and may differ from individual members&rsquo; results.</p>
+        <p><b>Data.</b> Prices come from public market data sources and may be delayed or contain errors.</p>
+      </div>
+    </details>
   </div>
   </footer>
 </div>
@@ -1245,6 +1266,12 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       io3.observe(tl);
     }
   })();
+
+  // keep the opened disclaimer in view (it sits at the very bottom of the page)
+  var disc = document.querySelector('.disc');
+  if (disc) disc.addEventListener('toggle', function () {
+    if (disc.open) setTimeout(function () { disc.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'end' }); }, 60);
+  });
 
   // lets :active (press feedback) work on iOS Safari
   document.addEventListener('touchstart', function () {}, { passive: true });
