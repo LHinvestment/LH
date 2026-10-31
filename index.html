@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>LH+ Investment Group | Research-led investing in the Netherlands</title>
 <meta name="description" content="LH+ is an independent group of private investors in the Netherlands, building a long-term portfolio on research, conviction and a monthly pitch process. Two-time winners of the B&R Beurs Eindhoven student investment competition.">
 <link rel="canonical" href="https://lhinvestment.github.io/LH/">
@@ -1050,6 +1052,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var chartState = null;
   function ns(tag, attrs) { var el = document.createElementNS('http://www.w3.org/2000/svg', tag); for (var k in attrs) el.setAttribute(k, attrs[k]); return el; }
+  function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function pct1(v) { return (v >= 0 ? '+' : '−') + Math.abs(v * 100).toFixed(1) + '%'; }
   function longDate(iso) { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); }
 
@@ -1115,7 +1118,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       var cx = X(Date.parse(dates[idx]));
       cursor.setAttribute('x1', cx); cursor.setAttribute('x2', cx);
       dots.forEach(function (d2, j) { d2.setAttribute('cx', cx); d2.setAttribute('cy', Y(list[j].vals[idx])); });
-      tip.innerHTML = '<b>' + longDate(dates[idx]) + '</b>' + list.map(function (s) { return '<span>' + s.name + '<em>' + pct1(s.vals[idx]) + '</em></span>'; }).join('');
+      tip.innerHTML = '<b>' + longDate(dates[idx]) + '</b>' + list.map(function (s) { return '<span>' + esc(s.name) + '<em>' + pct1(s.vals[idx]) + '</em></span>'; }).join('');
       var tw = tip.offsetWidth || 160, left = cx + 14;
       if (left + tw > w) left = cx - tw - 14;
       tip.style.left = Math.max(0, left) + 'px';
@@ -1149,10 +1152,10 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     var html = '<table class="mt"><caption class="sr-only" style="position:absolute;left:-9999px">Monthly returns ' + yr + '</caption>';
     if (!tall) {
       html += '<thead><tr><th scope="col"><span class="sr-only" style="position:absolute;left:-9999px">Portfolio</span></th>' + MONTHS.map(function (x) { return '<th scope="col">' + x + '</th>'; }).join('') + '<th scope="col" class="ytd">YTD</th></tr></thead><tbody>';
-      rows.forEach(function (r) { html += '<tr class="' + (r.cls === 'us' ? 'us' : '') + '"><th scope="row">' + r.name + '</th>' + r.m.map(function (v) { return cell(v); }).join('') + cell(r.ytd, 'ytd') + '</tr>'; });
+      rows.forEach(function (r) { html += '<tr class="' + (r.cls === 'us' ? 'us' : '') + '"><th scope="row">' + esc(r.name) + '</th>' + r.m.map(function (v) { return cell(v); }).join('') + cell(r.ytd, 'ytd') + '</tr>'; });
       html += '</tbody>';
     } else {
-      html += '<thead><tr><th scope="col"></th>' + rows.map(function (r) { return '<th scope="col">' + (r.cls === 'us' ? 'LH+' : r.name) + '</th>'; }).join('') + '</tr></thead><tbody>';
+      html += '<thead><tr><th scope="col"></th>' + rows.map(function (r) { return '<th scope="col">' + (r.cls === 'us' ? 'LH+' : esc(r.name)) + '</th>'; }).join('') + '</tr></thead><tbody>';
       for (var mo = 0; mo <= lastMonth; mo++) html += '<tr><th scope="row">' + MONTHS[mo] + '</th>' + rows.map(function (r) { return cell(r.m[mo]); }).join('') + '</tr>';
       html += '<tr class="us"><th scope="row">YTD</th>' + rows.map(function (r) { return cell(r.ytd); }).join('') + '</tr></tbody>';
     }
@@ -1161,13 +1164,14 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 
   function applyHistory(d) {
     var h = d.history;
-    if (!h || !Array.isArray(h.dates) || h.dates.length < 2 || h.portfolio.length !== h.dates.length) return;
+    if (!h || !Array.isArray(h.dates) || h.dates.length < 2 || h.dates.length > 800 || !Array.isArray(h.portfolio) || h.portfolio.length !== h.dates.length || !h.benchmarks || typeof h.benchmarks !== 'object') return;
+    if (!h.dates.every(function (x, i) { return okDate(x) && (i === 0 || x > h.dates[i - 1]); })) return;
     var list = seriesOf(d);
-    if (!list.every(function (s) { return s.vals.length === h.dates.length && s.vals.every(isFinite); })) return;
+    if (!list.every(function (s) { return s.vals.length === h.dates.length && s.vals.every(function (v) { return okNum(v, 10); }); })) return;
     var legend = document.getElementById('pc-legend');
-    legend.innerHTML = list.map(function (s) { return '<li class="' + s.cls + '"><i></i>' + s.name + '</li>'; }).join('');
+    legend.innerHTML = list.map(function (s) { return '<li class="' + esc(s.cls) + '"><i></i>' + esc(s.name) + '</li>'; }).join('');
     document.getElementById('pc-title').textContent = 'Performance since ' + new Date(h.dates[0] + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'UTC' });
-    var show = d.show || { chart: true, monthly: true };
+    var show = (d.show && typeof d.show === 'object') ? { chart: d.show.chart === true, monthly: d.show.monthly === true } : { chart: true, monthly: true };
     var box = document.getElementById('perf-chart'); box.hidden = !show.chart;
     var mon = document.getElementById('monthly'); mon.hidden = !show.monthly;
     if (!show.chart && !show.monthly) return;
@@ -1200,9 +1204,28 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     } else { chartState.drawn = true; }
   }
 
+  function okNum(v, lim) { return typeof v === 'number' && isFinite(v) && Math.abs(v) <= lim; }
+  function okDate(v) { return typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(Date.parse(v)); }
+  function okText(v, max) { return typeof v === 'string' && v.length > 0 && v.length <= max && !/[<>]/.test(v); }
   function validData(d) {
-    return d && d.portfolio && isFinite(d.portfolio.ytd) && Array.isArray(d.benchmarks) && d.benchmarks.every(function (b) { return isFinite(b.ytd) && b.short; }) &&
-      d.allocation && typeof d.as_of === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d.as_of);
+    if (!d || typeof d !== 'object' || !d.portfolio || typeof d.portfolio !== 'object') return false;
+    if (!okDate(d.as_of) || !okNum(d.portfolio.ytd, 10)) return false;
+    if (d.currency !== undefined && !(typeof d.currency === 'string' && /^[A-Z]{3}$/.test(d.currency))) return false;
+    if (d.benchmark_note !== undefined && !(typeof d.benchmark_note === 'string' && d.benchmark_note.length <= 300)) return false;
+    if (!Array.isArray(d.benchmarks) || d.benchmarks.length < 1 || d.benchmarks.length > 6) return false;
+    var seen = {};
+    for (var i = 0; i < d.benchmarks.length; i++) {
+      var b = d.benchmarks[i];
+      if (!b || typeof b.id !== 'string' || !/^[a-z0-9_]{1,24}$/.test(b.id) || seen[b.id]) return false;
+      if (!okText(b.short, 30) || !okNum(b.ytd, 10)) return false;
+      seen[b.id] = 1;
+    }
+    var a = d.allocation;
+    if (!a || typeof a !== 'object' || Array.isArray(a)) return false;
+    var keys = Object.keys(a);
+    if (keys.length > 20) return false;
+    for (var j = 0; j < keys.length; j++) { if (!okNum(a[keys[j]], 1.5)) return false; }
+    return true;
   }
   function loadData() {
     if (!window.fetch || location.protocol === 'file:') return Promise.resolve();
