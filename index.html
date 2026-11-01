@@ -407,7 +407,7 @@ footer p:first-child { color: var(--band-fg); }
 .tl-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 3px; }
 .tl-year { display: block; height: var(--yh); line-height: var(--yh); font-family: var(--font-serif); font-weight: 500; font-size: var(--yh); letter-spacing: -0.02em; color: var(--fg); font-variant-numeric: lining-nums; }
 .tl-item.now .tl-year { color: var(--gold-text); }
-.tl-tick { display: block; width: 1.5px; height: 16px; margin: 0 auto; background: var(--muted); opacity: 0.7; transition: background 200ms ease, height 200ms ease, opacity 200ms ease; }
+.tl-tick { display: block; width: 1.5px; height: 22px; margin: 0 auto; background: var(--muted); opacity: 0.7; clip-path: inset(0 0 6px 0); transition: background 200ms ease, clip-path 200ms ease, opacity 200ms ease; }
 .tl-item.now .tl-tick { background: var(--gold); opacity: 1; width: 2px; }
 .tl-cap { display: block; margin: 14px auto 0; max-width: 21ch; font-size: 14px; line-height: 1.4; color: var(--muted); }
 .tl-cap .short { display: none; }
@@ -427,14 +427,14 @@ footer p:first-child { color: var(--band-fg); }
 .tl-text .label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-gold); }
 .tl-text p { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--paper-ink); }
 .timeline.has-open .tl-item:not(.open) .tl-btn { opacity: 0.38; }
-.tl-item.open .tl-tick { background: var(--gold); opacity: 1; height: 22px; }
+.tl-item.open .tl-tick { background: var(--gold); opacity: 1; clip-path: inset(0 0 0 0); }
 
 @media (max-width: 760px) {
   .timeline { --yh: 22px; padding-bottom: 28px; }
   .tl-cap { margin-top: 10px; font-size: 10.5px; line-height: 1.3; max-width: none; padding-inline: 1px; }
   .tl-cap .long { display: none; }
   .tl-cap .short { display: inline; }
-  .tl-tick { height: 12px; }
+  .tl-tick { clip-path: inset(0 0 10px 0); }
   .tl-line { top: calc(var(--yh) + 6px); }
   .tl-item.open .tl-card { width: min(250px, calc(100vw - 32px)); }
   .tl-text p { font-size: 13.5px; }
@@ -825,14 +825,16 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
         <p class="tl-hint"><span class="h-hover">Hover over a year for details</span><span class="h-touch">Tap a year for details</span></p>
       </div>
     </div>
-<!--  </section>
+  </section>
 
-   <section class="q-band" aria-label="Our philosophy">
+  <!-- Gold quote band (hidden)
+  <section class="q-band" aria-label="Our philosophy">
     <div class="q-motif" aria-hidden="true"><svg viewBox="0 0 900 640" preserveAspectRatio="xMidYMid slice"><use href="#contour"/></svg></div>
     <div class="wrap">
-      <p class="q-text">From a student competition to LH+, nearly a decade on,<br class="q-br"> our philosophy has stayed the same:<br class="q-br"> long term, high potential</p>
+      <p class="q-text">From a student competition to LH+, nearly a decade on,<br class="q-br"> our philosophy has stayed the same:<br class="q-br"> long term, high potential.</p>
     </div>
-  </section> -->
+  </section>
+  -->
 
   <section id="markets" class="band">
     <div class="wrap">
