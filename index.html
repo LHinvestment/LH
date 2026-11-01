@@ -26,7 +26,10 @@
 <meta name="twitter:description" content="An independent group of private investors in the Netherlands. Driven by research, invest with conviction.">
 <meta name="twitter:image" content="https://lhinvestment.github.io/LH/og-image.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"LH+ Investment Group","url":"https://lhinvestment.github.io/LH/","logo":"https://lhinvestment.github.io/LH/favicon-192.png","description":"An independent group of private investors in the Netherlands.","address":{"@type":"PostalAddress","addressCountry":"NL"}}</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@500;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@500;600&display=swap"></noscript>
 <style>
 /* Layout: light sticky header, hero with key figures, sections alternating light / white / band.
    Three looks, chosen from the header menu and never remembered:
@@ -322,13 +325,13 @@ footer p:first-child { color: var(--band-fg); }
   .theme-menu { order: 2; margin-left: auto; }
   nav { order: 3; }
   header.top.scrolled .theme-menu { order: 3; margin-left: 0; }
-  header.top.scrolled .theme-toggle { width: 32px; height: 32px; }
+  header.top.scrolled .theme-toggle { width: 36px; height: 36px; }
   header.top.scrolled nav { order: 2; }
   header.top.scrolled .header-inner { flex-wrap: nowrap; gap: 12px; padding-block: 6px; }
   header.top.scrolled .brand-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   nav { flex: 1 1 100%; flex-wrap: nowrap; gap: 0 18px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   nav::-webkit-scrollbar { display: none; }
-  nav a { flex: none; font-size: 13.5px; white-space: nowrap; }
+  nav a { flex: none; font-size: 13.5px; white-space: nowrap; padding-block: 10px; }
   header.top.scrolled nav { flex: 1 1 auto; min-width: 0; }
   .hero { grid-template-columns: minmax(0, 1fr); padding-block: 40px 32px; gap: 32px; }
   .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; border-top: 0; }
@@ -455,12 +458,94 @@ footer p:first-child { color: var(--band-fg); }
 @media print { .tl-card { display: none; } .timeline.tl-pre .tl-item { opacity: 1 !important; transform: none !important; } .timeline.tl-pre .tl-student, .timeline.tl-pre .tl-plus { transform: none !important; } .tl-hint { display: none; } }
 
 /* views */
-#view-home[hidden], #view-events[hidden] { display: none; }
+#view-home[hidden], #view-events[hidden], #view-strategy[hidden] { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .view-in { animation: view-in 420ms ease both; }
   @keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
 #view-events > section:first-child { border-top: 0; }
+
+
+/* strategy page */
+#view-strategy[hidden] { display: none; }
+.s-hero { position: relative; overflow: hidden; background: var(--bg); padding-block: clamp(48px, 7vw, 88px) clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--gold-line); }
+.s-hero .wrap { position: relative; z-index: 1; }
+.s-motif { position: absolute; top: 0; right: 0; bottom: 0; width: min(68%, 920px); z-index: 0; --ct: var(--gold); pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%); mask-image: linear-gradient(to right, transparent 0%, #000 55%); }
+.s-motif svg { display: block; width: 100%; height: 100%; }
+.cm, .cj { fill: none; stroke: var(--ct, var(--gold)); stroke-linecap: round; stroke-linejoin: round; }
+.cm { stroke-width: 1; opacity: 0.30; }
+.cj { stroke-width: 1.7; opacity: 0.52; }
+:root[data-mode="dark"] .s-motif .cm, :root[data-mode="dark"] .cm { opacity: 0.2; }
+.s-copy { max-width: 58ch; display: grid; gap: 16px; }
+.s-copy p { color: var(--muted); }
+.s-copy .s-lede { color: var(--fg); font-family: var(--font-serif); font-size: clamp(20px, 2.2vw, 25px); line-height: 1.4; }
+.s-title { font-size: clamp(38px, 5.4vw, 64px); line-height: 1.04; }
+.sectors { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.sec { flex: 0 0 calc((100% - 36px) / 4); min-width: 0; }
+.sec-btn { all: unset; box-sizing: border-box; position: relative; display: block; width: 100%; aspect-ratio: 5 / 4; overflow: hidden; cursor: pointer; border-radius: 4px; color: #F3F5F8;
+  background: linear-gradient(160deg, #17345A 0%, #0D1E34 100%); box-shadow: inset 0 0 0 1px rgba(201, 179, 130, 0.22); --ct: #C9B382; -webkit-tap-highlight-color: transparent; }
+.sec-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sec-bg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+.sec-bg .cm { opacity: 0.22; } .sec-bg .cj { opacity: 0.38; }
+.sec-art { position: absolute; left: 50%; top: 13%; width: 54%; height: 54%; transform: translateX(-50%); fill: none; stroke: #C9B382; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sec-art .f { fill: rgba(201, 179, 130, 0.13); stroke: none; }
+.sec-btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7, 16, 29, 0.92), rgba(7, 16, 29, 0.55) 70%, rgba(7, 16, 29, 0.35)); opacity: 0; }
+.sec-txt { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 12px 16px; }
+.sec-name { font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: 0.13em; text-transform: uppercase; line-height: 1.3; text-wrap: balance; }
+.sec-descw { display: grid; grid-template-rows: 0fr; }
+.sec-desc { overflow: hidden; min-height: 0; font-size: 13.5px; line-height: 1.45; color: #D5DDE9; opacity: 0; }
+.sec-btn.open::after, .sec-btn:focus-visible::after { opacity: 1; }
+.sec-btn.open .sec-art, .sec-btn:focus-visible .sec-art { opacity: 0.16; }
+.sec-btn.open .sec-descw, .sec-btn:focus-visible .sec-descw { grid-template-rows: 1fr; }
+.sec-btn.open .sec-desc, .sec-btn:focus-visible .sec-desc { opacity: 1; padding-top: 8px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sec-btn::after { transition: opacity 260ms ease; }
+  .sec-art { transition: opacity 300ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .sec-descw { transition: grid-template-rows 320ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .sec-desc { transition: opacity 260ms ease 60ms, padding 320ms ease; }
+}
+@media (hover: hover) {
+  .sec-btn:hover::after { opacity: 1; }
+  .sec-btn:hover .sec-art { opacity: 0.16; transform: translateX(-50%) scale(1.06); }
+  .sec-btn:hover .sec-descw { grid-template-rows: 1fr; }
+  .sec-btn:hover .sec-desc { opacity: 1; padding-top: 8px; }
+}
+@media (max-width: 1000px) { .sec { flex-basis: calc((100% - 24px) / 3); } }
+@media (max-width: 760px) {
+  .sec-btn { aspect-ratio: 1 / 1; }
+  .s-motif { width: 100%; opacity: 0.85; -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); }
+  .sec { flex-basis: calc((100% - 10px) / 2); }
+  .sectors { gap: 10px; }
+  .sec-name { font-size: 11px; letter-spacing: 0.1em; }
+  .sec-desc { font-size: 12px; line-height: 1.4; }
+  .sec-txt { padding: 0 9px 12px; }
+}
+@media print { .s-motif, .sec-bg { display: none; } .sec-desc { opacity: 1; } .sec-descw { grid-template-rows: 1fr; } }
+
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 60%); mask-image: linear-gradient(to right, transparent, #000 60%); }
+.p-list { display: grid; gap: clamp(30px, 4vw, 46px); max-width: 62ch; }
+
+.p-band { padding-block: clamp(56px, 8vw, 104px); }
+.p-intro { text-align: center; display: grid; gap: 12px; justify-items: center; margin-bottom: clamp(36px, 5vw, 64px); }
+.p-intro h2 { font-size: clamp(30px, 4vw, 44px); }
+.p-intro p { color: var(--muted); max-width: 46ch; }
+.p-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(44px, 6vw, 72px) clamp(40px, 7vw, 112px); max-width: 1000px; margin: 0 auto; }
+.pr { text-align: center; display: grid; justify-items: center; align-content: start; }
+.pr h3 { font-family: var(--font-serif); font-weight: 500; font-size: clamp(25px, 2.7vw, 33px); line-height: 1.18; color: var(--gold-text); letter-spacing: -0.01em; max-width: 16em; padding-bottom: 20px; margin-bottom: 20px; position: relative; width: 100%; }
+.pr h3::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--rule); }
+.pr p { color: var(--muted); font-size: 16.5px; line-height: 1.65; max-width: 40ch; }
+.q-band { --q-bg: #94794A; --q-fg: #FFFFFF; position: relative; overflow: hidden; background: var(--q-bg); color: var(--q-fg); padding-block: clamp(56px, 7.5vw, 104px); text-align: center; }
+:root[data-mode="dark"] .q-band { --q-bg: #C9B382; --q-fg: #0A1626; }
+.q-band .wrap { position: relative; z-index: 1; }
+.q-text { font-family: var(--font-serif); font-weight: 400; font-size: clamp(21px, 2.35vw, 33px); line-height: 1.34; letter-spacing: -0.005em; max-width: 34em; margin: 0 auto; text-wrap: balance; }
+.q-br { display: none; }
+@media (min-width: 761px) { .q-br { display: inline; } .q-text { text-wrap: wrap; } }
+.q-motif { position: absolute; inset: 0 0 0 auto; width: min(55%, 760px); --ct: var(--q-fg); pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 70%); mask-image: linear-gradient(to right, transparent, #000 70%); }
+.q-motif svg { display: block; width: 100%; height: 100%; }
+.q-motif .cm { opacity: 0.14; } .q-motif .cj { opacity: 0.26; }
+@media (max-width: 760px) { .p-grid { grid-template-columns: minmax(0, 1fr); } .q-motif { width: 100%; opacity: 0.8; } }
 
 /* performance over time + monthly returns */
 :root { --neg: #A8422F; }
@@ -528,6 +613,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="contour" viewBox="0 0 900 640"><path class="cm" d="M110 640L106 632L101 625L98 620L95 615L91 607L86 600L82 595L79 590L75 585L70 578L65 571L60 565L56 559L52 554L47 549L42 544L37 539L32 534L27 529L21 524L15 520L10 516L5 513M151 640L146 631L142 625L139 620L136 614L131 605L128 600L125 595L121 588L116 580L112 574L109 569L106 564L101 557L96 550L92 544L88 539L84 534L80 529L75 523L70 517L65 511L60 506L55 501L50 496L45 491L40 486L35 482L30 478L25 474L18 469L11 464L5 460L0 457M185 640L181 633L176 625L174 620L171 615L166 607L162 600L159 595L156 589L151 581L147 574L144 569L141 564L136 556L132 549L128 544L125 539L121 533L116 525L111 519L108 514L104 509L100 504L96 498L91 492L85 486L80 480L75 475L70 470L65 465L60 460L55 455L50 451L45 447L40 443L35 438L28 433L21 428L15 425L10 421L5 418M248 640L245 635L241 630L236 623L231 615L228 610L225 605L221 599L216 591L212 585L209 580L206 574L201 566L197 559L194 554L191 549L186 540L182 534L179 529L176 524L171 516L167 509L164 504L160 499L156 492L151 484L147 479L143 474L140 469L136 463L131 457L126 450L121 444L116 438L111 433L106 428L102 423L96 418L91 413L86 408L80 404L75 399L70 395L65 391L60 387L54 383L47 378L40 373L35 370L30 367L24 363L15 358L10 355L5 352M900 618L898 620L895 624L894 625L890 630L890 630L886 635L885 636L881 640M280 640L276 635L272 629L266 622L261 616L257 610L254 605L251 600L246 593L241 586L237 580L234 574L231 569L226 562L222 554L219 549L216 544L211 537L207 529L204 524L201 519L196 511L192 504L189 499L185 494L181 487L176 479L173 474L169 469L166 463L161 456L156 449L152 443L148 438L144 433L140 428L135 423L131 418L126 412L121 407L116 402L111 397L106 392L101 388L95 383L89 378L82 373L76 368L70 364L65 360L60 357L54 353L47 348L40 344L35 341L30 338L22 333L15 329L10 326L4 323M900 579L900 580L896 585L895 585L891 590L890 591L887 595L885 597L883 600L880 603L878 605L875 608L874 610L870 614L869 615L865 619L864 620L860 625L860 625L855 630L855 630L850 635L850 635L845 640M314 640L310 635L305 630L301 625L296 620L292 614L287 608L282 602L277 595L273 590L269 585L266 580L261 573L256 566L252 559L249 554L246 549L241 542L236 534L233 529L230 524L226 517L221 509L219 504L216 499L211 491L207 484L204 479L201 474L196 466L191 459L188 454L185 449L181 443L176 436L171 429L167 423L163 418L159 413L155 408L151 403L146 398L141 392L136 387L131 382L126 377L121 373L115 368L109 363L103 358L96 353L91 349L85 345L80 342L75 338L67 333L60 328L55 325L50 322L43 317L35 313L30 310L25 307L17 302L10 299L5 296M900 500L895 507L890 514L887 519L883 524L879 529L875 535L870 541L865 547L860 552L855 558L850 563L845 569L840 574L835 579L830 583L825 588L820 592L815 597L809 601L804 605L798 610L791 615L784 619L779 623L774 626L767 630L759 634L754 637L748 640M417 640L412 638L405 635L397 631L392 628L386 625L378 620L372 616L367 613L362 609L356 605L350 600L344 595L339 590L334 585L329 580L324 574L319 569L315 564L311 559L307 554L302 548L297 541L292 534L289 529L285 524L282 519L277 510L273 504L270 499L266 494L261 485L258 479L255 474L251 467L247 459L244 454L241 448L236 439L233 433L230 428L226 422L221 414L218 408L215 403L211 398L206 391L201 384L197 378L193 373L188 368L184 363L179 358L174 353L169 348L163 343L157 338L151 333L146 328L141 325L136 321L131 317L123 312L116 308L111 304L106 301L99 297L91 292L85 289L80 286L73 282L65 278L60 275L55 272L46 267L40 264L35 261L29 257L20 252L15 249L10 246L4 242M900 451L896 459L894 464L890 470L885 479L882 484L879 489L875 494L870 502L865 509L861 514L857 519L853 524L848 529L844 534L839 539L834 544L829 549L824 554L819 559L813 564L807 569L801 574L794 579L789 583L784 586L779 590L771 595L764 599L759 601L753 605L744 609L739 611L729 615L724 616L714 619L709 621L699 623L691 625L684 626L674 627L664 629L654 629L644 630L639 630L628 630L618 630L608 630L598 630L593 630L583 630L573 629L563 629L553 628L543 628L533 627L523 627L513 626L503 625L498 625L488 624L478 622L468 621L463 620L453 618L442 615L437 614L427 610L422 609L413 605L407 602L402 600L392 595L387 592L382 589L376 585L369 580L363 574L357 570L352 565L347 561L342 556L337 550L332 545L327 539L323 534L319 529L315 524L312 519L307 512L302 504L298 499L295 494L292 488L287 479L284 474L281 469L277 461L273 454L270 449L266 441L263 433L260 428L256 421L252 413L250 408L246 402L241 393L238 388L235 383L231 377L226 369L222 363L218 358L214 353L210 348L205 343L200 338L195 333L189 328L183 323L177 317L171 313L166 309L161 306L156 302L148 297L141 293L136 290L131 287L122 282L116 279L111 276L103 272L96 268L91 265L84 262L75 257L70 255L65 252L56 247L50 243L45 241L39 237L30 232L25 229L20 226L14 222L6 217L0 212M447 0L447 1L453 4L455 5L458 7L463 10L464 10L468 12L473 14L477 15L478 15L483 17L488 18L493 18L498 18L503 18L508 18L513 17L518 17L523 16L527 15L528 15L533 14L538 13L543 11L547 10L548 10L553 8L558 7L563 6L565 5L568 4L573 3L578 1L582 0M812 0L819 5L825 10L830 15L835 20L839 25L843 30L847 35L850 40L855 47L859 55L862 60L865 67L869 76L871 81L874 91L876 96L879 106L881 111L883 121L885 127L887 136L889 146L891 151L893 161L895 171L896 176L897 186L899 197L900 202M900 373L899 378L896 388L895 393L892 403L890 409L887 418L885 423L880 433L878 438L875 445L871 454L868 459L865 464L860 472L856 479L852 484L849 489L845 495L840 501L835 507L830 513L825 519L820 524L815 529L809 534L804 538L799 543L794 547L789 551L784 554L777 559L769 564L764 567L759 570L751 574L744 578L739 580L729 584L724 586L714 589L709 590L699 592L689 595L684 595L674 597L664 598L654 599L644 599L634 600L628 600L618 600L608 600L598 600L593 600L583 599L573 599L563 599L553 598L543 598L533 597L523 596L513 596L503 595L498 594L488 593L478 591L468 590L463 589L453 586L446 585L437 582L431 580L422 576L417 574L407 569L402 567L397 564L390 559L383 554L377 550L372 546L367 542L362 537L357 532L352 527L347 521L342 515L337 509L333 504L330 499L326 494L322 487L317 479L314 474L311 469L307 460L303 454L301 449L297 440L294 433L292 428L287 418L285 413L282 405L278 398L276 393L272 383L269 378L266 372L262 363L259 358L256 353L251 344L247 338L243 333L239 328L235 323L230 317L225 312L219 307L212 302L206 298L201 294L196 291L189 287L181 282L176 280L171 277L161 272L156 269L151 267L141 262L136 260L130 257L121 253L116 250L108 247L101 243L96 241L88 237L80 233L75 231L68 227L60 223L55 220L50 217L41 212L35 208L30 205L25 202L18 197L11 191L5 187L0 183M308 0L312 8L315 15L317 22L319 30L321 40L322 46L322 55L322 66L322 76L321 81L320 91L318 101L316 106L314 116L312 122L308 131L306 136L302 146L299 151L297 156L292 164L287 171L283 176L278 181L273 186L266 191L261 194L256 197L246 202L241 203L231 206L226 207L216 208L206 208L196 208L186 207L180 207L171 205L161 204L151 202L146 200L136 197L131 196L121 193L116 191L106 187L101 185L92 181L85 178L80 176L72 171L65 167L60 164L55 161L48 156L41 151L35 146L30 142L25 137L20 132L15 127L10 121L6 116L2 111M694 116L699 116L709 117L719 119L726 121L734 124L739 126L748 131L754 135L759 138L764 142L769 147L774 151L779 157L784 163L789 169L794 176L798 181L801 186L804 191L809 200L813 207L815 212L820 221L822 227L825 234L828 242L830 248L832 257L835 265L836 272L838 282L840 289L841 297L842 307L843 317L843 328L843 338L843 348L842 358L841 368L840 375L838 383L836 393L834 398L831 408L829 413L825 423L822 428L820 434L815 443L811 449L808 454L804 459L799 466L794 472L789 478L784 483L779 488L774 493L769 497L764 501L759 505L753 509L745 514L739 517L734 520L725 524L719 527L712 529L704 532L696 534L689 536L679 538L672 539L664 540L654 542L644 542L634 543L623 543L613 544L603 544L593 543L583 543L573 543L563 542L553 541L543 541L533 540L528 539L518 538L508 536L498 535L493 534L483 531L474 529L468 527L459 524L453 522L446 519L437 515L432 512L427 509L420 504L413 499L407 494L402 489L397 484L392 479L388 474L384 469L381 464L377 457L372 449L370 443L367 437L364 428L362 423L359 413L357 403L356 398L355 388L355 378L355 368L356 358L357 349L358 343L362 333L364 328L367 321L372 313L376 307L380 302L385 297L390 292L396 287L402 283L407 279L412 276L418 272L426 267L432 263L437 260L443 257L452 252L458 249L463 245L468 242L477 237L483 233L488 230L493 226L500 222L507 217L513 213L518 209L523 206L528 202L535 197L542 191L548 187L553 183L558 179L563 176L569 171L576 166L583 161L588 157L593 154L598 150L605 146L613 141L618 138L623 135L632 131L639 128L644 126L654 122L659 121L669 118L679 117L689 116L694 116M256 0L259 5L262 10L266 20L268 25L270 35L272 43L272 50L272 60L272 69L271 76L268 86L266 92L263 101L261 106L256 115L253 121L250 126L246 131L241 136L236 141L230 146L223 151L216 155L211 157L201 161L196 162L186 164L176 165L166 166L156 165L146 164L136 162L131 161L121 158L114 156L106 153L101 151L91 146L85 144L80 141L73 136L65 131L60 127L55 123L50 119L45 114L40 108L35 102L31 96L28 91L25 86L20 76L18 71L15 60L14 55L13 45L13 35L14 25L15 18L17 10L20 2M669 186L679 185L689 185L698 186L704 187L714 190L719 192L729 196L734 199L739 202L745 207L751 212L757 217L762 222L766 227L770 232L774 237L779 245L784 252L786 257L789 263L793 272L796 277L799 287L801 292L803 302L804 308L806 317L807 328L808 338L808 348L808 358L807 368L805 378L804 383L802 393L799 400L796 408L794 413L790 423L787 428L784 433L779 440L774 447L769 454L765 459L760 464L755 469L749 473L744 477L739 481L734 484L727 489L719 493L714 495L705 499L699 501L691 504L684 506L674 508L669 509L659 511L649 512L639 513L628 514L623 514L613 514L603 514L593 514L588 514L578 513L568 513L558 512L548 511L538 509L533 509L523 507L513 505L508 504L498 501L491 499L483 496L477 494L468 489L463 487L457 484L449 479L443 474L437 469L432 464L427 459L423 454L420 449L417 443L412 435L410 428L407 421L406 413L404 403L404 393L405 383L407 373L409 368L412 359L415 353L418 348L422 342L427 335L432 329L437 324L442 319L447 315L453 310L458 306L463 302L469 297L476 292L483 287L488 284L493 280L498 277L505 272L512 267L518 263L523 260L528 256L535 252L542 247L548 243L553 240L558 237L565 232L573 227L578 224L583 221L590 217L598 212L603 209L609 207L618 202L623 200L631 197L639 194L645 191L654 189L664 187L669 186M192 0L197 5L201 10L206 17L210 25L212 30L215 40L216 50L216 60L213 71L211 77L207 86L204 91L200 96L195 101L188 106L181 110L176 112L166 116L161 117L151 118L141 118L131 116L126 115L116 112L111 110L101 106L96 102L91 99L85 95L80 90L75 85L70 78L66 71L63 66L60 57L59 50L58 40L59 30L60 25L64 15L67 10L70 5M639 251L649 249L659 248L669 247L679 248L689 249L699 252L704 254L711 257L719 262L724 265L729 269L734 274L739 279L744 286L749 292L752 297L754 302L759 312L760 317L763 328L764 333L766 343L766 353L766 363L765 373L764 378L762 388L759 396L756 403L754 408L749 417L745 423L741 428L737 433L732 438L727 443L721 449L714 454L709 457L704 460L697 464L689 467L684 469L674 472L669 474L659 476L649 478L642 479L634 480L623 480L613 481L603 480L593 480L583 479L577 479L568 478L558 476L548 474L543 473L533 470L528 469L518 465L513 463L504 459L498 455L493 452L488 448L482 443L478 438L473 432L468 423L466 418L464 408L463 398L464 388L467 378L469 373L473 366L478 358L481 353L486 348L490 343L495 338L500 333L506 328L511 323L517 317L523 313L528 309L533 306L538 302L545 297L552 292L558 289L563 286L569 282L577 277L583 274L588 271L596 267L603 264L608 262L618 257L623 256L634 252L639 251"/><path class="cj" d="M51 640L50 639L48 635L45 632L44 630L40 625L40 625L36 620L35 619L31 615L30 614L26 610L25 609L21 605L20 604L16 600L15 599L10 595L9 595L5 591L2 590L0 588M217 640L214 635L211 630L206 622L202 615L199 610L196 605L191 597L187 590L184 585L181 580L176 572L172 564L169 559L166 554L161 546L157 539L153 534L150 529L146 522L141 514L137 509L134 504L130 499L126 493L121 486L116 479L111 474L107 469L103 464L99 459L94 454L89 449L84 443L79 438L74 433L68 428L63 423L57 418L50 413L45 409L40 406L35 402L29 398L21 393L15 389L10 386L5 383M900 541L897 544L895 547L893 549L890 554L889 554L885 559L885 560L881 564L880 566L877 569L875 572L872 574L870 577L868 580L865 583L863 585L860 588L858 590L855 593L854 595L850 599L849 600L845 604L844 605L840 609L838 610L835 613L833 615L830 618L828 620L825 623L822 625L820 627L816 630L815 631L810 635L809 635L804 640L804 640M356 640L349 635L343 630L337 625L332 620L327 615L322 610L317 605L312 600L308 595L304 590L299 585L295 580L291 574L287 568L282 561L277 554L273 549L270 544L266 539L261 531L257 524L254 519L251 514L246 506L242 499L239 494L236 489L231 480L228 474L225 469L221 462L216 454L213 449L210 443L206 437L201 429L197 423L194 418L190 413L186 407L181 401L176 394L171 388L166 383L162 378L157 373L152 368L147 363L141 358L136 353L131 349L126 345L121 341L116 337L109 333L102 328L96 323L91 320L85 317L79 312L71 307L65 304L60 301L54 297L45 292L40 290L35 287L28 282L20 278L15 275L10 272L2 267M362 0L367 9L370 15L372 21L375 30L377 36L379 45L381 55L382 66L382 71L383 81L382 91L382 100L382 106L381 116L381 126L381 136L381 146L382 156L383 161L386 171L390 176L395 181L402 185L408 186L417 187L423 186L432 185L442 182L447 180L455 176L463 173L468 170L474 166L482 161L488 157L493 154L498 150L503 146L509 141L515 136L521 131L527 126L533 121L538 116L543 112L548 108L553 103L558 99L563 95L569 91L576 86L583 81L588 77L593 74L599 71L608 66L613 63L619 60L628 56L634 54L644 51L649 49L659 46L664 45L674 43L684 42L694 41L704 41L714 41L724 42L734 44L740 45L749 48L755 50L764 55L769 58L774 61L781 66L787 71L793 76L798 81L802 86L806 91L810 96L815 102L820 109L823 116L826 121L830 127L834 136L836 141L840 149L843 156L845 161L848 171L850 176L854 186L855 191L858 202L860 207L862 217L865 226L866 232L868 242L870 251L871 257L872 267L874 277L875 287L875 292L876 302L876 312L876 323L876 333L875 343L874 348L873 358L872 368L870 378L869 383L866 393L865 398L861 408L860 413L856 423L854 428L850 437L846 443L844 449L840 456L835 464L832 469L828 474L824 479L820 485L815 491L809 497L804 502L799 507L794 512L789 517L784 521L779 525L774 529L766 534L759 539L754 541L749 544L739 549L734 551L727 554L719 557L712 559L704 562L694 564L689 565L679 567L669 569L660 569L654 570L644 571L634 571L623 571L613 572L603 572L593 571L583 571L573 571L563 570L553 570L547 569L538 569L528 568L518 567L508 566L498 565L493 564L483 562L473 560L468 559L458 557L450 554L442 552L436 549L427 546L422 543L415 539L407 535L402 531L397 528L392 524L386 519L380 514L375 509L370 504L366 499L362 494L357 487L352 480L348 474L345 469L342 464L337 454L334 449L332 443L328 433L326 428L322 418L320 413L317 403L315 398L312 388L311 383L308 373L307 366L305 358L302 348L301 343L298 333L297 327L294 317L292 312L287 302L284 297L280 292L276 287L271 282L264 277L256 273L251 270L245 267L236 263L231 262L221 258L216 256L206 253L201 251L191 248L186 247L176 243L171 242L161 238L156 237L146 233L141 231L131 227L126 226L116 222L111 219L104 217L96 213L91 210L83 207L75 203L70 200L63 197L55 192L50 189L45 186L38 181L31 176L25 172L20 168L15 164L10 160L5 155L0 151M634 317L644 316L654 315L664 317L669 318L679 322L684 326L689 330L694 335L699 343L701 348L704 358L704 363L704 373L703 378L700 388L697 393L694 399L689 405L684 410L679 414L672 418L664 423L659 425L649 428L644 429L634 431L623 432L613 432L603 431L593 430L588 428L578 425L573 423L565 418L558 413L554 408L551 403L548 393L548 388L549 383L552 373L555 368L558 363L563 357L568 352L573 347L578 343L585 338L593 333L598 330L603 327L613 323L618 321L628 318L634 317"/></symbol></svg>
 <div id="top">
   <header class="top">
     <div class="wrap header-inner">
@@ -538,7 +624,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     <div class="header-actions">
     <nav aria-label="Main">
       <a href="#top">Home</a>
-      <a href="#about">About us</a>
+      <a href="#strategy">Strategy</a>
       <a href="#events">Events</a>
     </nav>
     <div class="theme-menu">
@@ -566,7 +652,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
           <h1>Driven by Research <br><em>Invest with Conviction</em></h1>
           <p class="lede">Our multidisciplinary approach combines business insight, quantitative analysis, market intelligence, and sector-specific knowledge to assess investment opportunities from multiple perspectives. We challenge conventional assumptions, develop evidence-based investment theses, and apply disciplined risk assessment to our investment decisions.</p>
           <div class="cta-row">
-            <a class="btn primary" href="#events">See upcoming events</a>
+            <a class="btn primary" href="#history" data-scroll="history">About us</a>
           </div>
         </div>
 
@@ -578,10 +664,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       <ul class="alloc">
         <li data-sector="semicon"><span>Semicon Industry</span><span class="pct">40%</span><div class="track"><div class="fill" style="width:40%"></div></div></li>
         <li data-sector="software"><span>Software, Communication &amp; Cybersecurity</span><span class="pct">30%</span><div class="track"><div class="fill" style="width:30%"></div></div></li>
-        <li data-sector="consumer"><span>Consumer Goods &amp; Services</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
-        <li data-sector="energy"><span>Energy</span><span class="pct">0%</span><div class="track"><div class="fill" style="width:0%"></div></div></li>
+        <li data-sector="consumer"><span>Consumer Staples &amp; Discretionary</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
+        <li data-sector="energy"><span>Energy &amp; Utilities</span><span class="pct">0%</span><div class="track"><div class="fill" style="width:0%"></div></div></li>
         <li data-sector="health"><span>Health Care</span><span class="pct">0%</span><div class="track"><div class="fill alt" style="width:0%"></div></div></li>
-        <li data-sector="cash"><span>Cash</span><span class="pct">30%</span><div class="track"><div class="fill alt" style="width:30%"></div></div></li>
       </ul>
       <p class="panel-foot">Live portfolio of real investments. Positions are added or reduced by group vote after each pitch.</p>
     </aside>
@@ -641,7 +726,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   </div>
   </section>
 
-  <section id="about" class="band">
+  <section id="what-we-do" class="band">
     <div class="wrap">
     <div class="sec-head">
       <h2>What we do</h2>
@@ -742,6 +827,13 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     </div>
   </section>
 
+  <section class="q-band" aria-label="Our philosophy">
+    <div class="q-motif" aria-hidden="true"><svg viewBox="0 0 900 640" preserveAspectRatio="xMidYMid slice"><use href="#contour"/></svg></div>
+    <div class="wrap">
+      <p class="q-text">From a student competition to LH+, nearly a decade on,<br class="q-br"> our philosophy has stayed the same:<br class="q-br"> long term, high potential</p>
+    </div>
+  </section>
+
   <section id="markets" class="band">
     <div class="wrap">
       <div class="sec-head">
@@ -796,16 +888,119 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       <p>A team where business, research, data and market experience inform every investment decision.</p>
     </div>
     <div class="team">
-      <div class="person"><img class="avatar" src="ruben.jpg" alt="Ruben" width="112" height="112"><h3>Ruben</h3><p class="role">The Entrepreneur</p></div>
-      <div class="person"><img class="avatar" src="mukit.jpg" alt="Mukit" width="112" height="112"><h3>Mukit</h3><p class="role">The Researcher</p></div>
-      <div class="person"><img class="avatar" src="bob.jpg" alt="Bob" width="112" height="112"><h3>Bob</h3><p class="role">The Politician</p></div>
-      <div class="person"><img class="avatar" src="surja.jpg" alt="Surja" width="112" height="112"><h3>Surja</h3><p class="role">Data Analyst</p></div>
-      <div class="person"><img class="avatar" src="gerard.jpg" alt="Gerard" width="112" height="112"><h3>Gerard</h3><p class="role">The Advisor</p></div>
-      <div class="person"><img class="avatar" src="wilson.jpg" alt="Wilson" width="112" height="112"><h3>Wilson</h3><p class="role">The Trader</p></div>
-      <div class="person"><img class="avatar" src="levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
-      <div class="person"><img class="avatar" src="ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="ruben.jpg" alt="Ruben" width="112" height="112"><h3>Ruben</h3><p class="role">The Entrepreneur</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="mukit.jpg" alt="Mukit" width="112" height="112"><h3>Mukit</h3><p class="role">The Researcher</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="bob.jpg" alt="Bob" width="112" height="112"><h3>Bob</h3><p class="role">The Politician</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="surja.jpg" alt="Surja" width="112" height="112"><h3>Surja</h3><p class="role">Data Analyst</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="gerard.jpg" alt="Gerard" width="112" height="112"><h3>Gerard</h3><p class="role">The Advisor</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="wilson.jpg" alt="Wilson" width="112" height="112"><h3>Wilson</h3><p class="role">The Trader</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="levi.jpg" alt="Levi" width="112" height="112"><h3>Levi</h3><p class="role">EV Specialist</p></div>
+      <div class="person"><img class="avatar" loading="lazy" decoding="async" src="ahmed.jpg" alt="Ahmed" width="112" height="112"><h3>Ahmed</h3><p class="role">The Designer</p></div>
     </div>
   </div>
+  </section>
+  </main>
+
+
+  <main id="view-strategy" hidden>
+  <section class="s-hero">
+    <div class="s-motif" aria-hidden="true"><svg viewBox="0 0 900 640" preserveAspectRatio="xMidYMid slice"><use href="#contour"/></svg></div>
+    <div class="wrap">
+      <div class="s-copy">
+        <span class="label">How we invest</span>
+        <h1 class="s-title">Investment strategy</h1>
+        <p class="s-lede">We invest in listed equities with a medium to long-term view. Every position is the result of research, open debate and a group decision, never of one person&rsquo;s conviction alone.</p>
+        <p>Our objective is to grow capital over the medium to long term through a portfolio of listed stocks and exchange-traded funds, built on fundamental research rather than short-term market movements.</p>
+        <p>We look for good businesses at prices that make sense, and we are prepared to wait. Understanding a company well matters more to us than reacting to the mood of the market, and we revisit every position as the facts change.</p>
+        <p>Ideas follow a fixed procedure. A member researches a company and presents a pitch covering the thesis, the valuation and the risks. The group challenges it and the decision is put to a vote. A majority decides whether we buy, hold off or pass, and the reasoning is written down.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt p-band" id="principles">
+    <div class="wrap">
+      <div class="p-intro">
+        <h2>Our principles</h2>
+        <p>Four rules we hold ourselves to, whatever the market is doing.</p>
+      </div>
+      <div class="p-grid">
+        <article class="pr"><h3>Research comes first</h3><p>No position without a pitch built on fundamental analysis and financial data.</p></article>
+        <article class="pr"><h3>We think in years, not weeks</h3><p>A decision is judged by its thesis, not by a day&rsquo;s price move.</p></article>
+        <article class="pr"><h3>Every idea is challenged</h3><p>Questions and disagreement are part of the process. A pitch that cannot be challenged is not ready.</p></article>
+        <article class="pr"><h3>The majority decides</h3><p>Each decision is put to a vote and the result stands, whoever brought the idea.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="industries">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Industries we research</h2>
+        <p>These are the sectors we follow and research.</p>
+      </div>
+      <ul class="sectors">
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="0 0 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10c3 0 5 4 5 10v20l33 19v6L55 54v20l9 8v4L50 82l-14 4v-4l9-8V54L12 65v-6l33-19V20c0-6 2-10 5-10z"/><path class="f" d="M50 10c3 0 5 4 5 10v14H45V20c0-6 2-10 5-10z"/></svg>
+          <span class="sec-txt"><span class="sec-name">Aviation</span><span class="sec-descw"><span class="sec-desc">Airlines, aircraft makers, airports and the suppliers that keep them flying.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="83 61 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 42L36 90M50 42l14 48M41 70h18M44 56h12"/><circle class="f" cx="50" cy="36" r="4.4"/><circle cx="50" cy="36" r="4.4"/><path d="M60 25a14 14 0 0 1 0 22M67 19a24 24 0 0 1 0 34M40 25a14 14 0 0 0 0 22M33 19a24 24 0 0 0 0 34"/></svg>
+          <span class="sec-txt"><span class="sec-name">Communication</span><span class="sec-descw"><span class="sec-desc">Telecoms, media and the internet platforms that connect people.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="166 122 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M26 34h48l4 52H22z"/><path d="M26 34h48l4 52H22zM38 34v-6a12 12 0 0 1 24 0v6"/><path d="M50 52l3.2 6.6 7.2 1-5.2 5 1.2 7.2L50 68.4l-6.4 3.4 1.2-7.2-5.2-5 7.2-1z"/></svg>
+          <span class="sec-txt"><span class="sec-name">Consumer discretionary</span><span class="sec-descw"><span class="sec-desc">Cars, travel, retail and luxury, which rise and fall with confidence.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="249 183 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M20 44h60l-7 38H27z"/><path d="M20 44h60l-7 38H27zM30 44C30 20 70 20 70 44M38 54l2 20M50 54v20M62 54l-2 20"/><path d="M14 44h72"/></svg>
+          <span class="sec-txt"><span class="sec-name">Consumer staples</span><span class="sec-descw"><span class="sec-desc">Food, drink and household essentials that people buy in any economy.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="332 244 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 92V47M46 92h8M20 92h60"/><circle cx="50" cy="44" r="3.4"/><path class="f" d="M50 40.6L47.4 12c1.2-3 4.8-3 5.2 0z"/><path d="M50 40.6L47.4 12c1.2-3 4.8-3 5.2 0zM52.6 45.8l26 13.6c.4 3.2-2.8 4.8-5.2 3zM47.4 45.8L21.4 59.4c-.4 3.2 2.8 4.8 5.2 3z"/><path d="M80 92V70M77 92h6" opacity=".5"/><circle cx="80" cy="67" r="1.8" opacity=".5"/></svg>
+          <span class="sec-txt"><span class="sec-name">Energy</span><span class="sec-descw"><span class="sec-desc">Oil and gas, renewables and the utilities that power economies.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="415 25 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M12 38L50 16l38 22z"/><path d="M12 38L50 16l38 22zM18 44h64M26 50v26M42 50v26M58 50v26M74 50v26M16 80h68M10 88h80"/><circle cx="50" cy="30" r="3.4"/></svg>
+          <span class="sec-txt"><span class="sec-name">Financials</span><span class="sec-descw"><span class="sec-desc">Banks, insurers, asset managers and payment companies.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="498 86 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><circle class="f" cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="30"/><path d="M50 33v34M33 50h34" stroke-width="3"/><path d="M8 50h14l6-12 10 28 8-20 5 4h6" opacity=".55"/></svg>
+          <span class="sec-txt"><span class="sec-name">Healthcare</span><span class="sec-descw"><span class="sec-desc">Pharma, biotech, medical devices and the services around them.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="41 147 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M12 82V52l20-14v14l20-14v14l20-14v44z"/><path d="M12 82V52l20-14v14l20-14v14l20-14v44zM78 82V26h12v56M8 82h88"/><path d="M24 70h8M40 70h8M56 70h8" opacity=".6"/><path d="M84 18c-3-3 2-6 0-9" opacity=".5"/></svg>
+          <span class="sec-txt"><span class="sec-name">Industrials</span><span class="sec-descw"><span class="sec-desc">Machinery, engineering, transport and the builders of the real economy.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="124 208 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path class="f" d="M50 14l24 14v30L50 72 26 58V28z"/><path d="M50 14l24 14v30L50 72 26 58V28zM26 28l24 14 24-14M50 42v30"/><path d="M18 86l10-12 10 12zM66 86l8-9 8 9z" opacity=".55"/></svg>
+          <span class="sec-txt"><span class="sec-name">Materials</span><span class="sec-descw"><span class="sec-desc">Chemicals, metals and mining, the raw inputs of industry.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="207 269 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><rect class="f" x="14" y="22" width="72" height="56" rx="5"/><rect x="14" y="22" width="72" height="56" rx="5"/><path d="M14 36h72"/><circle cx="23" cy="29" r="1.6"/><circle cx="30" cy="29" r="1.6"/><circle cx="37" cy="29" r="1.6"/><path d="M40 50L30 58l10 8M60 50l10 8-10 8M54 47l-8 22"/></svg>
+          <span class="sec-txt"><span class="sec-name">Software</span><span class="sec-descw"><span class="sec-desc">Cloud and enterprise platforms, and the code that runs modern business.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="290 50 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><rect class="f" x="30" y="30" width="40" height="40" rx="4"/><rect x="30" y="30" width="40" height="40" rx="4"/><rect x="40" y="40" width="20" height="20" rx="2"/><path d="M38 30V18M50 30V18M62 30V18M38 70v12M50 70v12M62 70v12M30 38H18M30 50H18M30 62H18M70 38h12M70 50h12M70 62h12"/></svg>
+          <span class="sec-txt"><span class="sec-name">Technology</span><span class="sec-descw"><span class="sec-desc">Semiconductors, hardware and the equipment behind the digital world.</span></span></span>
+        </button></li>
+        <li class="sec"><button class="sec-btn" type="button" aria-expanded="false">
+          <svg class="sec-bg" viewBox="373 111 360 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#contour"/></svg>
+          <svg class="sec-art" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12L38 90M50 12l12 78M31 30h38M36 48h28M42 68h16M38 90h24"/><path d="M38 90L62 48M62 90L38 48" opacity=".55"/><path d="M31 30L10 40M69 30l21 10" opacity=".7"/><path class="f" d="M50 12l-3 18h6z"/><path d="M82 62l-7 10h6l-5 12" stroke-width="2"/></svg>
+          <span class="sec-txt"><span class="sec-name">Utilities</span><span class="sec-descw"><span class="sec-desc">Electricity, gas and water providers, and the networks that deliver them.</span></span></span>
+        </button></li>
+      </ul>
+    </div>
   </section>
   </main>
 
@@ -884,7 +1079,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   var links = [].slice.call(nav.querySelectorAll('a[href^="#"]'));
   var homeView = document.getElementById('view-home');
   var eventsView = document.getElementById('view-events');
-  var aboutSec = document.getElementById('about');
+  var strategyView = document.getElementById('view-strategy');
   var view = 'home';
   var compact = false, current = -2, ticking = false;
 
@@ -895,8 +1090,8 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     else if (compact && y < 8) { compact = false; header.classList.remove('scrolled'); }
 
     var idx = 0;
-    if (view === 'events') idx = 2;
-    else if (aboutSec && aboutSec.getBoundingClientRect().top <= header.getBoundingClientRect().bottom + 24) idx = 1;
+    if (view === 'strategy') idx = 1;
+    else if (view === 'events') idx = 2;
 
     if (idx !== current) {
       current = idx;
@@ -913,8 +1108,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     view = name;
     homeView.hidden = name !== 'home';
     eventsView.hidden = name !== 'events';
+    strategyView.hidden = name !== 'strategy';
     document.documentElement.setAttribute('data-view', name);
-    var shown = name === 'home' ? homeView : eventsView;
+    var shown = name === 'home' ? homeView : (name === 'strategy' ? strategyView : eventsView);
     shown.classList.remove('view-in');
     void shown.offsetWidth;
     shown.classList.add('view-in');
@@ -927,20 +1123,20 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     showView(name);
     update();
   }
-  function scrollToAbout() {
-    var el = document.getElementById('about');
-    if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  }
-  [].slice.call(document.querySelectorAll('a[href="#events"], a[href="#about"]')).forEach(function (a) {
+  [].slice.call(document.querySelectorAll('a[data-scroll]')).forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.getElementById(a.getAttribute('data-scroll'));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+  [].slice.call(document.querySelectorAll('a[href="#events"], a[href="#strategy"]')).forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
       var target = a.getAttribute('href');
       if (target === '#events') { go('events', '#events'); toTop(); }
-      else {
-        var was = view;
-        go('home', '#about');
-        if (was !== 'home') { setTimeout(scrollToAbout, 30); } else { scrollToAbout(); }
-      }
+      else if (target === '#strategy') { go('strategy', '#strategy'); toTop(); }
       update();
     });
   });
@@ -955,6 +1151,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   function sync() {
     var h = location.hash;
     if (h === '#events') { showView('events'); toTop(); }
+    else if (h === '#strategy') { showView('strategy'); toTop(); }
     else {
       var was = view;
       showView('home');
@@ -966,9 +1163,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   }
   window.addEventListener('popstate', sync);
   window.addEventListener('hashchange', sync);
-  if (location.hash === '#events') {
+  if (location.hash === '#events' || location.hash === '#strategy') {
     view = 'home';
-    showView('events');
+    showView(location.hash === '#events' ? 'events' : 'strategy');
     setTimeout(toTop, 0);
     window.addEventListener('load', function () { setTimeout(toTop, 0); });
   }
@@ -1440,7 +1637,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   window.addEventListener('pagehide', save);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') save(); });
   ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function (n) { window.addEventListener(n, function () { moved = true; }, { passive: true, once: true }); });
-  if ((nav === 'reload' || nav === 'back_forward') && saved > 0 && location.hash !== '#events' && !location.hash) {
+  if ((nav === 'reload' || nav === 'back_forward') && saved > 0 && !location.hash) {
     try { history.scrollRestoration = 'manual'; } catch (e) {}
     var tries = 0;
     (function again() {
@@ -1451,6 +1648,22 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     window.addEventListener('load', function () { if (!moved) window.scrollTo(0, saved); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!moved) window.scrollTo(0, saved); });
   }
+})();
+
+// sector tiles: hover or keyboard focus on a laptop, tap on a phone
+(function () {
+  var tiles = [].slice.call(document.querySelectorAll('.sec-btn'));
+  tiles.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var on = !b.classList.contains('open');
+      tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
+      if (on) { b.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('.sec-btn')) return;
+    tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
+  });
 })();
 </script>
 </body>
