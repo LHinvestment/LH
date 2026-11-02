@@ -1253,10 +1253,18 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       cap.textContent = 'Year-to-date returns to ' + asOf + ', measured from the first trading day of the year' + (cur ? ', in ' + cur : '') + '. ' + (d.benchmark_note ? d.benchmark_note + ' ' : '') + 'Unaudited. The portfolio is ' + gaps.join(' and ') + '.';
     }
 
-    [].slice.call(document.querySelectorAll('.alloc [data-sector]')).forEach(function (li) {
-      var pct = Math.round((d.allocation[li.getAttribute('data-sector')] || 0) * 100);
-      li.querySelector('.pct').textContent = pct + '%';
-      li.querySelector('.fill').style.width = pct + '%';
+    // round the rows together so the shown percentages add up (largest remainder)
+    var lis = [].slice.call(document.querySelectorAll('.alloc [data-sector]'));
+    var raw = lis.map(function (li) { return Math.max(0, (d.allocation[li.getAttribute('data-sector')] || 0) * 100); });
+    var whole = raw.map(Math.floor);
+    var sum = function (a) { return a.reduce(function (x, y) { return x + y; }, 0); };
+    var extra = Math.max(0, Math.round(sum(raw)) - sum(whole));
+    raw.map(function (v, i) { return { i: i, r: v - whole[i] }; })
+      .sort(function (a, b) { return b.r - a.r; })
+      .slice(0, extra).forEach(function (o) { whole[o.i] += 1; });
+    lis.forEach(function (li, i) {
+      li.querySelector('.pct').textContent = whole[i] + '%';
+      li.querySelector('.fill').style.width = whole[i] + '%';
     });
   }
 
