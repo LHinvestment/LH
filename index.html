@@ -1639,45 +1639,13 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   }
 })();
 
-// remember the reading position across a refresh (phone browsers often lose it)
+// every visit and every refresh starts at the top of the page
 (function () {
-  var KEY = 'lh-scroll', nav = '';
-  try { var e = performance.getEntriesByType('navigation')[0]; nav = e ? e.type : ''; } catch (e) {}
-  var saved = 0;
-  try { saved = parseInt(sessionStorage.getItem(KEY), 10) || 0; } catch (e) {}
-  var moved = false, t = 0;
-  function save() { try { sessionStorage.setItem(KEY, String(Math.round(window.pageYOffset))); } catch (e) {} }
-  window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(save, 120); }, { passive: true });
-  window.addEventListener('pagehide', save);
-  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') save(); });
-  ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function (n) { window.addEventListener(n, function () { moved = true; }, { passive: true, once: true }); });
-  if ((nav === 'reload' || nav === 'back_forward') && saved > 0 && !location.hash) {
-    try { history.scrollRestoration = 'manual'; } catch (e) {}
-    var tries = 0;
-    (function again() {
-      if (moved) return;
-      if (Math.abs(window.pageYOffset - saved) > 2) window.scrollTo(0, saved);
-      if (++tries < 12) setTimeout(again, tries < 4 ? 100 : 300);
-    })();
-    window.addEventListener('load', function () { if (!moved) window.scrollTo(0, saved); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!moved) window.scrollTo(0, saved); });
-  }
-})();
-
-// sector tiles: hover or keyboard focus on a laptop, tap on a phone
-(function () {
-  var tiles = [].slice.call(document.querySelectorAll('.sec-btn'));
-  tiles.forEach(function (b) {
-    b.addEventListener('click', function () {
-      var on = !b.classList.contains('open');
-      tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
-      if (on) { b.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
-    });
-  });
-  document.addEventListener('pointerdown', function (e) {
-    if (e.target.closest && e.target.closest('.sec-btn')) return;
-    tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
-  });
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  function top() { if (!location.hash) window.scrollTo(0, 0); }
+  top();
+  window.addEventListener('load', function () { top(); setTimeout(top, 60); });
+  window.addEventListener('pagehide', function () { window.scrollTo(0, 0); });
 })();
 </script>
 </body>
