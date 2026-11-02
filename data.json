@@ -3,7 +3,7 @@
   "start": "2026-01-02",
   "currency": "USD",
   "portfolio": {
-    "ytd": 0.2669
+    "ytd": 0.3081
   },
   "benchmarks": [
     {
@@ -20,9 +20,9 @@
     }
   ],
   "allocation": {
-    "cash": 0.0,
-    "semicon": 0.5087,
-    "software": 0.4913
+    "cash": 0.2884,
+    "semicon": 0.4364,
+    "software": 0.2751
   },
   "benchmark_note": "Index figures are the price returns of the funds that track each index."
 }
