@@ -224,6 +224,11 @@ nav a:hover::after, nav a.active::after { transform: scaleX(1); }
 
 /* section bands */
 section.band { padding-block: 64px; scroll-margin-top: 54px; border-top: 1px solid var(--gold-line); }
+/* "About us" lands with the heading about a fifth of the way down the screen, not on the top edge */
+#history { scroll-margin-top: calc(20vh - 64px); }
+/* no rubber-band stretch at the very top or bottom of the page (the top bar stays put) */
+html, body { overscroll-behavior-y: none; }
+header.top.measure, header.top.measure * { transition: none !important; }
 section.alt { background: var(--surface); }
 section.navy { background: var(--band); color: var(--band-fg); border-top-color: var(--band-rule); }
 .sec-head { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 12px 40px; margin-bottom: 32px; }
@@ -356,6 +361,7 @@ footer p:first-child { color: var(--band-fg); }
   .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; border-top: 0; }
   .figure, .figure + .figure { border-left: 0; padding-left: 0; padding-block: 18px 22px; border-top: 1px solid var(--band-rule); }
   section.band { padding-block: 48px; }
+  #history { scroll-margin-top: calc(20vh - 48px); }
   .perf { padding: 18px; }
   .perf-bars li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
   .perf-track { grid-column: 1 / -1; grid-row: 2; height: 22px; }
@@ -1162,7 +1168,15 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       var el = document.getElementById(a.getAttribute('data-scroll'));
       if (!el) return;
       e.preventDefault();
-      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      // the top bar gets shorter once the page scrolls, which moves everything up a little;
+      // measure the target as it will be after that, so the heading lands where we want it
+      var hd = document.querySelector('header.top');
+      var had = hd.classList.contains('scrolled');
+      hd.classList.add('measure', 'scrolled');
+      var y = el.getBoundingClientRect().top + window.pageYOffset - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+      if (!had) { hd.classList.remove('scrolled'); void hd.offsetHeight; }
+      hd.classList.remove('measure');
+      window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
     });
   });
   [].slice.call(document.querySelectorAll('a[href="#events"], a[href="#strategy"]')).forEach(function (a) {
