@@ -4,6 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<script>
+/* if this page is shown inside a frame on another site, hide it and offer a link to the real site */
+(function () {
+  if (window.top === window.self) return;
+  var st = document.createElement('style');
+  st.textContent = 'body>*{display:none!important}';
+  document.head.appendChild(st);
+  document.addEventListener('DOMContentLoaded', function () {
+    var a = document.createElement('a');
+    a.href = 'https://lhinvestment.github.io/';
+    a.target = '_top';
+    a.rel = 'noopener';
+    a.textContent = 'Open LH+ Investment Group';
+    a.style.cssText = 'display:block!important;margin:24px;font:16px system-ui,sans-serif';
+    document.body.appendChild(a);
+  });
+})();
+</script>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>LH+ Investment Group | Research-led investing in the Netherlands</title>
 <meta name="description" content="LH+ is an independent group of private investors in the Netherlands, building a long-term portfolio on research, conviction and a monthly pitch process. Two-time winners of the B&R Beurs Eindhoven student investment competition.">
