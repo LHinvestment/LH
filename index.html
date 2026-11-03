@@ -226,8 +226,6 @@ nav a:hover::after, nav a.active::after { transform: scaleX(1); }
 section.band { padding-block: 64px; scroll-margin-top: 54px; border-top: 1px solid var(--gold-line); }
 /* "About us" lands with the heading about a fifth of the way down the screen, not on the top edge */
 #history { scroll-margin-top: calc(20vh - 64px); }
-/* no rubber-band stretch at the very top or bottom of the page (the top bar stays put) */
-html, body { overscroll-behavior-y: none; }
 header.top.measure, header.top.measure * { transition: none !important; }
 section.alt { background: var(--surface); }
 section.navy { background: var(--band); color: var(--band-fg); border-top-color: var(--band-rule); }
@@ -1706,6 +1704,22 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   top();
   window.addEventListener('load', function () { top(); setTimeout(top, 60); });
   window.addEventListener('pagehide', function () { window.scrollTo(0, 0); });
+})();
+
+// sector tiles: hover or keyboard focus on a laptop, tap on a phone
+(function () {
+  var tiles = [].slice.call(document.querySelectorAll('.sec-btn'));
+  tiles.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var on = !b.classList.contains('open');
+      tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
+      if (on) { b.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('.sec-btn')) return;
+    tiles.forEach(function (o) { o.classList.remove('open'); o.setAttribute('aria-expanded', 'false'); });
+  });
 })();
 </script>
 </body>
