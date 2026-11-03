@@ -122,7 +122,12 @@
 :root[data-mode="light"] .hero-band { border-bottom: 1px solid var(--gold-line); }
 
 * { box-sizing: border-box; }
-html { overflow-x: hidden; overflow-x: clip; }
+html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
+/* the page never pans sideways: nothing may widen it, and a sideways drag on the page itself is ignored
+   (vertical scrolling, pull-to-refresh and pinch-zoom are untouched; the scrollable bits below set their own) */
+body { max-width: 100%; overflow-x: clip; }
+html, body { touch-action: pan-y pinch-zoom; }
+nav, .mt-wrap { touch-action: pan-x pan-y pinch-zoom; }
 body {
   background: var(--bg);
   color: var(--fg);
