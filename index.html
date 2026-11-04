@@ -727,6 +727,8 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-label{line-height:1.25}
 .wm-label b{display:block;font-weight:600}
 .wm-label i{display:block;font-style:normal;font-weight:500;font-size:9px;letter-spacing:.04em;text-transform:none;opacity:.78}
+
+.wm.panable .wm-stage{touch-action:none}
 </style>
 </head>
 <body>
@@ -1847,7 +1849,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   var dotEls = [].slice.call(stage.querySelectorAll('.wm-dot'));
   var reduceM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
-  var VW = 1000, VH = 520;
+  var VW = 1000, VH = 520, ctG = svg.querySelector('.wm-ct');
 
   // Regular trading hours in each exchange's own local time. d = trading days (0 = Sunday),
   // r = [from, to] in minutes after midnight, b = different hours on a given weekday.
@@ -2067,6 +2069,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     root.classList.toggle('zoomed', sc >= (stage.clientWidth >= 560 ? 1.6 : 2.4));
     root.classList.toggle('is-world', sc < 2.2);
     root.classList.toggle('panable', sc > 1.02);
+    if (ctG) ctG.style.strokeWidth = Math.min(1, 0.3 + (sc - 1) * 0.28).toFixed(2) + 'px';
     if (zIn) zIn.disabled = vb.w <= MINW + 0.5;
     if (zOut) zOut.disabled = vb.w >= VW - 0.5;
     if (zReset) zReset.disabled = sc < 1.02;
