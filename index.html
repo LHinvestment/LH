@@ -761,7 +761,10 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm.is-list .wm-wrap, .wm.is-list .wm-chips, .wm.is-list .wm-regsel, .wm.is-list .wm-zn { display: none; }
 .wm-list { display: none; }
 .wm.is-list .wm-list { display: block; }
-.wm-ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; align-items: start; }
+.wm-ul { margin: 0; padding: 0; display: flex; gap: 10px; align-items: flex-start; }
+.wm-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.wm-li { list-style: none; }
+.wm-li.is-open { border-color: rgba(201, 179, 130, 0.5); box-shadow: inset 3px 0 0 var(--band-gold); background: linear-gradient(90deg, rgba(201, 179, 130, 0.07), transparent 60%), var(--band-card); }
 .wm-li { padding: 13px 14px 14px; border: 1px solid var(--band-rule); border-radius: 4px; background: var(--band-card); min-width: 0; }
 .wm-lh { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; }
 .wm-lh h3 { margin: 0; font-family: var(--font-serif); font-weight: 500; font-size: 18px; line-height: 1.2; color: var(--band-fg); }
@@ -779,7 +782,6 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-dot.is-dim { opacity: 0.16; pointer-events: none; }
 @media (max-width: 760px) {
   .wm-seg button { padding: 6px 11px; font-size: 12px; }
-  .wm-ul { grid-template-columns: minmax(0, 1fr); }
   .wm-tools { flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .wm-tools > .wm-seg { flex: none; }
   .wm-regsel { flex: 1 1 0; min-width: 0; }
@@ -2190,7 +2192,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       var ex = it.ex, multi = ex.v.length > 1, hrs = [];
       ex.v.forEach(function (v) { var t = hoursText(v, now); if (hrs.indexOf(t) < 0) hrs.push(t); });
       var st = statusOf(ex, it.o) + (it.flip ? ' · ' + (it.o ? 'closes in ' : 'opens in ') + rel(it.flip - now) : '');
-      var h = '<li class="wm-li"><div class="wm-lh"><h3>' + esc(it.name) + '</h3><span class="wm-tag k-' + kindKey(it.id) + '">' + esc(it.id === 'seoul' ? 'Developed · Emerging' : kindOf(it.id).replace(' market', '')) + '</span></div>';
+      var h = '<li class="wm-li' + (it.o ? ' is-open' : '') + '"><div class="wm-lh"><h3>' + esc(it.name) + '</h3><span class="wm-tag k-' + kindKey(it.id) + '">' + esc(it.id === 'seoul' ? 'Developed · Emerging' : kindOf(it.id).replace(' market', '')) + '</span></div>';
       h += '<p class="wm-ls">' + esc(ex.s) + '</p><p class="wm-lst' + (it.o ? ' is-open' : '') + '"><i></i>' + esc(st) + '</p>';
       if (multi) {
         h += '<ul class="wm-lrows">' + ex.v.map(function (v) {
@@ -2201,7 +2203,27 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       return h + '</li>';
     }).join('');
     listEl.innerHTML = items.length ? '<ul class="wm-ul">' + html + '</ul>' : '<p class="wm-empty">No markets match these filters right now.</p>';
+    packList(true);
   }
+  // masonry: every card goes into the shortest column, so uneven card heights leave no gaps and the order still reads left to right
+  var packN = 0, packLis = null;
+  function packList(fresh) {
+    var ul = listEl.querySelector('.wm-ul');
+    if (!ul) { packLis = null; return; }
+    if (fresh || !packLis) packLis = [].slice.call(ul.querySelectorAll('.wm-li'));
+    var w = listEl.clientWidth || 800;
+    var n = Math.max(1, Math.min(4, Math.floor((w + 10) / 270)));
+    if (!fresh && n === packN && ul.children.length === n) return;
+    packN = n;
+    var cols = [], hs = [], i;
+    ul.innerHTML = '';
+    for (i = 0; i < n; i++) { var c = document.createElement('div'); c.className = 'wm-col'; ul.appendChild(c); cols.push(c); hs.push(0); }
+    packLis.forEach(function (li) {
+      var k = 0; for (i = 1; i < n; i++) if (hs[i] < hs[k] - 1) k = i;
+      cols[k].appendChild(li); hs[k] = cols[k].offsetHeight;
+    });
+  }
+  window.addEventListener('resize', function () { if (view === 'list') packList(false); });
 
   // ---- popup ----
   var current = null, pinned = false;
