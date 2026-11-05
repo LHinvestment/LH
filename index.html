@@ -742,11 +742,14 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-seg button:hover { color: var(--band-fg); }
 .wm-seg button[aria-pressed="true"] { background: var(--band-gold); color: var(--band); }
 .wm-seg button:focus-visible { outline: 2px solid var(--band-gold); outline-offset: -2px; }
-.wm-tools > .wm-chip { padding: 6px 13px; font-size: 12.5px; }
-.wm-tm { margin-left: auto; }
-.wm-sort { display: none; }
-.wm.is-list .wm-sort { display: inline-flex; }
-.wm.is-list .wm-wrap, .wm.is-list .wm-chips, .wm.is-list .wm-legend, .wm.is-list .wm-zn { display: none; }
+.wm-panel .wm-chip { padding: 6px 13px; font-size: 12.5px; }
+.wm-panel, .wm-pg { display: contents; }
+.wm-pl, .wm-regsel, .wm-fbtn { display: none; }
+.wm-pg.wm-tm .wm-seg { margin-left: auto; }
+.wm-pg.wm-sort { display: none; }
+.wm.is-list .wm-pg.wm-sort { display: contents; }
+.wm-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wm.is-list .wm-wrap, .wm.is-list .wm-chips, .wm.is-list .wm-regsel, .wm.is-list .wm-zn { display: none; }
 .wm-list { display: none; }
 .wm.is-list .wm-list { display: block; }
 .wm-ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; align-items: start; }
@@ -764,19 +767,38 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-lrows li { padding-top: 4px; font-size: 12.5px; line-height: 1.4; color: var(--band-fg); }
 .wm-lrows span { display: block; color: var(--band-muted); }
 .wm-empty { margin: 8px 0; color: var(--band-muted); font-size: 14px; }
-.wm-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin: 10px 0 0; font-size: 12px; color: var(--band-muted); }
-.wm-legend .lg { display: inline-block; width: 9px; height: 9px; margin-right: 6px; box-sizing: border-box; vertical-align: -1px; }
-.lg-d { border-radius: 50%; border: 1.5px solid var(--band-muted); }
-.lg-e { border-radius: 1.5px; border: 1.5px solid var(--band-muted); transform: rotate(45deg); }
-.lg-o { border-radius: 50%; background: var(--band-gold); border: 1.5px solid var(--band-gold); }
-.wm-dot[data-k="e"]::before { border-radius: 2px; transform: rotate(45deg); }
-.wm-dot[data-k="e"][aria-expanded="true"]::before { transform: rotate(45deg) scale(1.35); }
 .wm-dot.is-dim { opacity: 0.16; pointer-events: none; }
 @media (max-width: 760px) {
-  .wm-tm { margin-left: 0; }
   .wm-seg button { padding: 6px 11px; font-size: 12px; }
   .wm-ul { grid-template-columns: minmax(0, 1fr); }
+  .wm-chips { display: none; }
+  .wm-bar { margin-bottom: 10px; }
+  .wm-tools { flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .wm-tools > .wm-seg { flex: none; }
+  .wm-regsel { display: block; position: relative; flex: 1 1 0; min-width: 0; }
+  .wm-regsel select { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; padding: 6px 28px 6px 13px; border: 1px solid var(--band-rule); border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: transparent; -webkit-tap-highlight-color: transparent; }
+  .wm-regsel select:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
+  .wm-regsel select option { color: #14202e; background: #fff; }
+  .wm-regsel::after, .wm-fbtn::after { content: ""; position: absolute; right: 12px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform 200ms ease; pointer-events: none; }
+  .wm-fbtn { all: unset; box-sizing: border-box; position: relative; display: inline-flex; align-items: center; gap: 7px; flex: none; cursor: pointer; padding: 6px 28px 6px 13px; border: 1px solid var(--band-rule); border-radius: 999px; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); -webkit-tap-highlight-color: transparent; }
+  .wm-fbtn:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
+  .wm-fbtn.has-f { border-color: var(--band-gold); }
+  .wm-fbtn[aria-expanded="true"]::after { transform: rotate(-135deg); margin-top: -2px; }
+  .wm-badge { min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; background: var(--band-gold); color: var(--band); font-size: 10.5px; font-weight: 700; line-height: 16px; text-align: center; }
+  .wm-badge[hidden] { display: none; }
+  .wm-panel { display: none; flex: 0 0 100%; box-sizing: border-box; padding: 12px 14px 14px; border: 1px solid var(--band-rule); border-radius: 6px; background: var(--band-card); }
+  .wm-panel.open { display: grid; gap: 14px; }
+  .wm-pg { display: grid; gap: 6px; justify-items: start; }
+  .wm-pg.wm-sort { display: none; }
+  .wm.is-list .wm-pg.wm-sort { display: grid; }
+  .wm-pl { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--band-muted); }
+  .wm-pg.wm-tm .wm-seg { margin-left: 0; }
+  /* the map runs edge to edge and a bit taller */
+  .wm-wrap { margin-inline: calc(-1 * max(clamp(16px, 3.2vw, 48px), env(safe-area-inset-left, 0px))); }
+  .wm-stage { aspect-ratio: 1000 / 590; border-left: 0; border-right: 0; border-radius: 0; }
+  .wm-pop { margin-inline: max(clamp(16px, 3.2vw, 48px), env(safe-area-inset-left, 0px)); }
 }
+@media (max-width: 350px) { .wm-seg button { padding: 6px 9px; } .wm-fbtn { padding-left: 11px; } }
 </style>
 </head>
 <body>
@@ -1073,15 +1095,37 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
           <div class="wm-seg" role="group" aria-label="View">
             <button type="button" data-act="view" data-v="map" aria-pressed="true">Map</button><button type="button" data-act="view" data-v="list" aria-pressed="false">List</button>
           </div>
-          <div class="wm-seg" role="group" aria-label="Market type">
-            <button type="button" data-act="type" data-v="all" aria-pressed="true">All</button><button type="button" data-act="type" data-v="d" aria-pressed="false">Developed</button><button type="button" data-act="type" data-v="e" aria-pressed="false">Emerging</button>
-          </div>
-          <button class="wm-chip" type="button" data-act="open" aria-pressed="false">Open now</button>
-          <div class="wm-seg wm-sort" role="group" aria-label="Sort the list">
-            <button type="button" data-act="sort" data-v="az" aria-pressed="true">A–Z</button><button type="button" data-act="sort" data-v="open" aria-pressed="false">Open first</button><button type="button" data-act="sort" data-v="next" aria-pressed="false">Next change</button>
-          </div>
-          <div class="wm-seg wm-tm" role="group" aria-label="Time zone for the hours">
-            <button type="button" data-act="tm" data-v="you" aria-pressed="true">Your time</button><button type="button" data-act="tm" data-v="local" aria-pressed="false">Exchange time</button>
+          <label class="wm-regsel"><span class="wm-vh">Region</span>
+            <select aria-label="Region">
+              <option value="world">World</option>
+              <option value="namerica">North America</option>
+              <option value="samerica">South America</option>
+              <option value="eume">Europe &amp; Middle East</option>
+              <option value="asia">Asia</option>
+              <option value="afoc">Africa &amp; Oceania</option>
+              <option value="custom" hidden disabled>Custom view</option>
+            </select>
+          </label>
+          <button class="wm-fbtn" type="button" aria-expanded="false" aria-controls="wm-panel"><span>Filters</span><b class="wm-badge" hidden></b></button>
+          <div class="wm-panel" id="wm-panel">
+            <div class="wm-pg"><span class="wm-pl">Market type</span>
+              <div class="wm-seg" role="group" aria-label="Market type">
+                <button type="button" data-act="type" data-v="all" aria-pressed="true">All</button><button type="button" data-act="type" data-v="d" aria-pressed="false">Developed</button><button type="button" data-act="type" data-v="e" aria-pressed="false">Emerging</button>
+              </div>
+            </div>
+            <div class="wm-pg"><span class="wm-pl">Status</span>
+              <button class="wm-chip" type="button" data-act="open" aria-pressed="false">Open now</button>
+            </div>
+            <div class="wm-pg wm-sort"><span class="wm-pl">Sort list</span>
+              <div class="wm-seg" role="group" aria-label="Sort the list">
+                <button type="button" data-act="sort" data-v="az" aria-pressed="true">A–Z</button><button type="button" data-act="sort" data-v="open" aria-pressed="false">Open first</button><button type="button" data-act="sort" data-v="next" aria-pressed="false">Next change</button>
+              </div>
+            </div>
+            <div class="wm-pg wm-tm"><span class="wm-pl">Show hours in</span>
+              <div class="wm-seg" role="group" aria-label="Time zone for the hours">
+                <button type="button" data-act="tm" data-v="you" aria-pressed="true">Your time</button><button type="button" data-act="tm" data-v="local" aria-pressed="false">Exchange time</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="wm-wrap">
@@ -1096,7 +1140,6 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
           </div>
           <div class="wm-pop" hidden></div>
         </div>
-        <p class="wm-legend" aria-hidden="true"><span class="lg lg-d"></span>Developed <span class="lg lg-e"></span>Emerging <span class="lg lg-o"></span>Open now</p>
         <div class="wm-list" aria-live="polite"></div>
         <p class="wm-note"><span class="wm-tn">Regular trading hours, shown in your time zone.</span> <span class="wm-zn">Zoom with the buttons or by pinching, and drag to move the map.</span></p>
       </div>
@@ -2232,7 +2275,11 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 
   // ---- zoom: the region buttons move the map's viewBox smoothly ----
   var VIEWS = {world: [0, 0, 1000], namerica: [80.6, 65.3, 353.3], samerica: [137.8, 249.8, 432.2], eume: [409.7, 67.6, 337.7], asia: [590.9, 118.2, 409.1], afoc: [491.9, 255.8, 508.1]};
-  var vb = { x: 0, y: 0, w: VW, h: VH }, anim = 0, moving = false;
+  var ASPR = VW / VH;   // width / height of the stage; the phone stage is taller than the desktop one
+  function stageAspr() { var w = stage.clientWidth, h = stage.clientHeight; return w > 0 && h > 0 ? w / h : VW / VH; }
+  ASPR = stageAspr();
+  var vb = { x: 0, y: 0, w: VW, h: VW / ASPR }, anim = 0, moving = false;
+  vb.y = (VH - vb.h) / 2;
   function applyView() {
     svg.setAttribute('viewBox', vb.x.toFixed(2) + ' ' + vb.y.toFixed(2) + ' ' + vb.w.toFixed(2) + ' ' + vb.h.toFixed(2));
     dotEls.forEach(function (b) {
@@ -2286,8 +2333,8 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   }
   var MINW = 100, zIn = root.querySelector('[data-z="in"]'), zOut = root.querySelector('[data-z="out"]'), zReset = root.querySelector('[data-z="reset"]');
   function clampVb(v) {
-    v.w = Math.max(MINW, Math.min(VW, v.w)); v.h = v.w * VH / VW;
-    v.x = Math.max(0, Math.min(VW - v.w, v.x)); v.y = Math.max(0, Math.min(VH - v.h, v.y));
+    v.w = Math.max(MINW, Math.min(VW, v.w)); v.h = v.w / ASPR;
+    v.x = Math.max(0, Math.min(VW - v.w, v.x)); v.y = v.h >= VH ? (VH - v.h) / 2 : Math.max(0, Math.min(VH - v.h, v.y));
     return v;
   }
   function animateTo(to) {
@@ -2304,11 +2351,13 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       if (p < 1) anim = requestAnimationFrame(step); else { moving = false; layoutLabels(); }
     })(performance.now());
   }
-  function zoomTo(name) { var a = VIEWS[name]; animateTo({ x: a[0], y: a[1], w: a[2], h: a[2] * VH / VW }); }
-  function unpress() { chips.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); }); }
+  function zoomTo(name) { var a = VIEWS[name], h = a[2] / ASPR, cy = a[1] + a[2] * VH / VW / 2; animateTo({ x: a[0], y: cy - h / 2, w: a[2], h: h }); }
+  var regSel = root.querySelector('.wm-regsel select');
+  function setSel(v) { if (!regSel) return; var o = regSel.querySelector('option[value="custom"]'); if (o) { o.hidden = v !== 'custom'; o.disabled = v !== 'custom'; } regSel.value = v; }
+  function unpress() { chips.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); }); setSel('custom'); }
   // zoom keeping the map point under (fx, fy), given as fractions of the stage, where it is
   function zoomAt(factor, fx, fy, animate) {
-    var nw = Math.max(MINW, Math.min(VW, vb.w / factor)), nh = nw * VH / VW;
+    var nw = Math.max(MINW, Math.min(VW, vb.w / factor)), nh = nw / ASPR;
     var to = { x: vb.x + fx * vb.w - fx * nw, y: vb.y + fy * vb.h - fy * nh, w: nw, h: nh };
     unpress(); closePop();
     if (animate) animateTo(to); else { cancelAnimationFrame(anim); moving = false; vb = clampVb(to); applyView(); }
@@ -2316,13 +2365,19 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   chips.forEach(function (c) {
     c.addEventListener('click', function () {
       chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      setSel(c.getAttribute('data-view'));
       closePop();
       zoomTo(c.getAttribute('data-view'));
     });
   });
   if (zIn) zIn.addEventListener('click', function () { zoomAt(1.7, 0.5, 0.5, true); });
   if (zOut) zOut.addEventListener('click', function () { zoomAt(1 / 1.7, 0.5, 0.5, true); });
-  if (zReset) zReset.addEventListener('click', function () { chips.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-view') === 'world' ? 'true' : 'false'); }); closePop(); zoomTo('world'); });
+  if (zReset) zReset.addEventListener('click', function () { chips.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-view') === 'world' ? 'true' : 'false'); }); setSel('world'); closePop(); zoomTo('world'); });
+  if (regSel) regSel.addEventListener('change', function () {
+    var v = regSel.value; if (!VIEWS[v]) return;
+    chips.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-view') === v ? 'true' : 'false'); });
+    setSel(v); closePop(); zoomTo(v);
+  });
 
   // ---- by hand: drag to move, pinch (touch) or Ctrl + scroll / trackpad pinch to zoom ----
   var ptrs = {}, nptr = 0, drag = null, pinch = null, dragged = false;
@@ -2347,7 +2402,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     if (pinch && nptr >= 2) {
       var q = two(), d = Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y) || 1, mx = (q[0].x + q[1].x) / 2, my = (q[0].y + q[1].y) / 2;
       var nw = Math.max(MINW, Math.min(VW, pinch.w0 * pinch.d0 / d));
-      vb = clampVb({ x: pinch.px - (mx - r.left) / r.width * nw, y: pinch.py - (my - r.top) / r.height * nw * VH / VW, w: nw, h: nw * VH / VW });
+      vb = clampVb({ x: pinch.px - (mx - r.left) / r.width * nw, y: pinch.py - (my - r.top) / r.height * nw / ASPR, w: nw, h: nw / ASPR });
       applyView(); e.preventDefault(); return;
     }
     if (drag && drag.id === e.pointerId) {
@@ -2391,6 +2446,17 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     root.classList.toggle('is-list', v === 'list');
     if (v === 'list') { renderList(); } else { applyView(); applyFilters(); }
   }
+  var fBtn = root.querySelector('.wm-fbtn'), fPanel = root.querySelector('.wm-panel'), fBadge = root.querySelector('.wm-badge');
+  function fCount() { return (F.type !== 'all' ? 1 : 0) + (F.open ? 1 : 0) + (TM === 'local' ? 1 : 0); }
+  function fSync() {
+    var n = fCount();
+    if (fBadge) { fBadge.hidden = n === 0; fBadge.textContent = n; }
+    if (fBtn) { fBtn.classList.toggle('has-f', n > 0); fBtn.setAttribute('aria-label', n ? 'Filters, ' + n + ' active' : 'Filters'); }
+  }
+  if (fBtn) fBtn.addEventListener('click', function () {
+    var on = fBtn.getAttribute('aria-expanded') !== 'true';
+    fBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); fPanel.classList.toggle('open', on);
+  });
   if (root_tools) root_tools.addEventListener('click', function (e) {
     var b = e.target.closest ? e.target.closest('button[data-act]') : null;
     if (!b) return;
@@ -2406,11 +2472,15 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       if (current) render(current);
     }
   });
+  if (root_tools) root_tools.addEventListener('click', fSync);
   try { if (localStorage.getItem('lh-wm-time') === 'local') { TM = 'local'; var tg = root.querySelector('.wm-tm'); if (tg) press(tg, 'local'); } } catch (x) {}
-  setFoot();
-  dotEls.forEach(function (b) { b.setAttribute('data-k', kindKey(b.getAttribute('data-id'))); });
+  setFoot(); fSync();
 
-  window.addEventListener('resize', function () { applyView(); if (current) placePop(current); });
+  window.addEventListener('resize', function () {
+    var na = stageAspr();
+    if (Math.abs(na - ASPR) > 0.001) { var cy = vb.y + vb.h / 2; ASPR = na; vb.h = vb.w / ASPR; vb.y = cy - vb.h / 2; vb = clampVb(vb); }
+    applyView(); if (current) placePop(current);
+  });
 
   root.classList.add('is-world'); root.setAttribute('data-view', 'world');
   try { refresh(); } catch (e) { var sec = root.closest('section'); if (sec) sec.hidden = true; return; }
