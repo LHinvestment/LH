@@ -744,7 +744,16 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-seg button:focus-visible { outline: 2px solid var(--band-gold); outline-offset: -2px; }
 .wm-panel .wm-chip { padding: 6px 13px; font-size: 12.5px; }
 .wm-panel, .wm-pg { display: contents; }
-.wm-pl, .wm-regsel, .wm-fbtn { display: none; }
+.wm-pl, .wm-fbtn { display: none; }
+.wm-regsel { display: block; position: relative; flex: none; }
+.wm-regsel select { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; padding: 6px 30px 6px 14px; border: 1px solid var(--band-rule); border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: transparent; -webkit-tap-highlight-color: transparent; }
+.wm-regsel select:hover { border-color: var(--band-gold); }
+.wm-regsel select:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
+.wm-regsel select option { color: #14202e; background: #fff; }
+.wm-regsel::after { content: ""; position: absolute; right: 13px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); pointer-events: none; }
+.wm-intro { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; }
+.wm-count { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--band-muted); white-space: nowrap; }
+.wm-count b { color: var(--band-gold); font-weight: 600; }
 .wm-pg.wm-tm .wm-seg { margin-left: auto; }
 .wm-pg.wm-sort { display: none; }
 .wm.is-list .wm-pg.wm-sort { display: contents; }
@@ -771,15 +780,10 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 @media (max-width: 760px) {
   .wm-seg button { padding: 6px 11px; font-size: 12px; }
   .wm-ul { grid-template-columns: minmax(0, 1fr); }
-  .wm-chips { display: none; }
-  .wm-bar { margin-bottom: 10px; }
   .wm-tools { flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .wm-tools > .wm-seg { flex: none; }
-  .wm-regsel { display: block; position: relative; flex: 1 1 0; min-width: 0; }
-  .wm-regsel select { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; padding: 6px 28px 6px 13px; border: 1px solid var(--band-rule); border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: transparent; -webkit-tap-highlight-color: transparent; }
-  .wm-regsel select:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
-  .wm-regsel select option { color: #14202e; background: #fff; }
-  .wm-regsel::after, .wm-fbtn::after { content: ""; position: absolute; right: 12px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform 200ms ease; pointer-events: none; }
+  .wm-regsel { flex: 1 1 0; min-width: 0; }
+  .wm-fbtn::after { content: ""; position: absolute; right: 12px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform 200ms ease; pointer-events: none; }
   .wm-fbtn { all: unset; box-sizing: border-box; position: relative; display: inline-flex; align-items: center; gap: 7px; flex: none; cursor: pointer; padding: 6px 28px 6px 13px; border: 1px solid var(--band-rule); border-radius: 999px; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); -webkit-tap-highlight-color: transparent; }
   .wm-fbtn:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
   .wm-fbtn.has-f { border-color: var(--band-gold); }
@@ -1077,20 +1081,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     <div class="wrap">
       <div class="sec-head one">
         <h2>Markets around the clock</h2>
-        <p>Developed and emerging markets, as classified by S&amp;P and MSCI. Gold dots are trading right now.</p>
+        <div class="wm-intro"><p>Developed and emerging markets, as classified by S&amp;P and MSCI.</p><p class="wm-count" aria-live="polite"></p></div>
       </div>
       <div class="wm" id="wm">
-        <div class="wm-bar">
-          <div class="wm-chips" role="group" aria-label="Zoom to a region">
-            <button class="wm-chip" type="button" data-view="world" aria-pressed="true">World</button>
-            <button class="wm-chip" type="button" data-view="namerica" aria-pressed="false">North America</button>
-            <button class="wm-chip" type="button" data-view="samerica" aria-pressed="false">South America</button>
-            <button class="wm-chip" type="button" data-view="eume" aria-pressed="false">Europe &amp; Middle East</button>
-            <button class="wm-chip" type="button" data-view="asia" aria-pressed="false">Asia</button>
-            <button class="wm-chip" type="button" data-view="afoc" aria-pressed="false">Africa &amp; Oceania</button>
-          </div>
-          <p class="wm-count" aria-live="polite"></p>
-        </div>
         <div class="wm-tools">
           <div class="wm-seg" role="group" aria-label="View">
             <button type="button" data-act="view" data-v="map" aria-pressed="true">Map</button><button type="button" data-act="view" data-v="list" aria-pressed="false">List</button>
@@ -1953,7 +1946,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   var root = document.getElementById('wm');
   if (!root || !window.Intl || !Intl.DateTimeFormat) return;
   var stage = root.querySelector('.wm-stage'), svg = stage.querySelector('svg'), pop = root.querySelector('.wm-pop');
-  var countEl = root.querySelector('.wm-count'), chips = [].slice.call(root.querySelectorAll('.wm-chips .wm-chip'));
+  var countEl = document.querySelector('#world .wm-count'), chips = [];
   var dotEls = [].slice.call(stage.querySelectorAll('.wm-dot'));
   var reduceM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
