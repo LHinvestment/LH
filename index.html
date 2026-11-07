@@ -863,12 +863,11 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 }
 @media (min-width: 761px) and (max-width: 860px) { .wm-xt { display: none; } }
 
-/* laptop and tablet: the map runs from the left edge of the window to the right edge, with no frame */
+/* laptop and tablet: no frame around the map, centred and a little narrower than the page content */
 @media (min-width: 761px) {
-  .wm-wrap { width: 100vw; max-width: 2000px; margin-inline: calc(50% - 50vw); position: relative; }
-  @media (min-width: 2000px) { .wm-wrap { margin-inline: auto; } }
+  .wm-wrap { width: 100%; max-width: 1120px; margin-inline: auto; position: relative; }
   .wm-stage { border: 0; border-radius: 0; background: transparent; }
-  .wm-zoom { right: max(16px, calc((100% - 1320px) / 2 + 24px)); top: 8px; }
+  .wm-zoom { right: 6px; top: 6px; }
 }
 </style>
 </head>
