@@ -760,13 +760,13 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-count b { color: var(--band-gold); font-weight: 600; }
 .wm-regsel { order: 1; }
 .wm-pg > .wm-seg, .wm-pg > .wm-chip { order: 2; }
-.wm-viewseg { order: 3; }
+.wm-pg.wm-tm > .wm-seg { order: 3; }
 .wm-pg.wm-sort > .wm-seg { order: 4; }
-.wm-pg.wm-tm > .wm-seg { order: 5; margin-left: auto; }
+.wm-viewseg { order: 5; margin-left: auto; }
 .wm-pg.wm-sort { display: none; }
 .wm.is-list .wm-pg.wm-sort { display: contents; }
 .wm-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.wm.is-list .wm-wrap, .wm.is-list .wm-chips, .wm.is-list .wm-regsel, .wm.is-list .wm-zn { display: none; }
+.wm.is-list .wm-wrap, .wm.is-list .wm-chips, .wm.is-list .wm-zn { display: none; }
 .wm-list { display: none; }
 .wm.is-list .wm-list { display: block; }
 .wm-ul { margin: 0; padding: 0; display: flex; gap: 10px; align-items: flex-start; }
@@ -859,6 +859,10 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   .wm-seg button { padding: 6px 10px; font-size: 12px; }
   .wm-panel .wm-chip { padding: 6px 11px; font-size: 12px; }
   .wm-tools > *, .wm-pg > * { flex: none; }
+  .wm.is-list .wm-tools { flex-wrap: wrap; }
+  /* in the list the sort buttons get their own line, so nothing above them moves */
+  .wm.is-list .wm-tools::after { content: ""; flex: 0 0 100%; order: 6; height: 0; }
+  .wm-pg.wm-sort > .wm-seg { order: 7; }
   .wm-regsel { flex: none; }
 }
 @media (min-width: 761px) and (max-width: 860px) { .wm-xt { display: none; } }
@@ -2242,8 +2246,15 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 
   // ---- list view ----
   var expanded = {};
+  // which region menu entry each market belongs to (used by the list; the map just zooms)
+  var REG = {namerica: 'ny toronto mexico', samerica: 'saopaulo santiago lima bogota', eume: 'euronext frankfurt london zurich nordics madrid istanbul warsaw vienna luxembourg oslo athens dublin prague budapest uae riyadh doha kuwait cairo',
+    asia: 'mumbai tokyo hongkong china taiwan seoul singapore jakarta kualalumpur bangkok manila', afoc: 'johannesburg sydney auckland'};
+  function inRegion(id) {
+    var sel = regSel ? regSel.value : 'world';
+    return !REG[sel] || (' ' + REG[sel] + ' ').indexOf(' ' + id + ' ') > -1;
+  }
   function renderList() {
-    var items = dotEls.map(function (b) { return b.getAttribute('data-id'); }).filter(passes).map(function (id) {
+    var items = dotEls.map(function (b) { return b.getAttribute('data-id'); }).filter(function (id) { return passes(id) && inRegion(id); }).map(function (id) {
       var ex = EX[id];
       return { id: id, ex: ex, o: !!state[id], flip: nextChange(ex, now), name: ttl(ex) };
     });
@@ -2460,7 +2471,8 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   if (regSel) regSel.addEventListener('change', function () {
     var v = regSel.value; if (!VIEWS[v]) return;
     chips.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-view') === v ? 'true' : 'false'); });
-    setSel(v); closePop(); zoomTo(v);
+    setSel(v); closePop();
+    if (view === 'list') renderList(); else zoomTo(v);
   });
 
   // ---- by hand: drag to move, pinch (touch) or Ctrl + scroll / trackpad pinch to zoom ----
@@ -2528,7 +2540,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   function setView(v) {
     view = v; closePop();
     root.classList.toggle('is-list', v === 'list');
-    if (v === 'list') { renderList(); } else { applyView(); applyFilters(); }
+    if (v === 'list') { renderList(); } else { applyView(); applyFilters(); if (regSel && VIEWS[regSel.value] && regSel.value !== 'world') zoomTo(regSel.value); }
   }
   var fBtn = root.querySelector('.wm-fbtn'), fPanel = root.querySelector('.wm-panel'), fBadge = root.querySelector('.wm-badge');
   function fCount() { return (F.type !== 'all' ? 1 : 0) + (F.open ? 1 : 0) + (TM === 'local' ? 1 : 0); }
