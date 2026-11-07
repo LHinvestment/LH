@@ -835,8 +835,11 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   .wm-regsel select { width: auto; padding: 6px 22px 6px 10px; font-size: 12px; }
   .wm-regsel::after { right: 9px; }
   .wm-tools > .wm-chip { order: 2; padding: 6px 11px; font-size: 12px; }
-  .wm-tools > .wm-viewseg { order: 0; flex: 1 1 100%; margin-left: 0; } .wm-viewseg button { flex: 1 1 0; text-align: center; } .wm-panel { order: 5; }
-  .wm-viewseg button { padding: 7px 9px; }
+  .wm-panel { order: 5; }
+  /* on a phone the Map | List switch sits on the same line as the "markets open now" count */
+  .wm-intro { align-items: center; }
+  .wm-intro > p:first-child { flex: 0 0 100%; }
+  .wm-intro .wm-viewseg { flex: none; margin: 8px 0 0; }
   .wm-fbtn svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
   .wm-fbtn { gap: 6px; }
   .wm-badge { margin-left: -1px; }
@@ -2566,7 +2569,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     var on = fBtn.getAttribute('aria-expanded') !== 'true';
     fBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); fPanel.classList.toggle('open', on);
   });
-  if (root_tools) root_tools.addEventListener('click', function (e) {
+  function onTools(e) {
     var b = e.target.closest ? e.target.closest('button[data-act]') : null;
     if (!b) return;
     var act = b.getAttribute('data-act'), val = b.getAttribute('data-v');
@@ -2580,8 +2583,18 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       if (view === 'list') renderList();
       if (current) render(current);
     }
-  });
+  }
+  if (root_tools) root_tools.addEventListener('click', onTools);
   if (root_tools) root_tools.addEventListener('click', fSync);
+  // phone: Map | List moves up next to the count; wider screens keep it in the controls row
+  var viewSeg = root.querySelector('.wm-viewseg'), introEl = document.querySelector('#world .wm-intro'), vsHome = document.createComment('view'), mqPhone = window.matchMedia ? window.matchMedia('(max-width: 760px)') : null;
+  if (viewSeg && introEl && mqPhone) {
+    viewSeg.parentNode.insertBefore(vsHome, viewSeg);
+    introEl.addEventListener('click', onTools); introEl.addEventListener('click', fSync);
+    var placeSeg = function () { if (mqPhone.matches) introEl.appendChild(viewSeg); else vsHome.parentNode.insertBefore(viewSeg, vsHome.nextSibling); };
+    placeSeg();
+    if (mqPhone.addEventListener) mqPhone.addEventListener('change', placeSeg); else if (mqPhone.addListener) mqPhone.addListener(placeSeg);
+  }
   try { if (localStorage.getItem('lh-wm-time') === 'local') { TM = 'local'; var tg = root.querySelector('.wm-tm'); if (tg) press(tg, 'local'); } } catch (x) {}
   setFoot(); fSync();
 
