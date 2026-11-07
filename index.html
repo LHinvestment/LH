@@ -2449,9 +2449,9 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     return v;
   }
   function animateTo(to) {
-    cancelAnimationFrame(anim);
+    cancelAnimationFrame(anim); wz = null;
     to = clampVb(to);
-    if (reduceM) { vb = to; moving = false; applyView(); if (current) placePop(current); return; }
+    if (reduceM) { vb = to; moving = false; applyView(); syncSel(); if (current) placePop(current); return; }
     moving = true;
     var from = { x: vb.x, y: vb.y, w: vb.w, h: vb.h }, t0 = 0;
     (function step(ts) {
@@ -2459,19 +2459,21 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       var p = Math.min(1, (ts - t0) / 650), e = 1 - Math.pow(1 - p, 3);
       vb = { x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e, w: from.w + (to.w - from.w) * e, h: from.h + (to.h - from.h) * e };
       applyView();
-      if (p < 1) anim = requestAnimationFrame(step); else { moving = false; layoutLabels(); }
+      if (p < 1) anim = requestAnimationFrame(step); else { moving = false; layoutLabels(); syncSel(); }
     })(performance.now());
   }
   function zoomTo(name) { var a = VIEWS[name], h = a[2] / ASPR, cy = a[1] + a[2] * VH / VW / 2; animateTo({ x: a[0], y: cy - h / 2, w: a[2], h: h }); }
   var regSel = root.querySelector('.wm-regsel select');
   function setSel(v) { if (!regSel) return; var o = regSel.querySelector('option[value="custom"]'); if (o) { o.hidden = v !== 'custom'; o.disabled = v !== 'custom'; } regSel.value = v; }
+  // when the map is back at the whole-world view, say so in the region menu
+  function syncSel() { if (vb.w >= VW - 0.5 && regSel && regSel.value === 'custom') { setSel('world'); chips.forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-view') === 'world' ? 'true' : 'false'); }); } }
   function unpress() { chips.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); }); setSel('custom'); }
   // zoom keeping the map point under (fx, fy), given as fractions of the stage, where it is
   function zoomAt(factor, fx, fy, animate) {
     var nw = Math.max(MINW, Math.min(VW, vb.w / factor)), nh = nw / ASPR;
     var to = { x: vb.x + fx * vb.w - fx * nw, y: vb.y + fy * vb.h - fy * nh, w: nw, h: nh };
     unpress(); closePop();
-    if (animate) animateTo(to); else { cancelAnimationFrame(anim); moving = false; vb = clampVb(to); applyView(); }
+    if (animate) animateTo(to); else { cancelAnimationFrame(anim); wz = null; moving = false; vb = clampVb(to); applyView(); syncSel(); }
   }
   chips.forEach(function (c) {
     c.addEventListener('click', function () {
@@ -2498,7 +2500,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   stage.addEventListener('pointerdown', function (e) {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     ptrs[e.pointerId] = { x: e.clientX, y: e.clientY }; nptr = Object.keys(ptrs).length;
-    cancelAnimationFrame(anim); moving = false;
+    cancelAnimationFrame(anim); moving = false; wz = null;
     if (nptr === 1) { drag = { id: e.pointerId, x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y, on: false }; dragged = false; }
     else if (nptr === 2) {
       var q = two(), r = stage.getBoundingClientRect(), mx = (q[0].x + q[1].x) / 2, my = (q[0].y + q[1].y) / 2;
@@ -2515,7 +2517,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
       var q = two(), d = Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y) || 1, mx = (q[0].x + q[1].x) / 2, my = (q[0].y + q[1].y) / 2;
       var nw = Math.max(MINW, Math.min(VW, pinch.w0 * pinch.d0 / d));
       vb = clampVb({ x: pinch.px - (mx - r.left) / r.width * nw, y: pinch.py - (my - r.top) / r.height * nw / ASPR, w: nw, h: nw / ASPR });
-      applyView(); e.preventDefault(); return;
+      applyView(); syncSel(); e.preventDefault(); return;
     }
     if (drag && drag.id === e.pointerId) {
       var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
@@ -2540,11 +2542,31 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   stage.addEventListener('pointercancel', endPtr);
   // a drag that ends on a dot should not also open that dot
   stage.addEventListener('click', function (e) { if (dragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+  // Ctrl + scroll (a mouse wheel or a trackpad pinch): the zoom glides towards its target instead of jumping a step at a time
+  var wz = null;
   stage.addEventListener('wheel', function (e) {
     if (!e.ctrlKey) return;            // a plain scroll keeps scrolling the page
     e.preventDefault();
+    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    dy = Math.max(-240, Math.min(240, dy));
+    var k = Math.abs(dy) >= 40 ? 0.0016 : 0.008;     // a wheel notch is a big delta, a trackpad pinch many small ones
     var f = frac(e);
-    zoomAt(Math.exp(-e.deltaY * 0.01), f.x, f.y, false);
+    if (!wz) { wz = { tw: vb.w }; unpress(); closePop(); cancelAnimationFrame(anim); }
+    wz.tw = Math.max(MINW, Math.min(VW, wz.tw * Math.exp(dy * k)));
+    wz.fx = f.x; wz.fy = f.y;
+    wz.ax = vb.x + f.x * vb.w; wz.ay = vb.y + f.y * vb.h;    // the map point under the cursor stays under the cursor
+    if (!wz.on) {
+      wz.on = true; moving = true;
+      (function step() {
+        var w = reduceM ? wz.tw : vb.w + (wz.tw - vb.w) * 0.22;
+        if (Math.abs(wz.tw - w) < 0.05) w = wz.tw;
+        var h = w / ASPR;
+        vb = clampVb({ x: wz.ax - wz.fx * w, y: wz.ay - wz.fy * h, w: w, h: h });
+        applyView();
+        if (w !== wz.tw) anim = requestAnimationFrame(step);
+        else { moving = false; wz = null; layoutLabels(); syncSel(); }
+      })();
+    }
   }, { passive: false });
   stage.addEventListener('dblclick', function (e) {
     if (e.target.closest && e.target.closest('.wm-dot')) return;
