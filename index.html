@@ -746,7 +746,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 .wm-seg button:hover { color: var(--band-fg); }
 .wm-seg button[aria-pressed="true"] { background: var(--band-gold); color: var(--band); }
 .wm-seg button:focus-visible { outline: 2px solid var(--band-gold); outline-offset: -2px; }
-.wm-panel .wm-chip { padding: 6px 13px; font-size: 12.5px; }
+.wm-tools > .wm-chip { padding: 6px 13px; font-size: 12.5px; order: 2; }
 .wm-panel, .wm-pg { display: contents; }
 .wm-pl, .wm-fbtn { display: none; }
 .wm-regsel { display: block; position: relative; flex: none; }
@@ -830,22 +830,30 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
 @media (max-width: 760px) {
   .wm-tools { flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .wm-tools > .wm-seg { flex: none; }
-  .wm-pg > .wm-seg, .wm-pg > .wm-chip, .wm-pg.wm-sort > .wm-seg, .wm-pg.wm-tm > .wm-seg { order: 0; }
-  .wm-regsel { flex: 1 1 0; min-width: 0; max-width: 300px; order: 1; }
-  .wm-viewseg { order: 3; margin-left: auto; } .wm-panel { order: 4; }
-  .wm-fbtn::after { content: ""; position: absolute; right: 12px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform 200ms ease; pointer-events: none; }
-  .wm-fbtn { all: unset; box-sizing: border-box; position: relative; display: inline-flex; align-items: center; gap: 7px; flex: none; cursor: pointer; padding: 6px 28px 6px 13px; border: 1px solid var(--band-rule); border-radius: 999px; font-size: 12.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); -webkit-tap-highlight-color: transparent; }
-  .wm-fbtn { order: 2; }
+  .wm-pg > .wm-seg, .wm-pg.wm-sort > .wm-seg, .wm-pg.wm-tm > .wm-seg { order: 0; }
+  .wm-regsel { flex: none; min-width: 0; order: 1; }
+  .wm-regsel select { width: auto; padding: 6px 22px 6px 10px; font-size: 12px; }
+  .wm-regsel::after { right: 9px; }
+  .wm-tools > .wm-chip { order: 2; padding: 6px 11px; font-size: 12px; }
+  .wm-tools > .wm-viewseg { order: 0; flex: 1 1 100%; margin-left: 0; } .wm-viewseg button { flex: 1 1 0; text-align: center; } .wm-panel { order: 5; }
+  .wm-viewseg button { padding: 7px 9px; }
+  .wm-fbtn svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+  .wm-fbtn { gap: 6px; }
+  .wm-badge { margin-left: -1px; }
+  .wm-xt { display: none; }
+  .wm-fbtn::after { content: ""; position: absolute; right: 10px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--band-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform 200ms ease; pointer-events: none; }
+  .wm-fbtn { all: unset; box-sizing: border-box; position: relative; display: inline-flex; align-items: center; gap: 6px; order: 3; flex: none; cursor: pointer; padding: 6px 24px 6px 11px; border: 1px solid var(--band-rule); border-radius: 999px; font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--band-fg); -webkit-tap-highlight-color: transparent; }
   .wm-fbtn:focus-visible { outline: 2px solid var(--band-gold); outline-offset: 2px; }
   .wm-fbtn.has-f { border-color: var(--band-gold); }
   .wm-fbtn[aria-expanded="true"]::after { transform: rotate(-135deg); margin-top: -2px; }
   .wm-badge { min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; background: var(--band-gold); color: var(--band); font-size: 10.5px; font-weight: 700; line-height: 16px; text-align: center; }
   .wm-badge[hidden] { display: none; }
   .wm-panel { display: none; flex: 0 0 100%; box-sizing: border-box; padding: 12px 14px 14px; border: 1px solid var(--band-rule); border-radius: 6px; background: var(--band-card); }
-  .wm-panel.open { display: grid; gap: 14px; }
+  .wm-panel.open { display: flex; flex-wrap: wrap; gap: 12px 12px; padding: 12px 12px 14px; }
+  .wm-panel .wm-seg button { padding: 6px 7px; font-size: 11.5px; }
   .wm-pg { display: grid; gap: 6px; justify-items: start; }
   .wm-pg.wm-sort { display: none; }
-  .wm.is-list .wm-pg.wm-sort { display: grid; }
+  .wm.is-list .wm-pg.wm-sort { display: grid; flex: 0 0 100%; }
   .wm-pl { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--band-muted); }
   .wm-pg.wm-tm .wm-seg { margin-left: 0; }
 }
@@ -857,7 +865,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   .wm-regsel { flex: none; width: 152px; }
   .wm-regsel select { padding: 6px 28px 6px 12px; font-size: 12px; }
   .wm-seg button { padding: 6px 10px; font-size: 12px; }
-  .wm-panel .wm-chip { padding: 6px 11px; font-size: 12px; }
+  .wm-tools > .wm-chip { padding: 6px 11px; font-size: 12px; }
   .wm-tools > *, .wm-pg > * { flex: none; }
   .wm.is-list .wm-tools { flex-wrap: wrap; }
   /* in the list the sort buttons get their own line, so nothing above them moves */
@@ -873,6 +881,13 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
   .wm-stage { border: 0; border-radius: 0; background: transparent; }
   .wm-zoom { right: 6px; top: 6px; }
 }
+
+/* small phones: the Filters button keeps only its icon (and the count badge) so the whole row stays on one line */
+@media (max-width: 419px) {
+  .wm-ft { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wm-fbtn { padding: 6px 22px 6px 10px; }
+}
+@media (min-width: 761px) { .wm-fbtn svg { display: none; } }
 </style>
 </head>
 <body>
@@ -1166,15 +1181,12 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
               <option value="custom" hidden disabled>Custom view</option>
             </select>
           </label>
-          <button class="wm-fbtn" type="button" aria-expanded="false" aria-controls="wm-panel"><span>Filters</span><b class="wm-badge" hidden></b></button>
+          <button class="wm-fbtn" type="button" aria-expanded="false" aria-controls="wm-panel"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h7M12 4.5h2M2 11.5h2M7 11.5h7"/><circle cx="10.5" cy="4.5" r="1.7"/><circle cx="5.5" cy="11.5" r="1.7"/></svg><span class="wm-ft">Filters</span><b class="wm-badge" hidden></b></button>
           <div class="wm-panel" id="wm-panel">
             <div class="wm-pg"><span class="wm-pl">Market type</span>
               <div class="wm-seg" role="group" aria-label="Market type">
                 <button type="button" data-act="type" data-v="all" aria-pressed="true">All</button><button type="button" data-act="type" data-v="d" aria-pressed="false">Developed</button><button type="button" data-act="type" data-v="e" aria-pressed="false">Emerging</button>
               </div>
-            </div>
-            <div class="wm-pg"><span class="wm-pl">Status</span>
-              <button class="wm-chip" type="button" data-act="open" aria-pressed="false">Open now</button>
             </div>
             <div class="wm-pg wm-sort"><span class="wm-pl">Sort list</span>
               <div class="wm-seg" role="group" aria-label="Sort the list">
@@ -1187,6 +1199,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
               </div>
             </div>
           </div>
+          <button class="wm-chip" type="button" data-act="open" aria-pressed="false">Open now</button>
           <div class="wm-seg wm-viewseg" role="group" aria-label="View">
             <button type="button" data-act="view" data-v="map" aria-pressed="true">Map</button><button type="button" data-act="view" data-v="list" aria-pressed="false">List</button>
           </div>
@@ -2543,7 +2556,7 @@ table.mt tbody tr:last-child th, table.mt tbody tr:last-child td { border-bottom
     if (v === 'list') { renderList(); } else { applyView(); applyFilters(); if (regSel && VIEWS[regSel.value] && regSel.value !== 'world') zoomTo(regSel.value); }
   }
   var fBtn = root.querySelector('.wm-fbtn'), fPanel = root.querySelector('.wm-panel'), fBadge = root.querySelector('.wm-badge');
-  function fCount() { return (F.type !== 'all' ? 1 : 0) + (F.open ? 1 : 0) + (TM === 'local' ? 1 : 0); }
+  function fCount() { return (F.type !== 'all' ? 1 : 0) + (TM === 'local' ? 1 : 0); }
   function fSync() {
     var n = fCount();
     if (fBadge) { fBadge.hidden = n === 0; fBadge.textContent = n; }
